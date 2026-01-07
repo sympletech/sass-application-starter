@@ -1,15 +1,23 @@
 import 'dotenv/config';
 import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 import registerRoutes from './lib/register-routes.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 (async () => {
     const app = express();
 
     await registerRoutes(app);
 
-    app.get('/', (req, res) => {
-        res.send('Hello World!');
+    const clientDistPath = path.join(__dirname, '..', '@client', 'dist');
+    app.use(express.static(clientDistPath));
+
+    app.use((req, res) => {
+        res.sendFile(path.join(clientDistPath, 'index.html'));
     });
 
     app.listen(process.env.SERVER_PORT, () => {
