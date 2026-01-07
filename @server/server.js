@@ -20,7 +20,7 @@ const __dirname = path.dirname(__filename);
         res.sendFile(path.join(clientDistPath, 'index.html'));
     });
 
-    app.listen(process.env.SERVER_PORT, () => {
-        console.log(`Backend Server Started: http://localhost:${process.env.SERVER_PORT}`);
+    app.listen(process.env.VITE_SERVER_PORT, () => {
+        console.log(`Backend Server Started: http://localhost:${process.env.VITE_SERVER_PORT}`);
     });
 })();

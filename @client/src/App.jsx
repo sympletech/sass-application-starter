@@ -1,14 +1,27 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
+
+import { useApiGet } from '@client/lib/use-api.js';
+
 import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
 
+  const [testData, isLoading] = useApiGet('/home/hello', {
+    params: {
+      name: 'mate'
+    },
+    defaultValue: ''
+  });
+
+
   return (
     <>
       <div>
+        TEST
+        {import.meta.env.VITE_SERVER_PORT} -- {testData}
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>

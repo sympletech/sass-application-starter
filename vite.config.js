@@ -5,7 +5,7 @@ import { resolve } from 'path';
 // https://vite.dev/config/
 export default defineConfig({
   root: './@client',
-  envDir: resolve(__dirname, '..'),
+  envDir: resolve(__dirname),
   plugins: [
     {
       name: 'treat-js-files-as-jsx',
@@ -39,12 +39,12 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@client': resolve(__dirname)
+      '@client': resolve(__dirname, './@client/src')
     }
   },
   server: {
     port: 3001,
-    open: true,
+    open: false,
     allowedHosts: true,
     cors: true
   }
