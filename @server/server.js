@@ -1,13 +1,18 @@
 import 'dotenv/config';
-
 import express from 'express';
 
-const app = express();
+import registerRoutes from './lib/register-routes.js';
 
-app.get('/', (req, res) => {
-    res.send('Hello World!');
-});
+(async () => {
+    const app = express();
 
-app.listen(process.env.SERVER_PORT, () => {
-    console.log(`Backend Server Started: http://localhost:${process.env.SERVER_PORT}`);
-});
+    await registerRoutes(app);
+
+    app.get('/', (req, res) => {
+        res.send('Hello World!');
+    });
+
+    app.listen(process.env.SERVER_PORT, () => {
+        console.log(`Backend Server Started: http://localhost:${process.env.SERVER_PORT}`);
+    });
+})();
