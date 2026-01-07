@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "paths": {
+            "@client/*": [
+                "./@client/*"
+            ],
+            "@server/*": [
+                "./@server/*"
+            ]
+        }
+    }
+}
