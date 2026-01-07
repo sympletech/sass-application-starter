@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import express from 'express';
+import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -10,6 +11,12 @@ const __dirname = path.dirname(__filename);
 
 (async () => {
     const app = express();
+
+    // Enable CORS for localhost:3001
+    app.use(cors({
+        origin: 'http://localhost:3001',
+        credentials: true
+    }));
 
     await registerRoutes(app);
 
