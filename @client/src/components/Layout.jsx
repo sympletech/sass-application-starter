@@ -115,7 +115,7 @@ function Layout() {
                                 display: isMobile ? 'none' : 'inline',
                             }}
                         >
-                            MyApp
+                            Sympletech Application Starter
                         </span>
                     </div>
 
