@@ -1,0 +1,138 @@
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.login-card {
+    background: white;
+    border-radius: 16px;
+    padding: 48px 40px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 440px;
+    animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.login-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 8px 0;
+}
+
+.login-header p {
+    font-size: 15px;
+    color: #666;
+    margin: 0;
+}
+
+.google-login-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #dadce0;
+    background: white;
+    color: #3c4043;
+    font-weight: 500;
+    font-size: 14px;
+    height: 44px;
+    transition: all 0.2s ease;
+}
+
+.google-login-button:hover {
+    background: #f8f9fa !important;
+    border-color: #d2d3d4 !important;
+    color: #3c4043 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.google-login-button:active {
+    background: #f1f3f4 !important;
+}
+
+.login-footer {
+    text-align: center;
+    margin-top: 24px;
+}
+
+.login-footer p {
+    color: #666;
+    font-size: 14px;
+    margin: 0;
+}
+
+.login-footer a {
+    color: #667eea;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.login-footer a:hover {
+    color: #764ba2;
+    text-decoration: underline;
+}
+
+/* Ant Design Form customizations */
+.login-card .ant-form-item-label>label {
+    font-weight: 500;
+    color: #1a1a1a;
+}
+
+.login-card .ant-input-affix-wrapper,
+.login-card .ant-input {
+    border-radius: 8px;
+}
+
+.login-card .ant-btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 8px;
+    height: 44px;
+    font-weight: 500;
+    font-size: 15px;
+    transition: all 0.3s ease;
+}
+
+.login-card .ant-btn-primary:hover {
+    background: linear-gradient(135deg, #5568d3 0%, #653a8b 100%) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.login-card .ant-divider {
+    margin: 24px 0;
+    color: #999;
+    font-size: 13px;
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+    .login-card {
+        padding: 32px 24px;
+    }
+
+    .login-header h1 {
+        font-size: 24px;
+    }
+}

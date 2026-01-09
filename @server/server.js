@@ -1,9 +1,11 @@
 import 'dotenv/config';
 import express from 'express';
+import session from 'express-session';
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
+import registerOAuth from './lib/regrister-oauth.js';
 import registerRoutes from './lib/register-routes.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -12,12 +14,19 @@ const __dirname = path.dirname(__filename);
 (async () => {
     const app = express();
 
-    // Enable CORS for localhost:3001
+    // Enable CORS for localhost:3001 for local development only
     app.use(cors({
         origin: 'http://localhost:3001',
         credentials: true
     }));
 
+    app.use(session({
+        secret: process.env.SESSION_SECRET,
+        resave: false,
+        saveUninitialized: false
+    }));
+
+    registerOAuth(app);
     await registerRoutes(app);
 
     const clientDistPath = path.join(__dirname, '..', '@client', 'dist');

@@ -12,7 +12,7 @@ import {
 
 const { Header, Content, Footer } = AntLayout;
 
-function Layout() {
+function PublicLayout() {
     const [drawerVisible, setDrawerVisible] = useState(false);
     const [isDarkMode, setIsDarkMode] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
@@ -217,4 +217,4 @@ function Layout() {
     );
 }
 
-export default Layout;
+export default PublicLayout;
