@@ -1,12 +1,14 @@
 import 'dotenv/config';
 import express from 'express';
 import session from 'express-session';
+import MongoStore from 'connect-mongo';
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-import registerOAuth from './lib/regrister-oauth.js';
-import registerRoutes from './lib/register-routes.js';
+import { client } from '@server/lib/mongo-client.js';
+import registerOAuth from '@server/lib/regrister-oauth.js';
+import registerRoutes from '@server/lib/register-routes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -23,7 +25,16 @@ const __dirname = path.dirname(__filename);
     app.use(session({
         secret: process.env.SESSION_SECRET,
         resave: false,
-        saveUninitialized: false
+        saveUninitialized: false,
+        store: MongoStore.create({
+            clientPromise: new Promise((resolve) => resolve(client)),
+            dbName: process.env.MONGO_DB_NAME,
+            collectionName: 'sessions',
+            touchAfter: 24 * 3600
+        }),
+        cookie: {
+            maxAge: 1000 * 60 * 60 * 24 * 7
+        }
     }));
 
     registerOAuth(app);
