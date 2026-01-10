@@ -1,5 +1,8 @@
 import { Form, Input, Button, Divider } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+
+import { apiBaseUrl } from '@client/lib/use-api.js';
+
 import './Login.css';
 
 // Google Logo SVG Component
@@ -23,8 +26,7 @@ function Login() {
     };
 
     const handleGoogleLogin = () => {
-        console.log('Google login clicked');
-        // Handle Google OAuth login here
+        window.location.href = `${apiBaseUrl}/auth/google?returnURI=${encodeURIComponent(window.location.href)}`;
     };
 
     return (

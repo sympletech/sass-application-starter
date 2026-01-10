@@ -24,9 +24,10 @@ export default async (app) => {
     }));
 
     // Kick off Google OAuth flow
-    app.get('/auth/google',
-        passport.authenticate('google', { scope: ['profile', 'email'] })
-    );
+    app.get('/auth/google', (req, res) => {
+        req.session.returnURI = req.query.returnURI;
+        passport.authenticate('google', { scope: ['profile', 'email'] })(req, res);
+    });
 
     // OAuth callback URL from Google Cloud config
     app.get('/auth/google/callback',
@@ -35,7 +36,7 @@ export default async (app) => {
         }),
         (req, res) => {
             // Successful auth
-            res.redirect('/profile');
+            res.redirect(req.session.returnURI || '/profile');
         }
     );
 };
