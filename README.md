@@ -52,3 +52,36 @@
     - By default, your app is in 'Development' mode
     - To make it available to all users, you'll need to switch it to 'Live' mode
     - This requires completing the App Review process if you're requesting advanced permissions
+
+## How to set up Twitter (X) Auth
+
+1. Go to the Twitter Developer Portal (https://developer.twitter.com/en/portal/dashboard)
+2. Create a new app or select an existing app
+    - Click on 'Projects & Apps' in the left sidebar
+    - Click on '+ Create App' (or '+ Add App' if you have a project)
+    - Enter an app name
+    - Click 'Complete' or 'Next'
+3. Set up OAuth 1.0a settings
+    - In your app's dashboard, click on the 'Settings' tab
+    - Scroll down to 'User authentication settings'
+    - Click 'Set up' or 'Edit'
+    - Enable 'OAuth 1.0a'
+    - Set 'App permissions' to 'Read' (or 'Read and write' if needed)
+    - Set 'Request email from users' to enabled (if you need email access)
+    - Add the following to 'Callback URI / Redirect URL':
+        - `http://localhost:3000/auth/twitter/callback` (for development)
+        - Also add your production URL if you have one (e.g., `https://yourdomain.com/auth/twitter/callback`)
+    - Enter your 'Website URL' (e.g., `http://localhost:3001` for development)
+    - Click 'Save'
+4. Get your API Keys
+    - In your app's dashboard, click on the 'Keys and tokens' tab
+    - Under 'Consumer Keys', you'll find:
+        - API Key (this is your Consumer Key)
+        - API Key Secret (this is your Consumer Secret)
+    - Copy these values and add them to your .env file:
+        - TWITTER_CLIENT_ID=your_api_key_here
+        - TWITTER_CLIENT_SECRET=your_api_key_secret_here
+5. Note about Twitter API Access
+    - You'll need at least 'Free' tier access to use OAuth
+    - If you don't have access yet, you may need to apply for a developer account
+    - Follow the prompts to describe your use case

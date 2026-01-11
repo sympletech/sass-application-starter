@@ -1,6 +1,7 @@
 import passport from 'passport';
 import GoogleStrategy from 'passport-google-oauth20';
 import FacebookStrategy from 'passport-facebook';
+import TwitterStrategy from 'passport-twitter';
 
 const clientBase = process.env.VITE_MODE === 'development' ? `http://localhost:${process.env.VITE_CLIENT_PORT}` : '/';
 const successRedirect = `${clientBase}/@`;
@@ -45,6 +46,17 @@ export default async (app) => {
         });
     }));
 
+    passport.use(new TwitterStrategy({
+        consumerKey: process.env.TWITTER_CLIENT_ID,
+        consumerSecret: process.env.TWITTER_CLIENT_SECRET,
+        callbackURL: '/auth/twitter/callback',
+        includeEmail: true
+    }, (token, tokenSecret, profile, done) => {
+        process.nextTick(() => {
+            done(null, profile);
+        });
+    }));
+
     app.get('/auth/google', passport.authenticate('google', {
         successRedirect,
         failureRedirect
@@ -65,6 +77,17 @@ export default async (app) => {
 
     app.get('/auth/facebook/callback',
         passport.authenticate('facebook', {
+            failureRedirect
+        }),
+        (req, res) => {
+            res.redirect(successRedirect);
+        }
+    );
+
+    app.get('/auth/twitter', passport.authenticate('twitter'));
+
+    app.get('/auth/twitter/callback',
+        passport.authenticate('twitter', {
             failureRedirect
         }),
         (req, res) => {
