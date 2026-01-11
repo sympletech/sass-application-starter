@@ -46,7 +46,7 @@
     margin: 0;
 }
 
-.google-login-button {
+.oauth-login-button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -57,17 +57,6 @@
     font-size: 14px;
     height: 44px;
     transition: all 0.2s ease;
-}
-
-.google-login-button:hover {
-    background: #f8f9fa !important;
-    border-color: #d2d3d4 !important;
-    color: #3c4043 !important;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.google-login-button:active {
-    background: #f1f3f4 !important;
 }
 
 .login-footer {
