@@ -50,6 +50,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
     border: 1px solid #dadce0;
     background: white;
     color: #3c4043;
@@ -57,6 +58,12 @@
     font-size: 14px;
     height: 44px;
     transition: all 0.2s ease;
+}
+
+.oauth-login-button svg {
+    position: absolute;
+    left: 16px;
+    margin-right: 0 !important;
 }
 
 .login-footer {
