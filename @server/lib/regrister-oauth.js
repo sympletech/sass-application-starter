@@ -1,5 +1,6 @@
 import passport from 'passport';
 import GoogleStrategy from 'passport-google-oauth20';
+import FacebookStrategy from 'passport-facebook';
 
 const clientBase = process.env.VITE_MODE === 'development' ? `http://localhost:${process.env.VITE_CLIENT_PORT}` : '/';
 const successRedirect = `${clientBase}/@`;
@@ -33,6 +34,17 @@ export default async (app) => {
         });
     }));
 
+    passport.use(new FacebookStrategy({
+        clientID: process.env.FACEBOOK_APP_ID,
+        clientSecret: process.env.FACEBOOK_APP_SECRET,
+        callbackURL: '/auth/facebook/callback',
+        profileFields: ['id', 'displayName', 'email', 'photos']
+    }, (accessToken, refreshToken, profile, done) => {
+        process.nextTick(() => {
+            done(null, profile);
+        });
+    }));
+
     app.get('/auth/google', passport.authenticate('google', {
         successRedirect,
         failureRedirect
@@ -40,6 +52,19 @@ export default async (app) => {
 
     app.get('/auth/google/callback',
         passport.authenticate('google', {
+            failureRedirect
+        }),
+        (req, res) => {
+            res.redirect(successRedirect);
+        }
+    );
+
+    app.get('/auth/facebook', passport.authenticate('facebook', {
+        scope: ['email']
+    }));
+
+    app.get('/auth/facebook/callback',
+        passport.authenticate('facebook', {
             failureRedirect
         }),
         (req, res) => {
