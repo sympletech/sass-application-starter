@@ -1,42 +1,48 @@
 import passport from 'passport';
 import GoogleStrategy from 'passport-google-oauth20';
 
+const successRedirect = process.env.VITE_MODE === 'development' ? `http://localhost:${process.env.VITE_CLIENT_PORT}/@` : '/@';
+const failureRedirect = process.env.VITE_MODE === 'development' ? `http://localhost:${process.env.VITE_CLIENT_PORT}/login` : '/login';
+
 export default async (app) => {
     // Set up Passport
     app.use(passport.initialize());
-    app.use(passport.session());
+    app.use(passport.authenticate('session'));
 
-    // Serialize / deserialize user for sessions
     passport.serializeUser((user, done) => {
-        done(null, user.id); // store minimal identifier in session
+        process.nextTick(() => {
+            done(null, user.id);
+        });
     });
+
     passport.deserializeUser((id, done) => {
-        // Look up user by id in DB; here we just return dummy object
-        done(null, { id });
+        process.nextTick(() => {
+            done(null, { id });
+        });
     });
 
     passport.use(new GoogleStrategy({
         clientID: process.env.GOOGLE_OAUTH_CLIENT_ID,
         clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
-        callbackURL: '/auth/google/callback'
+        callbackURL: '/auth/google/callback',
+        scope: ['profile', 'email'],
     }, (accessToken, refreshToken, profile, done) => {
-        done(null, profile);
+        process.nextTick(() => {
+            done(null, profile);
+        });
     }));
 
-    // Kick off Google OAuth flow
-    app.get('/auth/google', (req, res) => {
-        req.session.returnURI = req.query.returnURI;
-        passport.authenticate('google', { scope: ['profile', 'email'] })(req, res);
-    });
+    app.get('/auth/google', passport.authenticate('google', {
+        successRedirect,
+        failureRedirect
+    }));
 
-    // OAuth callback URL from Google Cloud config
     app.get('/auth/google/callback',
         passport.authenticate('google', {
-            failureRedirect: '/login'
+            failureRedirect
         }),
         (req, res) => {
-            // Successful auth
-            res.redirect(req.session.returnURI || '/profile');
+            res.redirect(successRedirect);
         }
     );
 };

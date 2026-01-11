@@ -104,6 +104,4 @@ db.collections = {
     sessions: db.collection("sessions")
 };
 
-await createExpIndex(db.collections.sessions, 'timestamp', 0.5);
-
 console.log(`Connected to MongoDB at ${process.env.MONGO_URI}`);

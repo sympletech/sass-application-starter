@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { defineConfig, transformWithEsbuild } from 'vite';
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
@@ -43,7 +44,7 @@ export default defineConfig({
     }
   },
   server: {
-    port: 3001,
+    port: process.env.VITE_CLIENT_PORT,
     open: false,
     allowedHosts: true,
     cors: true
