@@ -11,6 +11,8 @@ import {
     SettingOutlined
 } from '@ant-design/icons';
 
+import { apiBaseUrl } from '@client/lib/use-api.js';
+
 const { Header, Content, Footer } = AntLayout;
 
 function LoggedInLayout() {
@@ -45,8 +47,7 @@ function LoggedInLayout() {
     };
 
     const handleLogout = () => {
-        // TODO: Implement logout logic (clear session, tokens, etc.)
-        navigate('/login');
+        window.location.href = `${apiBaseUrl}/auth/logout`;
     };
 
     // Menu items configuration

@@ -1,8 +1,9 @@
 import passport from 'passport';
 import GoogleStrategy from 'passport-google-oauth20';
 
-const successRedirect = process.env.VITE_MODE === 'development' ? `http://localhost:${process.env.VITE_CLIENT_PORT}/@` : '/@';
-const failureRedirect = process.env.VITE_MODE === 'development' ? `http://localhost:${process.env.VITE_CLIENT_PORT}/login` : '/login';
+const clientBase = process.env.VITE_MODE === 'development' ? `http://localhost:${process.env.VITE_CLIENT_PORT}` : '/';
+const successRedirect = `${clientBase}/@`;
+const failureRedirect = `${clientBase}/login`;
 
 export default async (app) => {
     // Set up Passport
@@ -45,4 +46,11 @@ export default async (app) => {
             res.redirect(successRedirect);
         }
     );
+
+    app.get('/auth/logout', (req, res, next) => {
+        req.logout(function (err) {
+            if (err) { return next(err); }
+            res.redirect(clientBase);
+        });
+    });
 };
