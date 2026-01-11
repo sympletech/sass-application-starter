@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
-import { Outlet, Link, useLocation } from 'react-router-dom';
-import { Layout as AntLayout, Menu, Button, Drawer, Switch, ConfigProvider, theme } from 'antd';
+import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
+import { Layout as AntLayout, Menu, Button, Drawer, Switch, ConfigProvider, theme, Dropdown, Avatar } from 'antd';
 import {
     MenuOutlined,
-    HomeOutlined,
-    LoginOutlined,
-    UserAddOutlined,
+    DashboardOutlined,
+    LogoutOutlined,
     BulbOutlined,
-    BulbFilled
+    BulbFilled,
+    UserOutlined,
+    SettingOutlined
 } from '@ant-design/icons';
 
 const { Header, Content, Footer } = AntLayout;
@@ -17,6 +18,7 @@ function LoggedInLayout() {
     const [isDarkMode, setIsDarkMode] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
     const location = useLocation();
+    const navigate = useNavigate();
 
     // Handle responsive behavior
     useEffect(() => {
@@ -42,22 +44,45 @@ function LoggedInLayout() {
         setIsDarkMode(!isDarkMode);
     };
 
+    const handleLogout = () => {
+        // TODO: Implement logout logic (clear session, tokens, etc.)
+        navigate('/login');
+    };
+
     // Menu items configuration
     const menuItems = [
         {
-            key: '/',
-            icon: <HomeOutlined />,
-            label: <Link to="/">Home</Link>,
+            key: '/dashboard',
+            icon: <DashboardOutlined />,
+            label: <Link to="/dashboard">Dashboard</Link>,
         },
         {
-            key: '/login',
-            icon: <LoginOutlined />,
-            label: <Link to="/login">Login</Link>,
+            key: '/logout',
+            icon: <LogoutOutlined />,
+            label: <span onClick={handleLogout}>Logout</span>,
+        },
+    ];
+
+    // Profile dropdown menu items
+    const profileMenuItems = [
+        {
+            key: 'profile',
+            icon: <UserOutlined />,
+            label: <Link to="/profile">Profile</Link>,
         },
         {
-            key: '/signup',
-            icon: <UserAddOutlined />,
-            label: <Link to="/signup">Signup</Link>,
+            key: 'settings',
+            icon: <SettingOutlined />,
+            label: <Link to="/settings">Settings</Link>,
+        },
+        {
+            type: 'divider',
+        },
+        {
+            key: 'logout',
+            icon: <LogoutOutlined />,
+            label: 'Logout',
+            onClick: handleLogout,
         },
     ];
 
@@ -139,6 +164,19 @@ function LoggedInLayout() {
                                 checkedChildren={<BulbFilled />}
                                 unCheckedChildren={<BulbOutlined />}
                             />
+                            <Dropdown
+                                menu={{ items: profileMenuItems }}
+                                placement="bottomRight"
+                                trigger={['click']}
+                            >
+                                <Avatar
+                                    style={{
+                                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                                        cursor: 'pointer',
+                                    }}
+                                    icon={<UserOutlined />}
+                                />
+                            </Dropdown>
                         </div>
                     )}
 
@@ -152,6 +190,20 @@ function LoggedInLayout() {
                                 unCheckedChildren={<BulbOutlined />}
                                 size="small"
                             />
+                            <Dropdown
+                                menu={{ items: profileMenuItems }}
+                                placement="bottomRight"
+                                trigger={['click']}
+                            >
+                                <Avatar
+                                    size="small"
+                                    style={{
+                                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                                        cursor: 'pointer',
+                                    }}
+                                    icon={<UserOutlined />}
+                                />
+                            </Dropdown>
                             <Button
                                 type="text"
                                 icon={<MenuOutlined />}
