@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import PublicLayout from './layouts/public/PublicLayout.jsx'
 import Home from './pages/Home.jsx'
 import Login from './pages/login/Login.jsx'
-import Signup from './pages/Signup.jsx'
+import Signup from './pages/signup/Signup.jsx'
 
 import LoggedInLayout from './layouts/logged-in/LoggedInLayout.jsx'
 import Dashboard from './pages/dashboard/Dashboard.jsx'
