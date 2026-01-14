@@ -23,48 +23,79 @@ export default ({ app, get, post }) => {
     });
 
     // Final Signup Route
-    post('/auth/signup', async ({ email, password, paymentMethodId }) => {
-        if (!email || !password || !paymentMethodId) {
+    post('/auth/signup', async ({ email, password, paymentMethodId, isSocial }) => {
+        if (!email || (!isSocial && !password) || !paymentMethodId) {
             throw new Error('Email, password, and payment method are required');
         }
 
         // Check if user exists
-        const existingUser = await db.collections.accounts.findOne({ email });
-        if (existingUser) {
-            throw new Error('User already exists');
+        let user = await db.collections.accounts.findOne({ email });
+
+        if (user && user.subscriptionId) {
+            throw new Error('User already exists and has an active subscription');
         }
 
-        // Create Stripe Customer
-        const customer = await stripeClient.customers.create({
-            email,
-            payment_method: paymentMethodId,
-            invoice_settings: {
-                default_payment_method: paymentMethodId,
-            },
-        });
-
-        // Hash Password
-        const salt = process.env.PASSWORD_SALT || 'default_salt';
-        const hashedPassword = await bcrypt.hash(password + salt, 10);
+        // Create Stripe Customer if not exists
+        let customerId = user?.stripeCustomerId;
+        if (!customerId) {
+            const customer = await stripeClient.customers.create({
+                email,
+                payment_method: paymentMethodId,
+                invoice_settings: {
+                    default_payment_method: paymentMethodId,
+                },
+            });
+            customerId = customer.id;
+        } else {
+            // Update existing customer with new payment method
+            await stripeClient.paymentMethods.attach(paymentMethodId, {
+                customer: customerId,
+            });
+            await stripeClient.customers.update(customerId, {
+                invoice_settings: {
+                    default_payment_method: paymentMethodId,
+                },
+            });
+        }
 
         // Create Subscription with Free Trial
-        // Note: You need a Price ID from your Stripe dashboard
         const subscription = await stripeClient.subscriptions.create({
-            customer: customer.id,
+            customer: customerId,
             items: [{ price: process.env.STRIPE_TRIAL_PRICE_ID }],
-            trial_period_days: 14, // example trial period
+            trial_period_days: 14,
         });
 
-        // Store User
-        const newUser = {
-            email,
-            password: hashedPassword,
-            stripeCustomerId: customer.id,
-            subscriptionId: subscription.id,
-            createdAt: new Date()
-        };
+        if (user) {
+            // Update user with subscription and customer ID
+            await db.collections.accounts.updateOne(
+                { _id: user._id },
+                {
+                    $set: {
+                        stripeCustomerId: customerId,
+                        subscriptionId: subscription.id,
+                        updatedAt: new Date(),
+                        isSocial: isSocial || user.isSocial
+                    }
+                }
+            );
+        } else {
+            // Create New User
+            let userDoc = {
+                email,
+                stripeCustomerId: customerId,
+                subscriptionId: subscription.id,
+                isSocial: !!isSocial,
+                createdAt: new Date()
+            };
 
-        await db.collections.accounts.insertOne(newUser);
+            if (!isSocial && password) {
+                const salt = process.env.PASSWORD_SALT || 'default_salt';
+                const hashedPassword = await bcrypt.hash(password + salt, 10);
+                userDoc.password = hashedPassword;
+            }
+
+            await db.collections.accounts.insertOne(userDoc);
+        }
 
         return { success: true, message: 'Signup successful! Your free trial has started.' };
     });

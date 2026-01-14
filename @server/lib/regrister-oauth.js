@@ -1,6 +1,7 @@
 import passport from 'passport';
 import GoogleStrategy from 'passport-google-oauth20';
 import FacebookStrategy from 'passport-facebook';
+import { db } from './mongo-client.js';
 
 const clientBase = process.env.VITE_MODE === 'development' ? `http://localhost:${process.env.VITE_CLIENT_PORT}` : '/';
 const successRedirect = `${clientBase}/@`;
@@ -13,13 +14,13 @@ export default async (app) => {
 
     passport.serializeUser((user, done) => {
         process.nextTick(() => {
-            done(null, user.id);
+            done(null, user);
         });
     });
 
-    passport.deserializeUser((id, done) => {
+    passport.deserializeUser((user, done) => {
         process.nextTick(() => {
-            done(null, { id });
+            done(null, user);
         });
     });
 
@@ -46,16 +47,28 @@ export default async (app) => {
     }));
 
     app.get('/auth/google', passport.authenticate('google', {
-        successRedirect,
-        failureRedirect
+        scope: ['profile', 'email']
     }));
 
     app.get('/auth/google/callback',
         passport.authenticate('google', {
             failureRedirect
         }),
-        (req, res) => {
-            res.redirect(successRedirect);
+        async (req, res) => {
+            console.log('Google Auth Callback hit');
+            const email = req.user.emails[0].value;
+            console.log('User email:', email);
+            const user = await db.collections.accounts.findOne({ email });
+            console.log('User found in DB:', !!user);
+            console.log('Subscription ID:', user?.subscriptionId);
+            if (!user || !user.subscriptionId) {
+                const redirectUrl = `${clientBase}/signup?email=${encodeURIComponent(email)}&social=true`;
+                console.log('Redirecting to signup:', redirectUrl);
+                res.redirect(redirectUrl);
+            } else {
+                console.log('Redirecting to dashboard:', successRedirect);
+                res.redirect(successRedirect);
+            }
         }
     );
 
@@ -67,8 +80,21 @@ export default async (app) => {
         passport.authenticate('facebook', {
             failureRedirect
         }),
-        (req, res) => {
-            res.redirect(successRedirect);
+        async (req, res) => {
+            console.log('Facebook Auth Callback hit');
+            const email = req.user.emails[0].value;
+            console.log('User email:', email);
+            const user = await db.collections.accounts.findOne({ email });
+            console.log('User found in DB:', !!user);
+            console.log('Subscription ID:', user?.subscriptionId);
+            if (!user || !user.subscriptionId) {
+                const redirectUrl = `${clientBase}/signup?email=${encodeURIComponent(email)}&social=true`;
+                console.log('Redirecting to signup:', redirectUrl);
+                res.redirect(redirectUrl);
+            } else {
+                console.log('Redirecting to dashboard:', successRedirect);
+                res.redirect(successRedirect);
+            }
         }
     );
 

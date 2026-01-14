@@ -14,7 +14,7 @@ export default async (app) => {
                 app.get(path, async (req, res) => {
                     try {
                         const params = req.query;
-                        const result = await handler(params);
+                        const result = await handler(params, req, res);
                         res.jsonp(result);
                     } catch (error) {
                         console.error(error);
@@ -26,7 +26,7 @@ export default async (app) => {
                 app.post(path, async (req, res) => {
                     try {
                         const params = req.body;
-                        const result = await handler(params);
+                        const result = await handler(params, req, res);
                         res.jsonp(result);
                     } catch (error) {
                         console.error(error);

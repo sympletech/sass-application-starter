@@ -3,7 +3,7 @@ import { GoogleIcon, FacebookIcon } from '@client/lib/social-icons.js';
 import { apiBaseUrl } from '@client/lib/use-api.js';
 import './SocialAuthButtons.css';
 
-function SocialAuthButtons({ mode = 'login' }) {
+function SocialAuthButtons({ mode = 'login', showDivider = true }) {
     const handleGoogleAuth = () => {
         window.location.href = `${apiBaseUrl}/auth/google`;
     };
@@ -16,7 +16,7 @@ function SocialAuthButtons({ mode = 'login' }) {
 
     return (
         <>
-            <Divider plain>Or continue with</Divider>
+            {showDivider && <Divider plain>Or continue with</Divider>}
 
             <Button
                 className="oauth-button"
