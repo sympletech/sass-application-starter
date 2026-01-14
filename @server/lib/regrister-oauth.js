@@ -11,7 +11,30 @@ const handleOAuthCallback = async (req, res) => {
     const email = req.user.emails[0].value;
     const user = await db.collections.accounts.findOne({ email });
     if (!user || !user.subscriptionId) {
-        const redirectUrl = `${clientBase}/signup?email=${encodeURIComponent(email)}&social=true`;
+        // Extract firstName and lastName from OAuth profile
+        let firstName = '';
+        let lastName = '';
+        
+        // Try Facebook OAuth structure first: profile._json.first_name and profile._json.last_name
+        if (req.user._json && req.user._json.first_name) {
+            firstName = req.user._json.first_name || '';
+            lastName = req.user._json.last_name || '';
+        }
+        // Google OAuth (and Facebook normalized): profile.name.givenName and profile.name.familyName
+        else if (req.user.name) {
+            firstName = req.user.name.givenName || '';
+            lastName = req.user.name.familyName || '';
+        }
+        
+        // Build redirect URL with parameters
+        const params = new URLSearchParams({
+            email,
+            social: 'true'
+        });
+        if (firstName) params.append('firstName', firstName);
+        if (lastName) params.append('lastName', lastName);
+        
+        const redirectUrl = `${clientBase}/signup?${params.toString()}`;
         res.redirect(redirectUrl);
     } else {
         res.redirect(successRedirect);
@@ -50,7 +73,7 @@ export default async (app) => {
         clientID: process.env.FACEBOOK_APP_ID,
         clientSecret: process.env.FACEBOOK_APP_SECRET,
         callbackURL: '/auth/facebook/callback',
-        profileFields: ['id', 'displayName', 'email', 'photos']
+        profileFields: ['id', 'displayName', 'email', 'first_name', 'last_name', 'photos']
     }, (accessToken, refreshToken, profile, done) => {
         process.nextTick(() => {
             done(null, profile);
@@ -68,13 +91,6 @@ export default async (app) => {
         handleOAuthCallback
     );
 
-    app.get('/auth/facebook/callback',
-        passport.authenticate('facebook', {
-            failureRedirect
-        }),
-        handleOAuthCallback
-    );
-
     app.get('/auth/facebook', passport.authenticate('facebook', {
         scope: ['email']
     }));
@@ -83,16 +99,7 @@ export default async (app) => {
         passport.authenticate('facebook', {
             failureRedirect
         }),
-        async (req, res) => {
-            const email = req.user.emails[0].value;
-            const user = await db.collections.accounts.findOne({ email });
-            if (!user || !user.subscriptionId) {
-                const redirectUrl = `${clientBase}/signup?email=${encodeURIComponent(email)}&social=true`;
-                res.redirect(redirectUrl);
-            } else {
-                res.redirect(successRedirect);
-            }
-        }
+        handleOAuthCallback
     );
 
     app.get('/auth/logout', (req, res, next) => {

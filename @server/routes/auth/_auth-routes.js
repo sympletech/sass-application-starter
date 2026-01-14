@@ -23,7 +23,7 @@ export default ({ app, get, post }) => {
     });
 
     // Final Signup Route
-    post('/auth/signup', async ({ email, password, paymentMethodId, isSocial }) => {
+    post('/auth/signup', async ({ email, password, paymentMethodId, isSocial, firstName, lastName }) => {
         if (!email || (!isSocial && !password) || !paymentMethodId) {
             throw new Error('Email, password, and payment method are required');
         }
@@ -35,27 +35,39 @@ export default ({ app, get, post }) => {
             throw new Error('User already exists and has an active subscription');
         }
 
+        // Prepare customer data for Stripe
+        const customerData = {
+            email,
+            payment_method: paymentMethodId,
+            invoice_settings: {
+                default_payment_method: paymentMethodId,
+            },
+        };
+
+        // Add name to Stripe customer if provided
+        if (firstName || lastName) {
+            customerData.name = [firstName, lastName].filter(Boolean).join(' ');
+        }
+
         // Create Stripe Customer if not exists
         let customerId = user?.stripeCustomerId;
         if (!customerId) {
-            const customer = await stripeClient.customers.create({
-                email,
-                payment_method: paymentMethodId,
-                invoice_settings: {
-                    default_payment_method: paymentMethodId,
-                },
-            });
+            const customer = await stripeClient.customers.create(customerData);
             customerId = customer.id;
         } else {
             // Update existing customer with new payment method
             await stripeClient.paymentMethods.attach(paymentMethodId, {
                 customer: customerId,
             });
-            await stripeClient.customers.update(customerId, {
+            const updateData = {
                 invoice_settings: {
                     default_payment_method: paymentMethodId,
                 },
-            });
+            };
+            if (firstName || lastName) {
+                updateData.name = [firstName, lastName].filter(Boolean).join(' ');
+            }
+            await stripeClient.customers.update(customerId, updateData);
         }
 
         // Create Subscription with Free Trial
@@ -67,16 +79,20 @@ export default ({ app, get, post }) => {
 
         if (user) {
             // Update user with subscription and customer ID
+            const updateData = {
+                stripeCustomerId: customerId,
+                subscriptionId: subscription.id,
+                updatedAt: new Date(),
+                isSocial: isSocial || user.isSocial
+            };
+            
+            // Update firstName and lastName if provided
+            if (firstName) updateData.firstName = firstName;
+            if (lastName) updateData.lastName = lastName;
+
             await db.collections.accounts.updateOne(
                 { _id: user._id },
-                {
-                    $set: {
-                        stripeCustomerId: customerId,
-                        subscriptionId: subscription.id,
-                        updatedAt: new Date(),
-                        isSocial: isSocial || user.isSocial
-                    }
-                }
+                { $set: updateData }
             );
         } else {
             // Create New User
@@ -87,6 +103,10 @@ export default ({ app, get, post }) => {
                 isSocial: !!isSocial,
                 createdAt: new Date()
             };
+
+            // Add firstName and lastName if provided
+            if (firstName) userDoc.firstName = firstName;
+            if (lastName) userDoc.lastName = lastName;
 
             if (!isSocial && password) {
                 const salt = process.env.PASSWORD_SALT || 'default_salt';

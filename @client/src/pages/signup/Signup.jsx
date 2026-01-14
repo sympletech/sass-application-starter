@@ -21,6 +21,8 @@ function Signup() {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const emailParam = searchParams.get('email');
+    const firstNameParam = searchParams.get('firstName');
+    const lastNameParam = searchParams.get('lastName');
     const isSocialSignup = searchParams.get('social') === 'true';
 
     useEffect(() => {
@@ -40,10 +42,16 @@ function Signup() {
             console.error('Failed to create setup intent:', err);
         });
 
-        if (emailParam) {
-            form.setFieldsValue({ email: emailParam });
+        // Auto-fill form fields from URL parameters
+        const formValues = {};
+        if (emailParam) formValues.email = emailParam;
+        if (firstNameParam) formValues.firstName = firstNameParam;
+        if (lastNameParam) formValues.lastName = lastNameParam;
+        
+        if (Object.keys(formValues).length > 0) {
+            form.setFieldsValue(formValues);
         }
-    }, [emailParam, form]);
+    }, [emailParam, firstNameParam, lastNameParam, form]);
 
     const handleSignup = async (paymentMethodId) => {
         try {
@@ -53,6 +61,8 @@ function Signup() {
             // If social signup, we might not have a password
             const signupData = {
                 email: values.email,
+                firstName: values.firstName,
+                lastName: values.lastName,
                 paymentMethodId,
                 isSocial: isSocialSignup
             };
@@ -101,6 +111,32 @@ function Signup() {
                 initialValues={{ email: emailParam }}
             >
                 <Form.Item
+                    name="firstName"
+                    label="First Name"
+                    rules={[
+                        { required: true, message: 'Please input your first name!' }
+                    ]}
+                >
+                    <Input
+                        placeholder="Enter your first name"
+                        size="large"
+                    />
+                </Form.Item>
+
+                <Form.Item
+                    name="lastName"
+                    label="Last Name"
+                    rules={[
+                        { required: true, message: 'Please input your last name!' }
+                    ]}
+                >
+                    <Input
+                        placeholder="Enter your last name"
+                        size="large"
+                    />
+                </Form.Item>
+
+                <Form.Item
                     name="email"
                     label="Email"
                     rules={[
@@ -123,7 +159,32 @@ function Signup() {
                             label="Password"
                             rules={[
                                 { required: true, message: 'Please input your password!' },
-                                { min: 8, message: 'Password must be at least 8 characters!' }
+                                { min: 8, message: 'Password must be at least 8 characters!' },
+                                {
+                                    validator: (_, value) => {
+                                        if (!value) {
+                                            return Promise.resolve();
+                                        }
+                                        const hasUpperCase = /[A-Z]/.test(value);
+                                        const hasLowerCase = /[a-z]/.test(value);
+                                        const hasNumber = /[0-9]/.test(value);
+                                        const hasSpecialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(value);
+                                        
+                                        if (!hasUpperCase) {
+                                            return Promise.reject(new Error('Password must contain at least one uppercase letter!'));
+                                        }
+                                        if (!hasLowerCase) {
+                                            return Promise.reject(new Error('Password must contain at least one lowercase letter!'));
+                                        }
+                                        if (!hasNumber) {
+                                            return Promise.reject(new Error('Password must contain at least one number!'));
+                                        }
+                                        if (!hasSpecialChar) {
+                                            return Promise.reject(new Error('Password must contain at least one special character!'));
+                                        }
+                                        return Promise.resolve();
+                                    }
+                                }
                             ]}
                         >
                             <Input.Password
