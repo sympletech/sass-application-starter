@@ -118,6 +118,22 @@ function Profile() {
         }
     };
 
+    const handleUpdateBilling = async () => {
+        setActionLoading('billing');
+        try {
+            const { url } = await postData('/billing/create-portal-session');
+            window.open(url);
+        } catch (err) {
+            if (err?.response?.data?.error) {
+                message.error(err.response.data.error);
+            } else {
+                message.error('Unable to open billing portal right now');
+            }
+        } finally {
+            setActionLoading(null);
+        }
+    };
+
     const handleCancelAccount = async () => {
         setActionLoading('cancel');
         try {
@@ -256,6 +272,16 @@ function Profile() {
                                     loading={actionLoading === 'convert'}
                                 >
                                     Convert to paid
+                                </Button>
+                            )}
+
+                            {!profile?.inactive && (
+                                <Button
+                                    block
+                                    onClick={handleUpdateBilling}
+                                    loading={actionLoading === 'billing'}
+                                >
+                                    Update billing information
                                 </Button>
                             )}
 

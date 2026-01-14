@@ -173,7 +173,7 @@ export default ({ app, get, post }) => {
                 isSocial: isSocial || user.isSocial,
                 inactive: false
             };
-            
+
             // Update firstName and lastName if provided
             if (firstName) updateData.firstName = firstName;
             if (lastName) updateData.lastName = lastName;
@@ -305,6 +305,20 @@ export default ({ app, get, post }) => {
 
         const updatedSubscription = await deriveSubscriptionStatus(user.subscriptionId);
         return { success: true, subscription: updatedSubscription };
+    });
+
+    post('/billing/create-portal-session', async (_params, req) => {
+        const user = await requireAuth(req);
+        if (!user.stripeCustomerId) {
+            throw new Error('No billing account found');
+        }
+
+        const session = await stripeClient.billingPortal.sessions.create({
+            customer: user.stripeCustomerId,
+            return_url: `${clientBase}/profile`,
+        });
+
+        return { url: session.url };
     });
 
     post('/account/cancel', async (_params, req) => {
