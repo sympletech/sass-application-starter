@@ -2,7 +2,7 @@ import { Form, Input, Button, Divider } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
 import { apiBaseUrl } from '@client/lib/use-api.js';
-import { GoogleIcon, FacebookIcon, XIcon } from '@client/lib/social-icons.js';
+import { GoogleIcon, FacebookIcon } from '@client/lib/social-icons.js';
 
 import './Login.css';
 
@@ -20,10 +20,6 @@ function Login() {
 
     const handleFacebookLogin = () => {
         window.location.href = `${apiBaseUrl}/auth/facebook`;
-    };
-
-    const handleXLogin = () => {
-        window.location.href = `${apiBaseUrl}/auth/twitter`;
     };
 
     return (
@@ -96,17 +92,6 @@ function Login() {
                 >
                     <FacebookIcon />
                     Login with Facebook
-                </Button>
-
-                <Button
-                    className="oauth-login-button"
-                    size="large"
-                    block
-                    onClick={handleXLogin}
-                    style={{ marginTop: '12px' }}
-                >
-                    <XIcon />
-                    Login with X
                 </Button>
 
                 <div className="login-footer">
