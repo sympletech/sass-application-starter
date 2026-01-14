@@ -53,9 +53,9 @@ function LoggedInLayout() {
     // Menu items configuration
     const menuItems = [
         {
-            key: '/dashboard',
+            key: '/Dashboard',
             icon: <DashboardOutlined />,
-            label: <Link to="/dashboard">Dashboard</Link>,
+            label: <Link to="/@">Dashboard</Link>,
         },
         {
             key: '/logout',

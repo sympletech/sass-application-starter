@@ -7,6 +7,17 @@ const clientBase = process.env.VITE_MODE === 'development' ? `http://localhost:$
 const successRedirect = `${clientBase}/@`;
 const failureRedirect = `${clientBase}/login`;
 
+const handleOAuthCallback = async (req, res) => {
+    const email = req.user.emails[0].value;
+    const user = await db.collections.accounts.findOne({ email });
+    if (!user || !user.subscriptionId) {
+        const redirectUrl = `${clientBase}/signup?email=${encodeURIComponent(email)}&social=true`;
+        res.redirect(redirectUrl);
+    } else {
+        res.redirect(successRedirect);
+    }
+};
+
 export default async (app) => {
     // Set up Passport
     app.use(passport.initialize());
@@ -54,22 +65,14 @@ export default async (app) => {
         passport.authenticate('google', {
             failureRedirect
         }),
-        async (req, res) => {
-            console.log('Google Auth Callback hit');
-            const email = req.user.emails[0].value;
-            console.log('User email:', email);
-            const user = await db.collections.accounts.findOne({ email });
-            console.log('User found in DB:', !!user);
-            console.log('Subscription ID:', user?.subscriptionId);
-            if (!user || !user.subscriptionId) {
-                const redirectUrl = `${clientBase}/signup?email=${encodeURIComponent(email)}&social=true`;
-                console.log('Redirecting to signup:', redirectUrl);
-                res.redirect(redirectUrl);
-            } else {
-                console.log('Redirecting to dashboard:', successRedirect);
-                res.redirect(successRedirect);
-            }
-        }
+        handleOAuthCallback
+    );
+
+    app.get('/auth/facebook/callback',
+        passport.authenticate('facebook', {
+            failureRedirect
+        }),
+        handleOAuthCallback
     );
 
     app.get('/auth/facebook', passport.authenticate('facebook', {
@@ -81,18 +84,12 @@ export default async (app) => {
             failureRedirect
         }),
         async (req, res) => {
-            console.log('Facebook Auth Callback hit');
             const email = req.user.emails[0].value;
-            console.log('User email:', email);
             const user = await db.collections.accounts.findOne({ email });
-            console.log('User found in DB:', !!user);
-            console.log('Subscription ID:', user?.subscriptionId);
             if (!user || !user.subscriptionId) {
                 const redirectUrl = `${clientBase}/signup?email=${encodeURIComponent(email)}&social=true`;
-                console.log('Redirecting to signup:', redirectUrl);
                 res.redirect(redirectUrl);
             } else {
-                console.log('Redirecting to dashboard:', successRedirect);
                 res.redirect(successRedirect);
             }
         }

@@ -66,7 +66,7 @@ function Signup() {
             if (result.success) {
                 message.success(result.message);
                 // Redirect to dashboard
-                window.location.href = '/dashboard';
+                window.location.href = '/@';
             }
         } catch (error) {
             if (error.response?.data?.error) {
