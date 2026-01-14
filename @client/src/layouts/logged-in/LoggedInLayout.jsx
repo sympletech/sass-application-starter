@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
-import { Layout as AntLayout, Menu, Button, Drawer, Switch, ConfigProvider, theme, Dropdown, Avatar } from 'antd';
+import { Layout as AntLayout, Menu, Button, Drawer, Switch, ConfigProvider, theme, Dropdown, Avatar, Spin } from 'antd';
 import {
     MenuOutlined,
     DashboardOutlined,
@@ -11,7 +11,7 @@ import {
     SettingOutlined
 } from '@ant-design/icons';
 
-import { apiBaseUrl } from '@client/lib/use-api.js';
+import { apiBaseUrl, getData } from '@client/lib/use-api.js';
 
 const { Header, Content, Footer } = AntLayout;
 
@@ -19,6 +19,7 @@ function LoggedInLayout() {
     const [drawerVisible, setDrawerVisible] = useState(false);
     const [isDarkMode, setIsDarkMode] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
+    const [authLoading, setAuthLoading] = useState(true);
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -32,6 +33,31 @@ function LoggedInLayout() {
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
+
+    // Auth gate: Check authentication status
+    useEffect(() => {
+        const checkAuth = async () => {
+            try {
+                const user = await getData('/auth/me');
+                if (!user || !user.email) {
+                    // Not authenticated
+                    navigate('/login');
+                    return;
+                }
+                if (user.inactive) {
+                    // Inactive account - redirect to reactivate
+                    navigate(`/reactivate?email=${encodeURIComponent(user.email)}`);
+                    return;
+                }
+                // Authenticated and active
+                setAuthLoading(false);
+            } catch (error) {
+                // If /auth/me fails (401, etc.), redirect to login
+                navigate('/login');
+            }
+        };
+        checkAuth();
+    }, [navigate]);
 
     // Close drawer when route changes
     useEffect(() => {
@@ -53,7 +79,7 @@ function LoggedInLayout() {
     // Menu items configuration
     const menuItems = [
         {
-            key: '/Dashboard',
+            key: '/@',
             icon: <DashboardOutlined />,
             label: <Link to="/@">Dashboard</Link>,
         },
@@ -69,12 +95,12 @@ function LoggedInLayout() {
         {
             key: 'profile',
             icon: <UserOutlined />,
-            label: <Link to="/profile">Profile</Link>,
+            label: <Link to="/@/profile">Profile</Link>,
         },
         {
             key: 'settings',
             icon: <SettingOutlined />,
-            label: <Link to="/settings">Settings</Link>,
+            label: <Link to="/@/settings">Settings</Link>,
         },
         {
             type: 'divider',
@@ -86,6 +112,21 @@ function LoggedInLayout() {
             onClick: handleLogout,
         },
     ];
+
+    // Show loading spinner while checking auth
+    if (authLoading) {
+        return (
+            <ConfigProvider
+                theme={{
+                    algorithm: isDarkMode ? theme.darkAlgorithm : theme.defaultAlgorithm,
+                }}
+            >
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+                    <Spin size="large" />
+                </div>
+            </ConfigProvider>
+        );
+    }
 
     return (
         <ConfigProvider

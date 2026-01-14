@@ -18,7 +18,8 @@ export default async (app) => {
                         res.jsonp(result);
                     } catch (error) {
                         console.error(error);
-                        res.status(500).jsonp({ error: error.message });
+                        const status = error?.status || 500;
+                        res.status(status).jsonp({ error: error.message, redirect: error?.redirect });
                     }
                 });
             },
@@ -30,7 +31,8 @@ export default async (app) => {
                         res.jsonp(result);
                     } catch (error) {
                         console.error(error);
-                        res.status(500).jsonp({ error: error.message });
+                        const status = error?.status || 500;
+                        res.status(status).jsonp({ error: error.message, redirect: error?.redirect });
                     }
                 });
             }

@@ -6,9 +6,15 @@ import { db } from './mongo-client.js';
 const clientBase = process.env.VITE_MODE === 'development' ? `http://localhost:${process.env.VITE_CLIENT_PORT}` : '/';
 const successRedirect = `${clientBase}/@`;
 const failureRedirect = `${clientBase}/login`;
+const reactivateRedirect = (email) => `${clientBase}/reactivate?email=${encodeURIComponent(email)}`;
 
-const handleOAuthCallback = async (req, res) => {
-    const email = req.user.emails[0].value;
+const handleOAuthCallback = (provider) => async (req, res) => {
+    const email = req.user?.emails?.[0]?.value;
+    if (!email) {
+        res.redirect(failureRedirect);
+        return;
+    }
+
     const user = await db.collections.accounts.findOne({ email });
     if (!user || !user.subscriptionId) {
         // Extract firstName and lastName from OAuth profile
@@ -29,16 +35,42 @@ const handleOAuthCallback = async (req, res) => {
         // Build redirect URL with parameters
         const params = new URLSearchParams({
             email,
-            social: 'true'
+            social: 'true',
+            oauthProvider: provider
         });
         if (firstName) params.append('firstName', firstName);
         if (lastName) params.append('lastName', lastName);
         
         const redirectUrl = `${clientBase}/signup?${params.toString()}`;
         res.redirect(redirectUrl);
-    } else {
-        res.redirect(successRedirect);
+        return;
     }
+
+    if (user.inactive) {
+        res.redirect(reactivateRedirect(email));
+        return;
+    }
+
+    const providerMismatch = (!user.isSocial) || (user.oauthProvider && user.oauthProvider !== provider);
+    if (providerMismatch) {
+        const params = new URLSearchParams({
+            error: 'Use your existing login method'
+        });
+        res.redirect(`${clientBase}/login?${params.toString()}`);
+        return;
+    }
+
+    if (!user.oauthProvider) {
+        await db.collections.accounts.updateOne(
+            { _id: user._id },
+            { $set: { oauthProvider: provider, isSocial: true } }
+        );
+    }
+
+    req.session.userId = user._id.toString();
+    req.session.email = user.email;
+
+    res.redirect(successRedirect);
 };
 
 export default async (app) => {
@@ -88,7 +120,7 @@ export default async (app) => {
         passport.authenticate('google', {
             failureRedirect
         }),
-        handleOAuthCallback
+        handleOAuthCallback('google')
     );
 
     app.get('/auth/facebook', passport.authenticate('facebook', {
@@ -99,7 +131,7 @@ export default async (app) => {
         passport.authenticate('facebook', {
             failureRedirect
         }),
-        handleOAuthCallback
+        handleOAuthCallback('facebook')
     );
 
     app.get('/auth/logout', (req, res, next) => {

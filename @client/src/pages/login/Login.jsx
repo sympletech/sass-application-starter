@@ -20,7 +20,7 @@ function Login() {
 
             if (result.success) {
                 message.success(result.message);
-                window.location.href = '/dashboard';
+                window.location.href = '/@';
             } else if (result.redirect) {
                 message.info(result.message);
                 // Wait a bit so user can read the message
