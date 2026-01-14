@@ -9,6 +9,7 @@ export default async (app) => {
         const { default: routeDefModule } = await import(routeDefPath);
 
         const routeDefParams = {
+            app,
             get: (path, handler) => {
                 app.get(path, async (req, res) => {
                     try {

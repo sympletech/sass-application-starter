@@ -1,0 +1,24 @@
+.oauth-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border: 1px solid #dadce0;
+    background: white;
+    color: #3c4043;
+    font-weight: 500;
+    font-size: 14px;
+    height: 44px;
+    transition: all 0.2s ease;
+}
+
+.oauth-button svg {
+    position: absolute;
+    left: 16px;
+    margin-right: 0 !important;
+}
+
+.oauth-button:hover {
+    border-color: #b0b3b8;
+    background: #f8f9fa;
+}

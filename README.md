@@ -85,3 +85,21 @@
     - You'll need at least 'Free' tier access to use OAuth
     - If you don't have access yet, you may need to apply for a developer account
     - Follow the prompts to describe your use case
+
+## How to set up Stripe for Free Trials
+
+1. **Create a Stripe Account**: Go to [Stripe](https://stripe.com) and sign up.
+2. **Get API Keys**:
+    - Go to the **Developers** > **API keys** tab.
+    - Copy the **Publishable key** and add it to your `.env` as `VITE_STRIPE_PUBLISHABLE_KEY`.
+    - Copy the **Secret key** and add it to your `.env` as `STRIPE_SECRET_KEY`.
+3. **Create a Product & Price**:
+    - Go to **Product catalog** and click **+ Add product**.
+    - Name your product (e.g., "Pro Plan").
+    - Set a **Recurring** price (e.g., $19.99/month).
+    - Click **Save product**.
+    - Copy the **Price ID** (starts with `price_...`) and add it to your `.env` as `STRIPE_TRIAL_PRICE_ID`.
+4. **Configure Trial Period**:
+    - The trial period is currently hardcoded to 14 days in `@server/routes/auth/_auth-routes.js`. You can also configure default trials in the Stripe Dashboard, but the server-side override is used in this implementation.
+5. **Password Salt**:
+    - Ensure you have a `PASSWORD_SALT` in your `.env` for secure password hashing.

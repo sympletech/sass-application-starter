@@ -1,104 +1,98 @@
-import { Form, Input, Button, Divider } from 'antd';
+import { Form, Input, Button, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { useState } from 'react';
 
-import { apiBaseUrl } from '@client/lib/use-api.js';
-import { GoogleIcon, FacebookIcon } from '@client/lib/social-icons.js';
+import AuthCard from '@client/components/auth/AuthCard.jsx';
+import AuthHeader from '@client/components/auth/AuthHeader.jsx';
+import SocialAuthButtons from '@client/components/auth/SocialAuthButtons.jsx';
+import { postData } from '@client/lib/use-api.js';
 
 import './Login.css';
 
 function Login() {
     const [form] = Form.useForm();
+    const [loading, setLoading] = useState(false);
 
-    const onFinish = (values) => {
-        console.log('Login form values:', values);
-        // Handle regular login here
-    };
+    const onFinish = async (values) => {
+        setLoading(true);
+        try {
+            const result = await postData('/auth/login', values);
 
-    const handleGoogleLogin = () => {
-        window.location.href = `${apiBaseUrl}/auth/google`;
-    };
-
-    const handleFacebookLogin = () => {
-        window.location.href = `${apiBaseUrl}/auth/facebook`;
+            if (result.success) {
+                message.success(result.message);
+                window.location.href = '/dashboard';
+            } else if (result.redirect) {
+                message.info(result.message);
+                // Wait a bit so user can read the message
+                setTimeout(() => {
+                    window.location.href = result.redirect;
+                }, 1500);
+            }
+        } catch (error) {
+            if (error.response?.data?.error) {
+                message.error(error.response.data.error);
+            } else {
+                message.error('Login failed. Please try again.');
+            }
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
-        <div className="login-container">
-            <div className="login-card">
-                <div className="login-header">
-                    <h1>Welcome Back</h1>
-                    <p>Sign in to your account</p>
-                </div>
+        <AuthCard>
+            <AuthHeader
+                title="Welcome Back"
+                subtitle="Sign in to your account"
+            />
 
-                <Form
-                    form={form}
-                    name="login"
-                    onFinish={onFinish}
-                    layout="vertical"
-                    requiredMark={false}
+            <Form
+                form={form}
+                name="login"
+                onFinish={onFinish}
+                layout="vertical"
+                requiredMark={false}
+            >
+                <Form.Item
+                    name="email"
+                    label="Email"
+                    rules={[
+                        { required: true, message: 'Please input your email!' },
+                        { type: 'email', message: 'Please enter a valid email!' }
+                    ]}
                 >
-                    <Form.Item
-                        name="email"
-                        label="Email"
-                        rules={[
-                            { required: true, message: 'Please input your email!' },
-                            { type: 'email', message: 'Please enter a valid email!' }
-                        ]}
-                    >
-                        <Input
-                            prefix={<UserOutlined />}
-                            placeholder="Enter your email"
-                            size="large"
-                        />
-                    </Form.Item>
+                    <Input
+                        prefix={<UserOutlined />}
+                        placeholder="Enter your email"
+                        size="large"
+                    />
+                </Form.Item>
 
-                    <Form.Item
-                        name="password"
-                        label="Password"
-                        rules={[{ required: true, message: 'Please input your password!' }]}
-                    >
-                        <Input.Password
-                            prefix={<LockOutlined />}
-                            placeholder="Enter your password"
-                            size="large"
-                        />
-                    </Form.Item>
-
-                    <Form.Item>
-                        <Button type="primary" htmlType="submit" size="large" block>
-                            Sign In
-                        </Button>
-                    </Form.Item>
-                </Form>
-
-                <Divider plain>Or continue with</Divider>
-
-                <Button
-                    className="oauth-login-button"
-                    size="large"
-                    block
-                    onClick={handleGoogleLogin}
+                <Form.Item
+                    name="password"
+                    label="Password"
+                    rules={[{ required: true, message: 'Please input your password!' }]}
                 >
-                    <GoogleIcon />
-                    Login with Google
-                </Button>
+                    <Input.Password
+                        prefix={<LockOutlined />}
+                        placeholder="Enter your password"
+                        size="large"
+                    />
+                </Form.Item>
 
-                <Button
-                    className="oauth-login-button"
-                    size="large"
-                    block
-                    onClick={handleFacebookLogin}
-                    style={{ marginTop: '12px' }}
-                >
-                    <FacebookIcon />
-                    Login with Facebook
-                </Button>
+                <Form.Item>
+                    <Button type="primary" htmlType="submit" size="large" block loading={loading}>
+                        Sign In
+                    </Button>
+                </Form.Item>
+            </Form>
 
-                <div className="login-footer">
-                    <p>Don't have an account? <a href="/signup">Sign up</a></p>
-                </div>
+            <SocialAuthButtons mode="login" />
+
+            <div className="login-footer">
+                <p>Don't have an account? <a href="/signup">Sign up</a></p>
             </div>
-        </div>
+        </AuthCard>
     );
 }
 

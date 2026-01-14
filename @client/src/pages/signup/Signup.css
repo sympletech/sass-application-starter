@@ -1,0 +1,32 @@
+/* Signup-specific styles */
+.payment-form-container {
+    margin: 24px 0;
+    padding: 16px;
+    border: 1px solid #f0f0f0;
+    border-radius: 12px;
+    background: #fafafa;
+}
+
+/* Reusing shared footer styles from Login.css */
+.login-footer {
+    text-align: center;
+    margin-top: 24px;
+}
+
+.login-footer p {
+    color: #666;
+    font-size: 14px;
+    margin: 0;
+}
+
+.login-footer a {
+    color: #667eea;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.login-footer a:hover {
+    color: #764ba2;
+    text-decoration: underline;
+}
