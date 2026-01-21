@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Typography, Button, Row, Col, Card, Badge, Space } from 'antd';
 import {
     RocketOutlined,
@@ -72,6 +73,26 @@ const FeatureCard = ({ icon, title, description }) => (
 );
 
 function Home() {
+    useEffect(() => {
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('reveal-visible');
+                }
+            });
+        }, observerOptions);
+
+        const revealElements = document.querySelectorAll('.reveal');
+        revealElements.forEach(el => observer.observe(el));
+
+        return () => observer.disconnect();
+    }, []);
+
     return (
         <div style={{ overflow: 'hidden' }}>
             {/* HERO SECTION */}
@@ -120,7 +141,7 @@ function Home() {
             </section>
 
             {/* FEATURES SECTION */}
-            <section style={{ padding: '100px 0' }}>
+            <section style={{ padding: '100px 0' }} className="reveal">
                 <div style={{ textAlign: 'center', marginBottom: '60px' }}>
                     <Title level={2}>Everything you need to ship.</Title>
                     <Paragraph style={{ fontSize: '18px', color: '#64748b' }}>
@@ -160,7 +181,7 @@ function Home() {
             </section>
 
             {/* PRICING SECTION */}
-            <section id="pricing" style={{ padding: '100px 0' }}>
+            <section id="pricing" style={{ padding: '100px 0' }} className="reveal">
                 <div style={{ textAlign: 'center', marginBottom: '60px' }}>
                     <Title level={2}>Simple, transparent pricing.</Title>
                     <Paragraph style={{ fontSize: '18px', color: '#64748b' }}>

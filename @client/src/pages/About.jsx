@@ -1,12 +1,25 @@
+import { useEffect } from 'react';
 import { Typography, Space, Card, Row, Col, Divider } from 'antd';
 import { RocketOutlined, HeartOutlined, TeamOutlined } from '@ant-design/icons';
 
 const { Title, Paragraph, Text } = Typography;
 
 const About = () => {
+    useEffect(() => {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('reveal-visible');
+            });
+        }, { threshold: 0.1 });
+
+        const revealElements = document.querySelectorAll('.reveal');
+        revealElements.forEach(el => observer.observe(el));
+        return () => observer.disconnect();
+    }, []);
+
     return (
         <div style={{ padding: '80px 0' }}>
-            <div style={{ textAlign: 'center', marginBottom: '80px' }}>
+            <div style={{ textAlign: 'center', marginBottom: '80px' }} className="reveal">
                 <Title className="premium-gradient-text" style={{ fontSize: '56px', fontWeight: 800 }}>
                     Our Mission
                 </Title>
@@ -15,7 +28,7 @@ const About = () => {
                 </Paragraph>
             </div>
 
-            <Row gutter={[48, 48]} align="middle">
+            <Row gutter={[48, 48]} align="middle" className="reveal">
                 <Col xs={24} md={12}>
                     <Title level={2}>Our Story</Title>
                     <Paragraph style={{ fontSize: '18px', lineHeight: '1.8' }}>

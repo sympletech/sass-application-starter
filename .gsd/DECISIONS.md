@@ -44,3 +44,19 @@
 ### Approach
 - **Componentization**: Move the Footer into a standalone `@client/src/components/Footer.jsx` component.
 - **Layout Integrity**: Ensure the footer styling matches the premium aesthetic of the header and cards.
+
+---
+
+## Phase 4 Decisions
+
+**Date:** 2026-01-20
+
+### Scope
+- **Animations**: Go "Bold" with scroll reveal and card scaling.
+- **Micro-interactions**: Enhanced hover glows and transformations for all premium cards.
+- **Auth Styling**: Apply premium glassmorphism to Login and Signup pages.
+
+### Approach
+- **Animations**: Use CSS keyframes + `IntersectionObserver` for staggered reveal effects.
+- **Glassmorphism**: Refactor `AuthCard.css` to use the global glassmorphism tokens.
+- **Consistency**: Final pass to ensure all CTA buttons use the premium gradient and hover states.
