@@ -7,7 +7,10 @@ import {
     LoginOutlined,
     UserAddOutlined,
     BulbOutlined,
-    BulbFilled
+    BulbFilled,
+    InfoCircleOutlined,
+    DollarOutlined,
+    FileTextOutlined
 } from '@ant-design/icons';
 
 const { Header, Content, Footer } = AntLayout;
@@ -50,6 +53,21 @@ function PublicLayout() {
             label: <Link to="/">Home</Link>,
         },
         {
+            key: '/about',
+            icon: <InfoCircleOutlined />,
+            label: <Link to="/about">About</Link>,
+        },
+        {
+            key: '/#pricing',
+            icon: <DollarOutlined />,
+            label: <a href="/#pricing">Pricing</a>,
+        },
+        {
+            key: '/legal',
+            icon: <FileTextOutlined />,
+            label: <Link to="/legal">Legal</Link>,
+        },
+        {
             key: '/login',
             icon: <LoginOutlined />,
             label: <Link to="/login">Login</Link>,
@@ -65,10 +83,16 @@ function PublicLayout() {
         <ConfigProvider
             theme={{
                 algorithm: isDarkMode ? theme.darkAlgorithm : theme.defaultAlgorithm,
+                token: {
+                    colorPrimary: '#6366f1',
+                    borderRadius: 8,
+                    fontFamily: 'Inter, system-ui, sans-serif',
+                },
             }}
         >
             <AntLayout style={{ minHeight: '100vh' }}>
                 <Header
+                    className={`glass-header ${isDarkMode ? 'dark' : ''}`}
                     style={{
                         position: 'sticky',
                         top: 0,
@@ -78,8 +102,6 @@ function PublicLayout() {
                         alignItems: 'center',
                         justifyContent: 'space-between',
                         padding: '0 24px',
-                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-                        background: isDarkMode ? '#001529' : '#ffffff',
                     }}
                 >
                     {/* Logo Placeholder */}
