@@ -13,7 +13,8 @@ import {
     FileTextOutlined
 } from '@ant-design/icons';
 
-const { Header, Content, Footer } = AntLayout;
+const { Header, Content } = AntLayout;
+import Footer from '../../components/Footer.jsx';
 
 function PublicLayout() {
     const [drawerVisible, setDrawerVisible] = useState(false);
@@ -221,19 +222,7 @@ function PublicLayout() {
                 </Content>
 
                 {/* Footer */}
-                <Footer
-                    style={{
-                        textAlign: 'center',
-                        padding: '24px 50px',
-                    }}
-                >
-                    <div style={{ marginBottom: '8px' }}>
-                        MyApp ©{new Date().getFullYear()} Created with ❤️
-                    </div>
-                    <div style={{ fontSize: '12px', opacity: 0.7 }}>
-                        Built with React & Ant Design
-                    </div>
-                </Footer>
+                <Footer />
             </AntLayout>
         </ConfigProvider>
     );

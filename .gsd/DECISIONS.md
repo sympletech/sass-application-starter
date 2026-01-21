@@ -29,3 +29,18 @@
 - **Features**: 4-column grid for key starter capabilities.
 - **Pricing**: Responsive 4-card layout with a "Most Popular" highlight on the Startup/Pro tier.
 - **Anchor**: Implement scroll-to-id behavior for the "Pricing" nav link.
+
+---
+
+## Phase 3 Decisions
+
+**Date:** 2026-01-20
+
+### Scope
+- **Footer Columns**: 4 columns (Product, Company, Legal, Socials).
+- **About Page**: Focus on "Product Mission".
+- **Legal Content**: Standard SaaS boilerplate for Privacy/Terms.
+
+### Approach
+- **Componentization**: Move the Footer into a standalone `@client/src/components/Footer.jsx` component.
+- **Layout Integrity**: Ensure the footer styling matches the premium aesthetic of the header and cards.
