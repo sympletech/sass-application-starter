@@ -1,17 +1,12 @@
 # Project State
 
 ## Last Session Summary
-Codebase mapping complete.
-- Identified standard SaaS architecture with Express/React.
-- Significant integration with Stripe for trial-based subscriptions.
-- Dynamic route registration system discovered in backend.
-- Typos and minor technical debt noted in `ARCHITECTURE.md`.
+Project initialized and mapping completed. Found a solid Stripe/Express/React starter. Defined project scope to add premium landing pages (Home, About, Legal) and refine the public layout.
 
 ## Current Roadmap Position
-- **Phase**: Mapping
+- **Phase**: Initialization
 - **Status**: Completed
 
 ## Next Steps
-1. Run `/new-project` to complete the initialization flow (now that mapping is done).
-2. Define `SPEC.md` based on user requirements.
-3. Create `ROADMAP.md`.
+1. Execute Phase 1: Foundation & Header.
+2. Update `PublicLayout.jsx` and `index.css`.
