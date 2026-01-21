@@ -14,10 +14,12 @@ import Legal from './pages/Legal.jsx'
 import LoggedInLayout from './layouts/logged-in/LoggedInLayout.jsx'
 import Dashboard from './pages/dashboard/Dashboard.jsx'
 import Profile from './pages/profile/Profile.jsx'
+import ScrollToTop from './components/ScrollToTop.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<PublicLayout />}>
           <Route index element={<Home />} />

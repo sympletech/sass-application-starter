@@ -4,8 +4,6 @@
     align-items: center;
     justify-content: center;
     padding: 20px;
-    background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.05), transparent),
-        radial-gradient(circle at bottom left, rgba(168, 85, 247, 0.05), transparent);
 }
 
 .auth-card {
