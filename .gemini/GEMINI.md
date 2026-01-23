@@ -121,8 +121,3 @@ After each task  → Update STATE.md
 After 3 failures → State dump + fresh session
 Before "Done"    → Empirical proof captured
 ```
-
----
-
-*GSD Methodology adapted for Google Antigravity*
-*Source: https://github.com/glittercowboy/get-shit-done*

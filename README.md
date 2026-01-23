@@ -1,3 +1,50 @@
+# Sympletech Application Starter
+
+This is a premium SaaS starter template designed for high-end web applications.
+
+## Development Methodology (GSD)
+
+This project uses the **GSD (Get Shit Done)** methodology — a spec-driven, context-engineered development flow designed for building reliable software with AI.
+
+### 🚀 Core Workflow
+
+1.  **Map (`/map`)**: Analyze the codebase structure and update documentation.
+2.  **Plan (`/plan [N]`)**: Decompose requirements into executable tasks for a specific phase.
+3.  **Execute (`/execute [N]`)**: Implement the phase with atomic commits and focused context.
+4.  **Verify (`/verify [N]`)**: Validate the implementation against the spec with empirical evidence.
+
+### 🎮 Essential Commands
+
+| Command | Description |
+| :--- | :--- |
+| `/new-project` | Initialize a new project and create `SPEC.md`. |
+| `/progress` | Show current position in the roadmap and next steps. |
+| `/debug [desc]` | Systematic debugging with persistent state. |
+| `/pause` | Save state for context handoff between sessions. |
+| `/resume` | Restore context from a previous session. |
+| `/help` | List all 25+ available GSD commands. |
+
+### 🔒 The Planning Lock
+
+To ensure high-quality development, implementation code is locked until:
+- `.gsd/SPEC.md` contains **"Status: FINALIZED"**
+- `.gsd/ROADMAP.md` exists and contains defined phases.
+
+### 💡 Typical Session
+
+```bash
+/resume            # Load context from last session
+/progress          # See where you left off
+/plan 2            # Plan the next phase
+/execute 2         # Implement with atomic commits
+/verify 2          # Prove it works (screenshots, logs)
+/pause             # Save state for later
+```
+
+For more details, visit the [GSD for Antigravity](https://github.com/toonight/get-shit-done-for-antigravity) repository.
+
+---
+
 ## How to set up Google Auth
 
 1. Go to the Google Cloud Console (https://console.cloud.google.com/)

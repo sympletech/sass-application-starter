@@ -5,56 +5,14 @@ import {
     SafetyCertificateOutlined,
     CreditCardOutlined,
     CodeOutlined,
-    CheckOutlined,
     ArrowRightOutlined
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
-import heroImage from '../assets/hero.png';
+import heroImage from '@client/assets/hero.png';
 
 const { Title, Paragraph, Text } = Typography;
 
-const PricingCard = ({ title, price, features, mostPopular = false }) => (
-    <Card
-        className={`glass-card ${mostPopular ? 'premium-border' : ''}`}
-        style={{
-            height: '100%',
-            borderRadius: '16px',
-            textAlign: 'center',
-            display: 'flex',
-            flexDirection: 'column'
-        }}
-    >
-        {mostPopular && (
-            <Badge.Ribbon text="Most Popular" color="#6366f1">
-                <div style={{ height: '0' }} />
-            </Badge.Ribbon>
-        )}
-        <Space direction="vertical" size="large" style={{ width: '100%', flex: 1 }}>
-            <Title level={3}>{title}</Title>
-            <div style={{ margin: '20px 0' }}>
-                <Title level={1} style={{ margin: 0, display: 'inline' }}>{price}</Title>
-                <Text type="secondary" style={{ fontSize: '18px' }}>/mo</Text>
-            </div>
-            <ul style={{ listStyle: 'none', padding: 0, textAlign: 'left', marginBottom: '30px' }}>
-                {features.map((f, i) => (
-                    <li key={i} style={{ marginBottom: '12px' }}>
-                        <CheckOutlined style={{ color: '#6366f1', marginRight: '8px' }} />
-                        <Text>{f}</Text>
-                    </li>
-                ))}
-            </ul>
-        </Space>
-        <Button
-            type={mostPopular ? "primary" : "default"}
-            size="large"
-            block
-            className={mostPopular ? "premium-button-primary" : ""}
-            style={{ borderRadius: '8px', height: '48px' }}
-        >
-            Get Started
-        </Button>
-    </Card>
-);
+import PricingCard from './sub-components/PricingCard.jsx';
 
 const FeatureCard = ({ icon, title, description }) => (
     <Card bordered={false} className="glass-card" style={{ textAlign: 'center', height: '100%', borderRadius: '16px' }}>
