@@ -6,6 +6,6 @@
     flex-direction: 'column';
 
     &.premium-border {
-        border: 2px solid #6366f1 !important;
+        border: 2px solid var(--color-brand-500) !important;
     }
 }

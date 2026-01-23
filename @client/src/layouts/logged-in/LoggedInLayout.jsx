@@ -64,6 +64,13 @@ function LoggedInLayout() {
         setDrawerVisible(false);
     }, [location]);
 
+    // Sync CSS variables with selected theme
+    useEffect(() => {
+        const root = document.documentElement;
+        root.dataset.theme = isDarkMode ? 'dark' : 'light';
+        root.classList.toggle('dark', isDarkMode);
+    }, [isDarkMode]);
+
     const toggleDrawer = () => {
         setDrawerVisible(!drawerVisible);
     };
@@ -145,8 +152,8 @@ function LoggedInLayout() {
                         alignItems: 'center',
                         justifyContent: 'space-between',
                         padding: '0 24px',
-                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-                        background: isDarkMode ? '#001529' : '#ffffff',
+                        boxShadow: 'var(--shadow-soft)',
+                        background: 'var(--surface-base)',
                     }}
                 >
                     {/* Logo Placeholder */}
@@ -161,12 +168,12 @@ function LoggedInLayout() {
                             style={{
                                 width: '40px',
                                 height: '40px',
-                                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                                background: 'var(--gradient-alt)',
                                 borderRadius: '8px',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
-                                color: 'white',
+                                color: 'var(--text-inverse)',
                                 fontWeight: 'bold',
                                 fontSize: '20px',
                                 marginRight: '12px',
@@ -176,7 +183,7 @@ function LoggedInLayout() {
                         </div>
                         <span
                             style={{
-                                color: isDarkMode ? '#fff' : 'rgba(0, 0, 0, 0.85)',
+                                color: isDarkMode ? 'var(--text-inverse)' : 'var(--text-strong)',
                                 fontSize: '18px',
                                 fontWeight: '600',
                                 display: isMobile ? 'none' : 'inline',
@@ -213,7 +220,7 @@ function LoggedInLayout() {
                             >
                                 <Avatar
                                     style={{
-                                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                                        background: 'var(--gradient-alt)',
                                         cursor: 'pointer',
                                     }}
                                     icon={<UserOutlined />}
@@ -240,7 +247,7 @@ function LoggedInLayout() {
                                 <Avatar
                                     size="small"
                                     style={{
-                                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                                        background: 'var(--gradient-alt)',
                                         cursor: 'pointer',
                                     }}
                                     icon={<UserOutlined />}
@@ -252,7 +259,7 @@ function LoggedInLayout() {
                                 onClick={toggleDrawer}
                                 style={{
                                     fontSize: '20px',
-                                    color: isDarkMode ? '#fff' : 'rgba(0, 0, 0, 0.85)',
+                                    color: isDarkMode ? 'var(--text-inverse)' : 'var(--text-strong)',
                                 }}
                             />
                         </div>

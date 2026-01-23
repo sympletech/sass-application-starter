@@ -6,13 +6,13 @@
 .auth-header h1 {
     font-size: 28px;
     font-weight: 700;
-    color: #1a1a1a;
+    color: var(--text-title);
     margin: 0 0 8px 0;
 }
 
 .auth-header p {
     font-size: 15px;
-    color: #666;
+    color: var(--text-muted);
     margin: 0;
 }
 

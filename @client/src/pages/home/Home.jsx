@@ -60,15 +60,15 @@ function Home() {
                     <Col xs={24} lg={12}>
                         <Space direction="vertical" size="large">
                             <Badge
-                                color="purple"
-                                text={<Text strong style={{ color: '#6366f1' }}>V1.0 ALPHA — JUST RELEASED</Text>}
-                                style={{ background: 'rgba(99, 102, 241, 0.1)', padding: '4px 12px', borderRadius: '100px' }}
+                                color="var(--color-brand-500)"
+                                text={<Text strong style={{ color: 'var(--color-brand-500)' }}>V1.0 ALPHA — JUST RELEASED</Text>}
+                                style={{ background: 'var(--glow-1)', padding: '4px 12px', borderRadius: '100px' }}
                             />
                             <Title style={{ fontSize: '64px', lineHeight: '1.1', fontWeight: 800, margin: 0 }}>
                                 The Ultimate Foundation for your <br />
                                 <span className="premium-gradient-text">Next Big Idea</span>
                             </Title>
-                            <Paragraph style={{ fontSize: '20px', color: '#64748b', maxWidth: '500px' }}>
+                            <Paragraph style={{ fontSize: '20px', color: 'var(--text-body)', maxWidth: '500px' }}>
                                 A premium SaaS starter kit built with React 19, Express 5, and Stripe.
                                 Scale your business faster with pre-built authentication, billing, and layouts.
                             </Paragraph>
@@ -87,7 +87,7 @@ function Home() {
                     <Col xs={24} lg={12}>
                         <div style={{
                             position: 'relative',
-                            boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
+                            boxShadow: 'var(--shadow-hero)',
                             borderRadius: '24px',
                             overflow: 'hidden',
                             transform: 'perspective(1000px) rotateY(-10deg) rotateX(2deg)'
@@ -102,7 +102,7 @@ function Home() {
             <section style={{ padding: '100px 0' }} className="reveal">
                 <div style={{ textAlign: 'center', marginBottom: '60px' }}>
                     <Title level={2}>Everything you need to ship.</Title>
-                    <Paragraph style={{ fontSize: '18px', color: '#64748b' }}>
+                    <Paragraph style={{ fontSize: '18px', color: 'var(--text-body)' }}>
                         Focus on your product, not the boilerplate logic.
                     </Paragraph>
                 </div>
@@ -142,7 +142,7 @@ function Home() {
             <section id="pricing" style={{ padding: '100px 0' }} className="reveal">
                 <div style={{ textAlign: 'center', marginBottom: '60px' }}>
                     <Title level={2}>Simple, transparent pricing.</Title>
-                    <Paragraph style={{ fontSize: '18px', color: '#64748b' }}>
+                    <Paragraph style={{ fontSize: '18px', color: 'var(--text-body)' }}>
                         Start for free and scale as you grow.
                     </Paragraph>
                 </div>

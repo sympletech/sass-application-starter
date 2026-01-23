@@ -38,6 +38,13 @@ function PublicLayout() {
         setDrawerVisible(false);
     }, [location]);
 
+    // Sync CSS variables with selected theme
+    useEffect(() => {
+        const root = document.documentElement;
+        root.dataset.theme = isDarkMode ? 'dark' : 'light';
+        root.classList.toggle('dark', isDarkMode);
+    }, [isDarkMode]);
+
     const toggleDrawer = () => {
         setDrawerVisible(!drawerVisible);
     };
@@ -85,7 +92,7 @@ function PublicLayout() {
             theme={{
                 algorithm: isDarkMode ? theme.darkAlgorithm : theme.defaultAlgorithm,
                 token: {
-                    colorPrimary: '#6366f1',
+                    colorPrimary: 'var(--color-brand-500)',
                     borderRadius: 8,
                     fontFamily: 'Inter, system-ui, sans-serif',
                 },
@@ -117,12 +124,12 @@ function PublicLayout() {
                             style={{
                                 width: '40px',
                                 height: '40px',
-                                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                                background: 'var(--gradient-alt)',
                                 borderRadius: '8px',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
-                                color: 'white',
+                                color: 'var(--text-inverse)',
                                 fontWeight: 'bold',
                                 fontSize: '20px',
                                 marginRight: '12px',
@@ -132,7 +139,7 @@ function PublicLayout() {
                         </div>
                         <span
                             style={{
-                                color: isDarkMode ? '#fff' : 'rgba(0, 0, 0, 0.85)',
+                                color: isDarkMode ? 'var(--text-inverse)' : 'var(--text-strong)',
                                 fontSize: '18px',
                                 fontWeight: '600',
                                 display: isMobile ? 'none' : 'inline',
@@ -181,7 +188,7 @@ function PublicLayout() {
                                 onClick={toggleDrawer}
                                 style={{
                                     fontSize: '20px',
-                                    color: isDarkMode ? '#fff' : 'rgba(0, 0, 0, 0.85)',
+                                    color: isDarkMode ? 'var(--text-inverse)' : 'var(--text-strong)',
                                 }}
                             />
                         </div>

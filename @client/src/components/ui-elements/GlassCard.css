@@ -8,7 +8,7 @@
 
     &:hover {
         transform: translateY(-12px) scale(1.02);
-        box-shadow: 0 30px 60px rgba(99, 102, 241, 0.15) !important;
+        box-shadow: var(--shadow-glass-hover) !important;
     }
 }
 

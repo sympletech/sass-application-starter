@@ -3,9 +3,9 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    border: 1px solid #dadce0;
-    background: white;
-    color: #3c4043;
+    border: 1px solid var(--surface-border-soft);
+    background: var(--surface-base);
+    color: var(--text-strong-alt);
     font-weight: 500;
     font-size: 14px;
     height: 44px;
@@ -19,6 +19,6 @@
 }
 
 .oauth-button:hover {
-    border-color: #b0b3b8;
-    background: #f8f9fa;
+    border-color: var(--surface-border-strong);
+    background: var(--surface-subtle);
 }

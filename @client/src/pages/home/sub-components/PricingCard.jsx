@@ -19,7 +19,7 @@ const PricingCard = ({ title, price, features, mostPopular = false }) => (
         {mostPopular && (
             <Badge.Ribbon
                 text="Most Popular"
-                color="#6366f1"
+                color="var(--color-brand-500)"
             />
         )}
         <Space direction="vertical" size="large" style={{ width: '100%', flex: 1 }}>
@@ -31,7 +31,7 @@ const PricingCard = ({ title, price, features, mostPopular = false }) => (
             <ul style={{ listStyle: 'none', padding: 0, textAlign: 'left', marginBottom: '30px' }}>
                 {features.map((f, i) => (
                     <li key={i} style={{ marginBottom: '12px' }}>
-                        <CheckOutlined style={{ color: '#6366f1', marginRight: '8px' }} />
+                        <CheckOutlined style={{ color: 'var(--color-brand-500)', marginRight: '8px' }} />
                         <Text>{f}</Text>
                     </li>
                 ))}

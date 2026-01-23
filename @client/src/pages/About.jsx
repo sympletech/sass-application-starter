@@ -23,7 +23,7 @@ const About = () => {
                 <Title className="premium-gradient-text" style={{ fontSize: '56px', fontWeight: 800 }}>
                     Our Mission
                 </Title>
-                <Paragraph style={{ fontSize: '20px', color: '#64748b', maxWidth: '700px', margin: '0 auto' }}>
+                <Paragraph style={{ fontSize: '20px', color: 'var(--text-body)', maxWidth: '700px', margin: '0 auto' }}>
                     Empowering developers to build and scale their visions without getting bogged down by the boilerplate.
                 </Paragraph>
             </div>
@@ -45,15 +45,15 @@ const About = () => {
                     <Card className="glass-card" style={{ borderRadius: '24px', padding: '20px' }}>
                         <Space direction="vertical" size="large">
                             <div>
-                                <Title level={4}><RocketOutlined style={{ color: '#6366f1' }} /> Speed to Market</Title>
+                                <Title level={4}><RocketOutlined style={{ color: 'var(--color-brand-500)' }} /> Speed to Market</Title>
                                 <Text type="secondary">Go from idea to production in hours, not weeks.</Text>
                             </div>
                             <div>
-                                <Title level={4}><HeartOutlined style={{ color: '#6366f1' }} /> Developer First</Title>
+                                <Title level={4}><HeartOutlined style={{ color: 'var(--color-brand-500)' }} /> Developer First</Title>
                                 <Text type="secondary">Clean code, documented APIs, and a stack you'll love.</Text>
                             </div>
                             <div>
-                                <Title level={4}><TeamOutlined style={{ color: '#6366f1' }} /> Scalable Choice</Title>
+                                <Title level={4}><TeamOutlined style={{ color: 'var(--color-brand-500)' }} /> Scalable Choice</Title>
                                 <Text type="secondary">Built to handle your first user and your millionth.</Text>
                             </div>
                         </Space>
@@ -65,7 +65,7 @@ const About = () => {
 
             <div style={{ textAlign: 'center' }}>
                 <Title level={2}>Our Vision</Title>
-                <Paragraph style={{ fontSize: '18px', color: '#64748b', maxWidth: '800px', margin: '0 auto' }}>
+                <Paragraph style={{ fontSize: '18px', color: 'var(--text-body)', maxWidth: '800px', margin: '0 auto' }}>
                     We believe that the future of software development lies in abstraction.
                     By providing the core pillars of any application as a service, we free up human potential
                     to focus on what truly matters: **innovation**.
