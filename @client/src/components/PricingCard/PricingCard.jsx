@@ -21,7 +21,7 @@ const PricingCard = ({ title, price, features, mostPopular, className }) => {
         >
             {mostPopular && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                    <Badge count="Most Popular" style={{ backgroundColor: 'var(--color-brand-500)' }} />
+                    <Badge count="Most Popular" color="var(--color-brand-500)" />
                 </div>
             )}
             <Title level={3} className="mt-4">{title}</Title>

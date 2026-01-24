@@ -49,6 +49,7 @@ function LoggedInLayout() {
                 }
                 setAuthLoading(false);
             } catch (error) {
+                console.error('Auth check failed', error);
                 navigate('/login');
             }
         };
@@ -138,8 +139,7 @@ function LoggedInLayout() {
         >
             <AntLayout className="min-h-screen">
                 <Header
-                    className="sticky top-0 z-[1000] w-full flex items-center justify-between px-6 shadow-soft bg-surface-base border-b border-surface-border"
-                    style={{ height: '64px' }}
+                    className="sticky top-0 z-[1000] w-full h-16 flex items-center justify-between px-6 shadow-soft bg-surface-base border-b border-surface-border"
                 >
                     {/* Logo Section */}
                     <Link to="/@" className="flex items-center h-full no-underline">

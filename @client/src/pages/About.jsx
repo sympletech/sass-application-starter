@@ -34,7 +34,7 @@ const About = () => {
                             We decided to fix that once and for all.
                         </Paragraph>
                         <Paragraph className="text-lg leading-relaxed">
-                            Sympletech was born as a "SaaS Foundation" — a rock-solid, opinionated starter kit that
+                            Sympletech was born as a &quot;SaaS Foundation&quot; — a rock-solid, opinionated starter kit that
                             combines the best of modern tech with the ease of a unified platform.
                         </Paragraph>
                     </Col>
@@ -51,7 +51,7 @@ const About = () => {
                                     <Title level={4} className="flex items-center gap-2">
                                         <HeartOutlined className="text-brand-500" /> Developer First
                                     </Title>
-                                    <Text type="secondary">Clean code, documented APIs, and a stack you'll love.</Text>
+                                    <Text type="secondary">Clean code, documented APIs, and a stack you&apos;ll love.</Text>
                                 </div>
                                 <div className="flex flex-col">
                                     <Title level={4} className="flex items-center gap-2">

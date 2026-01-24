@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
-    "./index.html",
+    "./@client/index.html",
     "./@client/src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
@@ -36,6 +36,26 @@ export default {
           faint: 'var(--text-faint)',
           inverse: 'var(--text-inverse)',
           'strong-alt': 'var(--text-strong-alt)',
+        },
+        state: {
+          success: 'var(--state-success)',
+          'success-soft': 'var(--state-success-soft)',
+          warning: 'var(--state-warning)',
+          'warning-soft': 'var(--state-warning-soft)',
+          danger: 'var(--state-danger)',
+          'danger-soft': 'var(--state-danger-soft)',
+          info: 'var(--state-info)',
+          'info-soft': 'var(--state-info-soft)',
+        },
+        glass: {
+          bg: 'var(--glass-bg)',
+          border: 'var(--glass-border)',
+          'bg-dark': 'var(--glass-bg-dark)',
+          'border-dark': 'var(--glass-border-dark)',
+        },
+        glow: {
+          1: 'var(--glow-1)',
+          2: 'var(--glow-2)',
         }
       },
       fontFamily: {

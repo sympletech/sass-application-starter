@@ -100,8 +100,7 @@ function PublicLayout() {
         >
             <AntLayout className="min-h-screen">
                 <Header
-                    className={`glass-header sticky top-0 z-[1000] w-full flex items-center justify-between px-6 ${isDarkMode ? 'dark' : ''}`}
-                    style={{ height: '64px' }}
+                    className={`glass-header sticky top-0 z-[1000] w-full h-16 flex items-center justify-between px-6 ${isDarkMode ? 'dark' : ''}`}
                 >
                     {/* Logo Section */}
                     <Link to="/" className="flex items-center h-full no-underline">

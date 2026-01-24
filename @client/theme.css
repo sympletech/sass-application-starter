@@ -35,6 +35,16 @@
   --glass-bg-dark: rgba(15, 23, 42, 0.7);
   --glass-border-dark: rgba(255, 255, 255, 0.1);
 
+  /* States */
+  --state-success: #16a34a;
+  --state-success-soft: rgba(22, 163, 74, 0.12);
+  --state-warning: #f59e0b;
+  --state-warning-soft: rgba(245, 158, 11, 0.12);
+  --state-danger: #ef4444;
+  --state-danger-soft: rgba(239, 68, 68, 0.12);
+  --state-info: #0ea5e9;
+  --state-info-soft: rgba(14, 165, 233, 0.12);
+
   /* Gradients */
   --gradient-primary: linear-gradient(135deg, var(--color-brand-500) 0%, var(--color-accent-500) 100%);
   --gradient-primary-hover: linear-gradient(135deg, var(--color-brand-600) 0%, var(--color-accent-600) 100%);
@@ -83,6 +93,15 @@
   --glass-bg: rgba(15, 23, 42, 0.7);
   --glass-border: rgba(255, 255, 255, 0.1);
   --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.35);
+
+  --state-success: #22c55e;
+  --state-success-soft: rgba(34, 197, 94, 0.14);
+  --state-warning: #fbbf24;
+  --state-warning-soft: rgba(251, 191, 36, 0.16);
+  --state-danger: #f87171;
+  --state-danger-soft: rgba(248, 113, 113, 0.16);
+  --state-info: #38bdf8;
+  --state-info-soft: rgba(56, 189, 248, 0.16);
 
   --shadow-hero: 0 20px 40px rgba(0, 0, 0, 0.45);
   --shadow-button-hover: 0 4px 12px rgba(0, 0, 0, 0.45);

@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import './AuthCard.css';
 
 function AuthCard({ children }) {
     return (

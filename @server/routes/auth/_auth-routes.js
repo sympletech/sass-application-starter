@@ -46,7 +46,7 @@ const requireAuth = async (req, { allowInactive = false } = {}) => {
     let objectId;
     try {
         objectId = new ObjectId(userId);
-    } catch (_err) {
+    } catch {
         const err = new Error('Invalid session');
         err.status = 401;
         err.redirect = '/login';

@@ -28,7 +28,7 @@
 - Move inline `style={{...}}` props to external `.css` files or Tailwind classes.
 
 ### Phase 3: Theming & Visual Consistency
-**Status**: ⬜ Not Started
+**Status**: 🔄 In Progress
 **Objective**: Enforce the design system by removing hardcoded values.
 - Audit code for hex codes and color literals.
 - Replace instances with `var(--theme-var)` from `theme.css`.

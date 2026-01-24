@@ -9,13 +9,11 @@ const AppSection = ({
     children,
     className,
     id,
-    reveal,
-    style
+    reveal
 }) => {
     return (
         <section
             id={id}
-            style={style}
             className={classNames(
                 'py-20 lg:py-24 relative',
                 { 'reveal': reveal },
@@ -32,14 +30,12 @@ AppSection.propTypes = {
     className: PropTypes.string,
     id: PropTypes.string,
     reveal: PropTypes.bool,
-    style: PropTypes.object,
 };
 
 AppSection.defaultProps = {
     className: '',
     id: '',
     reveal: true,
-    style: {},
 };
 
 export default AppSection;
