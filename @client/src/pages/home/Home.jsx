@@ -8,6 +8,7 @@ import {
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import heroImage from '@client/assets/hero.png';
+import './Home.css';
 
 // Hooks
 import { useReveal } from '@client/hooks/useReveal.js';
@@ -24,7 +25,7 @@ function Home() {
     useReveal();
 
     return (
-        <div className="overflow-hidden">
+        <div className="Home overflow-hidden">
             {/* HERO SECTION */}
             <AppSection reveal={false} className="pt-20 lg:pt-32">
                 <div className="glow-bg" />

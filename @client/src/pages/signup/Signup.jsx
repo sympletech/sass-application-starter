@@ -10,6 +10,7 @@ import AuthHeader from '@client/components/auth/AuthHeader.jsx';
 import SocialAuthButtons from '@client/components/auth/SocialAuthButtons.jsx';
 import PaymentForm from '@client/components/auth/PaymentForm.jsx';
 import { postData, getData } from '@client/lib/use-api.js';
+import { handleApiError } from '@client/lib/error-utils.js';
 
 function Signup() {
     const [form] = Form.useForm();
@@ -76,11 +77,7 @@ function Signup() {
                 window.location.href = '/@';
             }
         } catch (error) {
-            if (error.response?.data?.error) {
-                message.error(error.response.data.error);
-            } else if (error.message) {
-                message.error(error.message);
-            }
+            handleApiError(error, 'Signup failed. Please try again.');
         } finally {
             setIsSubmitting(false);
         }

@@ -7,6 +7,7 @@ import AuthCard from '@client/components/auth/AuthCard.jsx';
 import AuthHeader from '@client/components/auth/AuthHeader.jsx';
 import SocialAuthButtons from '@client/components/auth/SocialAuthButtons.jsx';
 import { postData } from '@client/lib/use-api.js';
+import { handleApiError } from '@client/lib/error-utils.js';
 
 function Login() {
     const [form] = Form.useForm();
@@ -27,11 +28,7 @@ function Login() {
                 }, 1500);
             }
         } catch (error) {
-            if (error.response?.data?.error) {
-                message.error(error.response.data.error);
-            } else {
-                message.error('Login failed. Please try again.');
-            }
+            handleApiError(error, 'Login failed. Please try again.');
         } finally {
             setLoading(false);
         }

@@ -5,6 +5,7 @@ import { Alert, Button, Form, Input, Typography, message } from 'antd';
 import AuthCard from '@client/components/auth/AuthCard.jsx';
 import AuthHeader from '@client/components/auth/AuthHeader.jsx';
 import { postData } from '@client/lib/use-api.js';
+import { handleApiError } from '@client/lib/error-utils.js';
 
 const { Paragraph, Text } = Typography;
 
@@ -34,11 +35,7 @@ function Reactivate() {
                 message.info(result?.message || 'Check your email to finish reactivation.');
             }
         } catch (err) {
-            if (err?.response?.data?.error) {
-                message.error(err.response.data.error);
-            } else {
-                message.error('Reactivation failed. Please try again.');
-            }
+            handleApiError(err, 'Reactivation failed. Please try again.');
         } finally {
             setLoading(false);
         }

@@ -1,0 +1,46 @@
+.AuthCard {
+  background: var(--glass-bg) !important;
+  backdrop-filter: var(--glass-blur) !important;
+  -webkit-backdrop-filter: var(--glass-blur) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: 24px;
+  padding: 48px 40px;
+  box-shadow: var(--glass-shadow) !important;
+  width: 100%;
+  max-width: 460px;
+  animation: slideUp 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.dark .AuthCard {
+  background: var(--glass-bg-dark) !important;
+  border: 1px solid var(--glass-border-dark) !important;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Auth Form Overrides */
+.AuthCard .ant-form-item-label>label {
+  font-weight: 500;
+  color: var(--text-title);
+}
+
+.AuthCard .ant-input-affix-wrapper,
+.AuthCard .ant-input {
+  border-radius: 8px;
+}
+
+.AuthCard .ant-divider {
+  margin: 24px 0;
+  color: var(--text-faint);
+  font-size: 13px;
+}

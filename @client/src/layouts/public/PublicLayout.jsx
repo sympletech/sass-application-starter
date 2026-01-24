@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { Layout as AntLayout, Menu, Button, Drawer, Switch, ConfigProvider, theme } from 'antd';
 import {
@@ -13,45 +12,22 @@ import {
     FileTextOutlined
 } from '@ant-design/icons';
 
+// Hooks
+import { useResponsive } from '@client/hooks/useResponsive.js';
+import { useTheme } from '@client/hooks/useTheme.js';
+import { useDrawer } from '@client/hooks/useDrawer.js';
+
+// Components
+import Logo from '@client/components/Logo/Logo.jsx';
+import Footer from '@client/components/Footer.jsx';
+
 const { Header, Content } = AntLayout;
-import Footer from '../../components/Footer.jsx';
 
 function PublicLayout() {
-    const [drawerVisible, setDrawerVisible] = useState(false);
-    const [isDarkMode, setIsDarkMode] = useState(false);
-    const [isMobile, setIsMobile] = useState(false);
     const location = useLocation();
-
-    // Handle responsive behavior
-    useEffect(() => {
-        const handleResize = () => {
-            setIsMobile(window.innerWidth < 768);
-        };
-
-        handleResize();
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
-
-    // Close drawer when route changes
-    useEffect(() => {
-        setDrawerVisible(false);
-    }, [location]);
-
-    // Sync CSS variables with selected theme
-    useEffect(() => {
-        const root = document.documentElement;
-        root.dataset.theme = isDarkMode ? 'dark' : 'light';
-        root.classList.toggle('dark', isDarkMode);
-    }, [isDarkMode]);
-
-    const toggleDrawer = () => {
-        setDrawerVisible(!drawerVisible);
-    };
-
-    const toggleTheme = () => {
-        setIsDarkMode(!isDarkMode);
-    };
+    const { isMobile } = useResponsive();
+    const { isDarkMode, toggleTheme } = useTheme();
+    const { drawerVisible, toggleDrawer } = useDrawer();
 
     // Menu items configuration
     const menuItems = [
@@ -103,14 +79,7 @@ function PublicLayout() {
                     className={`glass-header sticky top-0 z-[1000] w-full h-16 flex items-center justify-between px-6 ${isDarkMode ? 'dark' : ''}`}
                 >
                     {/* Logo Section */}
-                    <Link to="/" className="flex items-center h-full no-underline">
-                        <div className="w-10 h-10 bg-gradient-alt rounded-lg flex items-center justify-center text-text-inverse font-bold text-xl mr-3 shadow-soft">
-                            S
-                        </div>
-                        <span className={`text-lg font-semibold ${isDarkMode ? 'text-text-inverse' : 'text-text-strong'} ${isMobile ? 'hidden' : 'inline'}`}>
-                            Sympletech
-                        </span>
-                    </Link>
+                    <Logo to="/" showText={!isMobile} isDarkMode={isDarkMode} />
 
                     {/* Desktop Navigation */}
                     {!isMobile && (

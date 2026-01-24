@@ -18,6 +18,7 @@ import {
 import axios from 'axios';
 
 import { apiBaseUrl, getData, postData } from '@client/lib/use-api.js';
+import { handleApiError } from '@client/lib/error-utils.js';
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -89,12 +90,10 @@ function Profile() {
             message.success('Profile updated');
             await loadProfile();
         } catch (err) {
-            if (err?.response?.data?.error) {
-                message.error(err.response.data.error);
-            } else if (err?.errorFields) {
+            if (err?.errorFields) {
                 // Validation error already shown by antd
             } else {
-                message.error('Failed to update profile');
+                handleApiError(err, 'Failed to update profile');
             }
         } finally {
             setSaving(false);
@@ -108,11 +107,7 @@ function Profile() {
             message.success('Trial converted to paid');
             await loadProfile();
         } catch (err) {
-            if (err?.response?.data?.error) {
-                message.error(err.response.data.error);
-            } else {
-                message.error('Unable to convert trial right now');
-            }
+            handleApiError(err, 'Failed to convert trial to paid');
         } finally {
             setActionLoading(null);
         }
@@ -141,11 +136,7 @@ function Profile() {
             message.success('Account canceled. Access will remain until period end.');
             await loadProfile();
         } catch (err) {
-            if (err?.response?.data?.error) {
-                message.error(err.response.data.error);
-            } else {
-                message.error('Unable to cancel account right now');
-            }
+            handleApiError(err, 'Failed to cancel subscription');
         } finally {
             setActionLoading(null);
         }

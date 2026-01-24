@@ -28,14 +28,14 @@
 - Move inline `style={{...}}` props to external `.css` files or Tailwind classes.
 
 ### Phase 3: Theming & Visual Consistency
-**Status**: 🔄 In Progress
+**Status**: ✅ Completed
 **Objective**: Enforce the design system by removing hardcoded values.
 - Audit code for hex codes and color literals.
 - Replace instances with `var(--theme-var)` from `theme.css`.
 - Ensure Tailwind uses the theme variables where possible (extend Tailwind config).
 
 ### Phase 4: Shared Logic & Final Polish
-**Status**: ⬜ Not Started
+**Status**: ✅ Completed
 **Objective**: DRY up the codebase and verify the refactor.
 - Identify duplicated logic (hooks, formatting utils) and move to `src/lib` or `src/hooks`.
 - Perform full regression testing to ensure no visual breakages.
