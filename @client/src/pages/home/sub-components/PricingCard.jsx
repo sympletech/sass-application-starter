@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 
-import { Typography, Button, Card, Badge, Space } from 'antd';
+import { Typography, Button, Badge, Space } from 'antd';
 import { CheckOutlined } from '@ant-design/icons';
 
 import GlassCard from '@client/components/ui-elements/GlassCard.jsx';
@@ -22,7 +22,11 @@ const PricingCard = ({ title, price, features, mostPopular = false }) => (
                 color="var(--color-brand-500)"
             />
         )}
-        <Space direction="vertical" size="large" style={{ width: '100%', flex: 1 }}>
+        <Space
+            orientation="vertical"
+            size="large"
+            style={{ width: '100%', flex: 1 }}
+        >
             <Title level={3}>{title}</Title>
             <div style={{ margin: '20px 0' }}>
                 <Title level={1} style={{ margin: 0, display: 'inline' }}>{price}</Title>

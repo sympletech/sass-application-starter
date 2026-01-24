@@ -55,12 +55,6 @@ This is a full-stack SaaS starter application designed for subscription-based se
 | MongoDB | DB | Data persistence for accounts and sessions |
 | Google/FB/Twitter | OAuth | Social authentication providers |
 
-## Technical Debt
-
-- **Dynamic Imports:** The use of `import.meta.dirname` and dynamic imports in `register-routes.js` might need careful handling in different environments.
-- **Naming Inconsistencies:** The file `@server/lib/regrister-oauth.js` has a typo in its name ("regrister").
-- **Error Handling:** Route handlers throw generic errors which are caught by the wrapper, but more specific error types could improve granularity.
-
 ## Conventions
 
 - **Naming:** Backend routes use `_*-routes.js` pattern for discovery. Frontend components use PascalCase.

@@ -98,6 +98,11 @@ A fresh context with documented state often immediately sees the solution.
 
 ---
 
+## Rule 4: Follow all rules and conventions
+
+- You must follow all rules and conventions described in `.gsd/RULES_AND_CONVENTIONS.md`
+
+
 ## Workflow Integration
 
 These rules integrate with the GSD workflows:
