@@ -1,6 +1,7 @@
 # RULES_AND_CONVENTIONS
 
 ## Front End
+- The Front End server is running on port 3001
 
 ### Styling
 
@@ -22,3 +23,6 @@
 - All Components need PropTypes
 - All Components need there props to be defaulted to initial values
 - All components should have a top level className wrapping the component that matches the name of the component
+
+## Back End
+- The Back End server is running on port 3000
