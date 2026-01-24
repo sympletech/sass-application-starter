@@ -1,12 +1,25 @@
-import './AuthHeader.css';
+import PropTypes from 'prop-types';
 
 function AuthHeader({ title, subtitle }) {
     return (
-        <div className="auth-header">
-            <h1>{title}</h1>
-            <p>{subtitle}</p>
+        <div className="text-center mb-8">
+            <h1 className="text-3xl font-extrabold text-text-strong mb-2 tracking-tight">
+                {title}
+            </h1>
+            <p className="text-text-body text-base">
+                {subtitle}
+            </p>
         </div>
     );
 }
+
+AuthHeader.propTypes = {
+    title: PropTypes.string.isRequired,
+    subtitle: PropTypes.string,
+};
+
+AuthHeader.defaultProps = {
+    subtitle: '',
+};
 
 export default AuthHeader;

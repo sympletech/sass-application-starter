@@ -12,69 +12,63 @@ const { Title, Text } = Typography;
 
 const Footer = () => {
     return (
-        <AntFooter style={{ padding: '60px 40px 20px', background: 'transparent' }}>
-            <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        <AntFooter className="px-10 pt-16 pb-5 bg-transparent">
+            <div className="max-w-[1200px] mx-auto">
                 <Row gutter={[32, 32]}>
                     <Col xs={24} sm={12} md={6}>
-                        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
-                            <div style={{
-                                width: '32px',
-                                height: '32px',
-                                background: 'var(--primary-gradient)',
-                                borderRadius: '6px',
-                                marginRight: '10px'
-                            }} />
-                            <Title level={4} style={{ margin: 0 }}>Sympletech</Title>
+                        <div className="flex items-center mb-5">
+                            <div className="w-8 h-8 bg-gradient-primary rounded-md mr-3" />
+                            <Title level={4} className="m-0">Sympletech</Title>
                         </div>
-                        <Text type="secondary">
+                        <Text className="text-text-body">
                             Building the next generation of SaaS starters. Fast, secure, and ready to scale.
                         </Text>
-                        <Space style={{ marginTop: '20px', fontSize: '20px' }} size="middle">
-                            <TwitterOutlined className="premium-gradient-text" style={{ cursor: 'pointer' }} />
-                            <GithubOutlined className="premium-gradient-text" style={{ cursor: 'pointer' }} />
-                            <LinkedinOutlined className="premium-gradient-text" style={{ cursor: 'pointer' }} />
+                        <Space className="mt-5 text-xl" size="middle">
+                            <TwitterOutlined className="premium-gradient-text cursor-pointer hover:scale-110 transition-transform" />
+                            <GithubOutlined className="premium-gradient-text cursor-pointer hover:scale-110 transition-transform" />
+                            <LinkedinOutlined className="premium-gradient-text cursor-pointer hover:scale-110 transition-transform" />
                         </Space>
                     </Col>
 
                     <Col xs={12} sm={12} md={6}>
                         <Title level={5}>Product</Title>
-                        <ul style={{ listStyle: 'none', padding: 0 }}>
-                            <li style={{ marginBottom: '10px' }}><Link to="/"><Text type="secondary">Features</Text></Link></li>
-                            <li style={{ marginBottom: '10px' }}><a href="/#pricing"><Text type="secondary">Pricing</Text></a></li>
-                            <li style={{ marginBottom: '10px' }}><Text type="secondary">Documentation</Text></li>
-                            <li style={{ marginBottom: '10px' }}><Text type="secondary">Changelog</Text></li>
+                        <ul className="list-none p-0 m-0">
+                            <li className="mb-2"><Link to="/"><Text type="secondary" className="hover:text-brand-500 transition-colors">Features</Text></Link></li>
+                            <li className="mb-2"><a href="/#pricing"><Text type="secondary" className="hover:text-brand-500 transition-colors">Pricing</Text></a></li>
+                            <li className="mb-2"><Text type="secondary" className="cursor-not-allowed">Documentation</Text></li>
+                            <li className="mb-2"><Text type="secondary" className="cursor-not-allowed">Changelog</Text></li>
                         </ul>
                     </Col>
 
                     <Col xs={12} sm={12} md={6}>
                         <Title level={5}>Company</Title>
-                        <ul style={{ listStyle: 'none', padding: 0 }}>
-                            <li style={{ marginBottom: '10px' }}><Link to="/about"><Text type="secondary">About Us</Text></Link></li>
-                            <li style={{ marginBottom: '10px' }}><Text type="secondary">Careers</Text></li>
-                            <li style={{ marginBottom: '10px' }}><Text type="secondary">Contact</Text></li>
-                            <li style={{ marginBottom: '10px' }}><Text type="secondary">Blog</Text></li>
+                        <ul className="list-none p-0 m-0">
+                            <li className="mb-2"><Link to="/about"><Text type="secondary" className="hover:text-brand-500 transition-colors">About Us</Text></Link></li>
+                            <li className="mb-2"><Text type="secondary" className="cursor-not-allowed">Careers</Text></li>
+                            <li className="mb-2"><Text type="secondary" className="cursor-not-allowed">Contact</Text></li>
+                            <li className="mb-2"><Text type="secondary" className="cursor-not-allowed">Blog</Text></li>
                         </ul>
                     </Col>
 
                     <Col xs={24} sm={12} md={6}>
                         <Title level={5}>Legal</Title>
-                        <ul style={{ listStyle: 'none', padding: 0 }}>
-                            <li style={{ marginBottom: '10px' }}><Link to="/legal"><Text type="secondary">Privacy Policy</Text></Link></li>
-                            <li style={{ marginBottom: '10px' }}><Link to="/legal"><Text type="secondary">Terms of Service</Text></Link></li>
-                            <li style={{ marginBottom: '10px' }}><Text type="secondary">Cookie Policy</Text></li>
+                        <ul className="list-none p-0 m-0">
+                            <li className="mb-2"><Link to="/legal"><Text type="secondary" className="hover:text-brand-500 transition-colors">Privacy Policy</Text></Link></li>
+                            <li className="mb-2"><Link to="/legal"><Text type="secondary" className="hover:text-brand-500 transition-colors">Terms of Service</Text></Link></li>
+                            <li className="mb-2"><Text type="secondary" className="cursor-not-allowed">Cookie Policy</Text></li>
                         </ul>
                     </Col>
                 </Row>
 
-                <Divider style={{ margin: '40px 0 20px' }} />
+                <Divider className="my-10 mt-10 mb-5" />
 
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
-                    <Text type="secondary" style={{ fontSize: '13px' }}>
+                <div className="flex flex-wrap justify-between items-center gap-4">
+                    <Text className="text-text-muted text-[13px]">
                         © {new Date().getFullYear()} Sympletech Inc. All rights reserved.
                     </Text>
-                    <Space size="large" style={{ marginTop: '10px' }}>
-                        <Text type="secondary" style={{ fontSize: '13px', display: 'flex', alignItems: 'center' }}>
-                            <GlobalOutlined style={{ marginRight: '4px' }} /> English (US)
+                    <Space size="large">
+                        <Text type="secondary" className="text-[13px] flex items-center">
+                            <GlobalOutlined className="mr-1" /> English (US)
                         </Text>
                     </Space>
                 </div>

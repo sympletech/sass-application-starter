@@ -3,15 +3,13 @@ import { Form, Input, message, Divider } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 
 import AuthCard from '@client/components/auth/AuthCard.jsx';
 import AuthHeader from '@client/components/auth/AuthHeader.jsx';
 import SocialAuthButtons from '@client/components/auth/SocialAuthButtons.jsx';
 import PaymentForm from '@client/components/auth/PaymentForm.jsx';
 import { postData, getData } from '@client/lib/use-api.js';
-
-import './Signup.css';
 
 function Signup() {
     const [form] = Form.useForm();
@@ -47,7 +45,7 @@ function Signup() {
         if (emailParam) formValues.email = emailParam;
         if (firstNameParam) formValues.firstName = firstNameParam;
         if (lastNameParam) formValues.lastName = lastNameParam;
-        
+
         if (Object.keys(formValues).length > 0) {
             form.setFieldsValue(formValues);
         }
@@ -75,7 +73,6 @@ function Signup() {
 
             if (result.success) {
                 message.success(result.message);
-                // Redirect to dashboard
                 window.location.href = '/@';
             }
         } catch (error) {
@@ -99,7 +96,7 @@ function Signup() {
             {!isSocialSignup && (
                 <>
                     <SocialAuthButtons mode="signup" showDivider={false} />
-                    <Divider plain>OR</Divider>
+                    <Divider plain className="text-text-faint text-xs my-8">OR</Divider>
                 </>
             )}
 
@@ -109,32 +106,25 @@ function Signup() {
                 layout="vertical"
                 requiredMark={false}
                 initialValues={{ email: emailParam }}
+                autoComplete="off"
             >
-                <Form.Item
-                    name="firstName"
-                    label="First Name"
-                    rules={[
-                        { required: true, message: 'Please input your first name!' }
-                    ]}
-                >
-                    <Input
-                        placeholder="Enter your first name"
-                        size="large"
-                    />
-                </Form.Item>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
+                    <Form.Item
+                        name="firstName"
+                        label="First Name"
+                        rules={[{ required: true, message: 'Please input your first name!' }]}
+                    >
+                        <Input placeholder="Enter first" size="large" className="rounded-lg h-12" />
+                    </Form.Item>
 
-                <Form.Item
-                    name="lastName"
-                    label="Last Name"
-                    rules={[
-                        { required: true, message: 'Please input your last name!' }
-                    ]}
-                >
-                    <Input
-                        placeholder="Enter your last name"
-                        size="large"
-                    />
-                </Form.Item>
+                    <Form.Item
+                        name="lastName"
+                        label="Last Name"
+                        rules={[{ required: true, message: 'Please input your last name!' }]}
+                    >
+                        <Input placeholder="Enter last" size="large" className="rounded-lg h-12" />
+                    </Form.Item>
+                </div>
 
                 <Form.Item
                     name="email"
@@ -145,10 +135,11 @@ function Signup() {
                     ]}
                 >
                     <Input
-                        prefix={<UserOutlined />}
+                        prefix={<UserOutlined className="text-text-faint" />}
                         placeholder="Enter your email"
                         size="large"
                         disabled={isSocialSignup}
+                        className="rounded-lg h-12"
                     />
                 </Form.Item>
 
@@ -162,25 +153,15 @@ function Signup() {
                                 { min: 8, message: 'Password must be at least 8 characters!' },
                                 {
                                     validator: (_, value) => {
-                                        if (!value) {
-                                            return Promise.resolve();
-                                        }
-                                        const hasUpperCase = /[A-Z]/.test(value);
-                                        const hasLowerCase = /[a-z]/.test(value);
-                                        const hasNumber = /[0-9]/.test(value);
-                                        const hasSpecialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(value);
-                                        
-                                        if (!hasUpperCase) {
-                                            return Promise.reject(new Error('Password must contain at least one uppercase letter!'));
-                                        }
-                                        if (!hasLowerCase) {
-                                            return Promise.reject(new Error('Password must contain at least one lowercase letter!'));
-                                        }
-                                        if (!hasNumber) {
-                                            return Promise.reject(new Error('Password must contain at least one number!'));
-                                        }
-                                        if (!hasSpecialChar) {
-                                            return Promise.reject(new Error('Password must contain at least one special character!'));
+                                        if (!value) return Promise.resolve();
+                                        const checks = [
+                                            /[A-Z]/.test(value),
+                                            /[a-z]/.test(value),
+                                            /[0-9]/.test(value),
+                                            /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(value)
+                                        ];
+                                        if (checks.filter(Boolean).length < 4) {
+                                            return Promise.reject(new Error('Password must contain uppercase, lowercase, number, and special character!'));
                                         }
                                         return Promise.resolve();
                                     }
@@ -188,9 +169,10 @@ function Signup() {
                             ]}
                         >
                             <Input.Password
-                                prefix={<LockOutlined />}
+                                prefix={<LockOutlined className="text-text-faint" />}
                                 placeholder="Create a password"
                                 size="large"
+                                className="rounded-lg h-12"
                             />
                         </Form.Item>
 
@@ -211,33 +193,38 @@ function Signup() {
                             ]}
                         >
                             <Input.Password
-                                prefix={<LockOutlined />}
+                                prefix={<LockOutlined className="text-text-faint" />}
                                 placeholder="Confirm your password"
                                 size="large"
+                                className="rounded-lg h-12"
                             />
                         </Form.Item>
                     </>
                 )}
 
-                {stripePromise && clientSecret ? (
-                    <Elements stripe={stripePromise} options={{ clientSecret }}>
-                        <PaymentForm
-                            onPaymentMethodCreated={handleSignup}
-                            loading={isSubmitting}
-                        />
-                    </Elements>
-                ) : (
-                    <div style={{ textAlign: 'center', padding: '20px' }}>Loading payment secure form...</div>
-                )}
+                <div className="mt-6 border-t border-surface-border pt-8">
+                    {stripePromise && clientSecret ? (
+                        <Elements stripe={stripePromise} options={{ clientSecret }}>
+                            <PaymentForm
+                                onPaymentMethodCreated={handleSignup}
+                                loading={isSubmitting}
+                            />
+                        </Elements>
+                    ) : (
+                        <div className="text-center py-6 text-text-body bg-surface-muted rounded-xl">
+                            Loading secure payment form...
+                        </div>
+                    )}
+                </div>
             </Form>
 
-            <div className="login-footer">
-                <p>Already have an account? <a href="/login">Sign in</a></p>
+            <div className="mt-10 text-center">
+                <p className="text-text-muted text-sm">
+                    Already have an account? <Link to="/login" className="text-brand-500 font-semibold hover:underline">Sign in</Link>
+                </p>
             </div>
         </AuthCard>
     );
 }
 
 export default Signup;
-
-

@@ -21,7 +21,7 @@
 - Define a "Refactoring Standard" (e.g., how to name new CSS files, usage of `theme.css`).
 
 ### Phase 2: Component Extraction & Cleanup
-**Status**: ⬜ Not Started
+**Status**: ✅ Completed
 **Objective**: Systematically break down large pages/components and remove inline styles.
 - Audit `src/pages` for large components.
 - Extract reusable parts to `src/components` (e.g., Cards, Buttons, Inputs).

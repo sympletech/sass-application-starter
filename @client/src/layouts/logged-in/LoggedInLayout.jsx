@@ -40,19 +40,15 @@ function LoggedInLayout() {
             try {
                 const user = await getData('/auth/me');
                 if (!user || !user.email) {
-                    // Not authenticated
                     navigate('/login');
                     return;
                 }
                 if (user.inactive) {
-                    // Inactive account - redirect to reactivate
                     navigate(`/reactivate?email=${encodeURIComponent(user.email)}`);
                     return;
                 }
-                // Authenticated and active
                 setAuthLoading(false);
             } catch (error) {
-                // If /auth/me fails (401, etc.), redirect to login
                 navigate('/login');
             }
         };
@@ -120,7 +116,6 @@ function LoggedInLayout() {
         },
     ];
 
-    // Show loading spinner while checking auth
     if (authLoading) {
         return (
             <ConfigProvider
@@ -128,7 +123,7 @@ function LoggedInLayout() {
                     algorithm: isDarkMode ? theme.darkAlgorithm : theme.defaultAlgorithm,
                 }}
             >
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+                <div className="flex justify-center items-center min-h-screen">
                     <Spin size="large" />
                 </div>
             </ConfigProvider>
@@ -141,71 +136,29 @@ function LoggedInLayout() {
                 algorithm: isDarkMode ? theme.darkAlgorithm : theme.defaultAlgorithm,
             }}
         >
-            <AntLayout style={{ minHeight: '100vh' }}>
+            <AntLayout className="min-h-screen">
                 <Header
-                    style={{
-                        position: 'sticky',
-                        top: 0,
-                        zIndex: 1000,
-                        width: '100%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        padding: '0 24px',
-                        boxShadow: 'var(--shadow-soft)',
-                        background: 'var(--surface-base)',
-                    }}
+                    className="sticky top-0 z-[1000] w-full flex items-center justify-between px-6 shadow-soft bg-surface-base border-b border-surface-border"
+                    style={{ height: '64px' }}
                 >
-                    {/* Logo Placeholder */}
-                    <div
-                        style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            height: '100%',
-                        }}
-                    >
-                        <div
-                            style={{
-                                width: '40px',
-                                height: '40px',
-                                background: 'var(--gradient-alt)',
-                                borderRadius: '8px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                color: 'var(--text-inverse)',
-                                fontWeight: 'bold',
-                                fontSize: '20px',
-                                marginRight: '12px',
-                            }}
-                        >
-                            L
+                    {/* Logo Section */}
+                    <Link to="/@" className="flex items-center h-full no-underline">
+                        <div className="w-10 h-10 bg-gradient-alt rounded-lg flex items-center justify-center text-text-inverse font-bold text-xl mr-3 shadow-soft">
+                            S
                         </div>
-                        <span
-                            style={{
-                                color: isDarkMode ? 'var(--text-inverse)' : 'var(--text-strong)',
-                                fontSize: '18px',
-                                fontWeight: '600',
-                                display: isMobile ? 'none' : 'inline',
-                            }}
-                        >
-                            Sympletech Application Starter
+                        <span className={`text-lg font-semibold ${isDarkMode ? 'text-text-inverse' : 'text-text-strong'} ${isMobile ? 'hidden' : 'inline'}`}>
+                            Sympletech
                         </span>
-                    </div>
+                    </Link>
 
                     {/* Desktop Navigation */}
                     {!isMobile && (
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flex: 1, justifyContent: 'flex-end' }}>
+                        <div className="flex items-center gap-4 flex-1 justify-end">
                             <Menu
                                 mode="horizontal"
                                 selectedKeys={[location.pathname]}
                                 items={menuItems}
-                                style={{
-                                    flex: 1,
-                                    minWidth: 0,
-                                    border: 'none',
-                                    justifyContent: 'flex-end',
-                                }}
+                                className="flex-1 min-w-0 border-none justify-end bg-transparent"
                             />
                             <Switch
                                 checked={isDarkMode}
@@ -219,10 +172,7 @@ function LoggedInLayout() {
                                 trigger={['click']}
                             >
                                 <Avatar
-                                    style={{
-                                        background: 'var(--gradient-alt)',
-                                        cursor: 'pointer',
-                                    }}
+                                    className="bg-gradient-alt cursor-pointer shadow-soft"
                                     icon={<UserOutlined />}
                                 />
                             </Dropdown>
@@ -231,7 +181,7 @@ function LoggedInLayout() {
 
                     {/* Mobile Navigation Toggle */}
                     {isMobile && (
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <div className="flex items-center gap-3">
                             <Switch
                                 checked={isDarkMode}
                                 onChange={toggleTheme}
@@ -246,10 +196,7 @@ function LoggedInLayout() {
                             >
                                 <Avatar
                                     size="small"
-                                    style={{
-                                        background: 'var(--gradient-alt)',
-                                        cursor: 'pointer',
-                                    }}
+                                    className="bg-gradient-alt cursor-pointer shadow-soft"
                                     icon={<UserOutlined />}
                                 />
                             </Dropdown>
@@ -257,10 +204,7 @@ function LoggedInLayout() {
                                 type="text"
                                 icon={<MenuOutlined />}
                                 onClick={toggleDrawer}
-                                style={{
-                                    fontSize: '20px',
-                                    color: isDarkMode ? 'var(--text-inverse)' : 'var(--text-strong)',
-                                }}
+                                className={`text-xl ${isDarkMode ? 'text-text-inverse' : 'text-text-strong'}`}
                             />
                         </div>
                     )}
@@ -278,38 +222,23 @@ function LoggedInLayout() {
                         mode="vertical"
                         selectedKeys={[location.pathname]}
                         items={menuItems}
-                        style={{ border: 'none' }}
+                        className="border-none"
                     />
                 </Drawer>
 
                 {/* Main Content */}
-                <Content
-                    style={{
-                        padding: '24px',
-                        minHeight: 'calc(100vh - 64px - 70px)',
-                    }}
-                >
-                    <div
-                        style={{
-                            maxWidth: '1200px',
-                            margin: '0 auto',
-                        }}
-                    >
+                <Content className="p-6 md:p-8">
+                    <div className="max-w-[1200px] mx-auto min-h-[calc(100vh-64px-140px)]">
                         <Outlet />
                     </div>
                 </Content>
 
                 {/* Footer */}
-                <Footer
-                    style={{
-                        textAlign: 'center',
-                        padding: '24px 50px',
-                    }}
-                >
-                    <div style={{ marginBottom: '8px' }}>
-                        MyApp ©{new Date().getFullYear()} Created with ❤️
+                <Footer className="text-center py-8">
+                    <div className="mb-2 text-text-strong font-medium">
+                        Sympletech ©{new Date().getFullYear()} Created with ❤️
                     </div>
-                    <div style={{ fontSize: '12px', opacity: 0.7 }}>
+                    <div className="text-xs text-text-muted">
                         Built with React & Ant Design
                     </div>
                 </Footer>

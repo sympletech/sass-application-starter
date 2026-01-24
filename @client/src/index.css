@@ -24,6 +24,25 @@ body {
   border-bottom: 1px solid var(--glass-border-dark) !important;
 }
 
+.glass-card {
+  background: var(--glass-bg) !important;
+  backdrop-filter: var(--glass-blur) !important;
+  -webkit-backdrop-filter: var(--glass-blur) !important;
+  border: 1px solid var(--glass-border) !important;
+  box-shadow: var(--glass-shadow) !important;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease !important;
+}
+
+.glass-card:hover {
+  transform: translateY(-8px) scale(1.01);
+  box-shadow: var(--shadow-glass-hover) !important;
+}
+
+.dark .glass-card {
+  background: var(--glass-bg-dark) !important;
+  border: 1px solid var(--glass-border-dark) !important;
+}
+
 .premium-gradient-text {
   background: var(--primary-gradient);
   -webkit-background-clip: text;
@@ -66,6 +85,23 @@ body {
 
 .ant-menu-horizontal>.ant-menu-item-selected {
   font-weight: 600 !important;
+}
+
+/* Auth Pages Overrides */
+.auth-card .ant-form-item-label>label {
+  font-weight: 500;
+  color: var(--text-title);
+}
+
+.auth-card .ant-input-affix-wrapper,
+.auth-card .ant-input {
+  border-radius: 8px;
+}
+
+.auth-card .ant-divider {
+  margin: 24px 0;
+  color: var(--text-faint);
+  font-size: 13px;
 }
 
 /* Layout Utilities */

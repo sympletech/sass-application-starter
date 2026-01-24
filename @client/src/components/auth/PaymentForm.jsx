@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 import { PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { Button, message } from 'antd';
 
@@ -7,14 +8,13 @@ function PaymentForm({ onPaymentMethodCreated, loading }) {
     const elements = useElements();
     const [isStripeLoaded, setIsStripeLoaded] = useState(false);
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = async () => {
         if (!stripe || !elements) return;
 
         const { error, setupIntent } = await stripe.confirmSetup({
             elements,
             confirmParams: {
                 // No return_url needed if we handle the result manually for SetupIntents
-                // but Stripe sometimes requires it. We'll handle success/error here.
             },
             redirect: 'if_required'
         });
@@ -27,7 +27,7 @@ function PaymentForm({ onPaymentMethodCreated, loading }) {
     };
 
     return (
-        <div className="payment-form-container">
+        <div className="w-full">
             <PaymentElement onReady={() => setIsStripeLoaded(true)} />
             <Button
                 type="primary"
@@ -36,12 +36,21 @@ function PaymentForm({ onPaymentMethodCreated, loading }) {
                 onClick={handleSubmit}
                 loading={loading}
                 disabled={!isStripeLoaded}
-                style={{ marginTop: '24px' }}
+                className="mt-6 h-12 rounded-lg premium-button-primary border-none text-base"
             >
                 Start Free Trial
             </Button>
         </div>
     );
 }
+
+PaymentForm.propTypes = {
+    onPaymentMethodCreated: PropTypes.func.isRequired,
+    loading: PropTypes.bool,
+};
+
+PaymentForm.defaultProps = {
+    loading: false,
+};
 
 export default PaymentForm;

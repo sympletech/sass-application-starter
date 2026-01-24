@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 import { Alert, Button, Form, Input, Typography, message } from 'antd';
 
 import AuthCard from '@client/components/auth/AuthCard.jsx';
@@ -56,7 +56,7 @@ function Reactivate() {
                 showIcon
                 message="Why you’re here"
                 description="Your account was previously canceled or marked inactive. Reactivate below to continue using the app."
-                style={{ marginBottom: 16 }}
+                className="mb-6 rounded-lg"
             />
 
             <Form
@@ -65,6 +65,7 @@ function Reactivate() {
                 name="reactivate"
                 requiredMark={false}
                 onFinish={onFinish}
+                autoComplete="off"
             >
                 <Form.Item
                     name="email"
@@ -73,23 +74,37 @@ function Reactivate() {
                         { required: true, message: 'Please enter your email' },
                         { type: 'email', message: 'Please enter a valid email' },
                     ]}
+                    className="mb-8"
                 >
-                    <Input placeholder="you@example.com" size="large" />
+                    <Input
+                        placeholder="you@example.com"
+                        size="large"
+                        className="rounded-lg h-12"
+                    />
                 </Form.Item>
 
                 <Form.Item>
-                    <Button type="primary" htmlType="submit" block size="large" loading={loading}>
+                    <Button
+                        type="primary"
+                        htmlType="submit"
+                        block
+                        size="large"
+                        loading={loading}
+                        className="premium-button-primary h-12 text-base shadow-soft"
+                    >
                         Reactivate account
                     </Button>
                 </Form.Item>
             </Form>
 
-            <Paragraph style={{ textAlign: 'center', marginBottom: 0 }}>
-                Need to sign in instead? <a href="/login">Back to login</a>
-            </Paragraph>
-            <Text type="secondary" style={{ display: 'block', textAlign: 'center', marginTop: 8 }}>
-                After reactivation, you’ll be redirected to your account.
-            </Text>
+            <div className="mt-8 text-center space-y-3">
+                <Paragraph className="m-0 text-text-muted">
+                    Need to sign in instead? <Link to="/login" className="text-brand-500 font-semibold hover:underline">Back to login</Link>
+                </Paragraph>
+                <Text type="secondary" className="block text-xs text-text-faint">
+                    After reactivation, you’ll be redirected to your account.
+                </Text>
+            </div>
         </AuthCard>
     );
 }

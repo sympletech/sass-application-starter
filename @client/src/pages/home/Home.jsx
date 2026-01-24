@@ -1,5 +1,4 @@
-import { useEffect } from 'react';
-import { Typography, Button, Row, Col, Card, Badge, Space } from 'antd';
+import { Typography, Button, Row, Col, Badge, Space } from 'antd';
 import {
     RocketOutlined,
     SafetyCertificateOutlined,
@@ -10,99 +9,66 @@ import {
 import { Link } from 'react-router-dom';
 import heroImage from '@client/assets/hero.png';
 
+// Hooks
+import { useReveal } from '@client/hooks/useReveal.js';
+
+// Components
+import AppSection from '@client/components/AppSection/AppSection.jsx';
+import FeatureCard from '@client/components/FeatureCard/FeatureCard.jsx';
+import PricingCard from '@client/components/PricingCard/PricingCard.jsx';
+
 const { Title, Paragraph, Text } = Typography;
 
-import PricingCard from './sub-components/PricingCard.jsx';
-
-const FeatureCard = ({ icon, title, description }) => (
-    <Card bordered={false} className="glass-card" style={{ textAlign: 'center', height: '100%', borderRadius: '16px' }}>
-        <div style={{
-            fontSize: '40px',
-            background: 'var(--primary-gradient)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            marginBottom: '20px'
-        }}>
-            {icon}
-        </div>
-        <Title level={4}>{title}</Title>
-        <Paragraph type="secondary">{description}</Paragraph>
-    </Card>
-);
-
 function Home() {
-    useEffect(() => {
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('reveal-visible');
-                }
-            });
-        }, observerOptions);
-
-        const revealElements = document.querySelectorAll('.reveal');
-        revealElements.forEach(el => observer.observe(el));
-
-        return () => observer.disconnect();
-    }, []);
+    // Initialize reveal animations
+    useReveal();
 
     return (
-        <div style={{ overflow: 'hidden' }}>
+        <div className="overflow-hidden">
             {/* HERO SECTION */}
-            <section style={{ padding: '80px 0', position: 'relative' }}>
+            <AppSection reveal={false} className="pt-20 lg:pt-32">
                 <div className="glow-bg" />
                 <Row gutter={[48, 48]} align="middle">
                     <Col xs={24} lg={12}>
-                        <Space direction="vertical" size="large">
+                        <Space direction="vertical" size="large" className="w-full">
                             <Badge
                                 color="var(--color-brand-500)"
-                                text={<Text strong style={{ color: 'var(--color-brand-500)' }}>V1.0 ALPHA — JUST RELEASED</Text>}
-                                style={{ background: 'var(--glow-1)', padding: '4px 12px', borderRadius: '100px' }}
+                                text={<Text strong className="text-brand-500">V1.0 ALPHA — JUST RELEASED</Text>}
+                                className="bg-brand-500/10 px-3 py-1 rounded-full border border-brand-500/20"
                             />
-                            <Title style={{ fontSize: '64px', lineHeight: '1.1', fontWeight: 800, margin: 0 }}>
+                            <Title className="text-[48px] md:text-[64px] leading-tight font-extrabold m-0">
                                 The Ultimate Foundation for your <br />
                                 <span className="premium-gradient-text">Next Big Idea</span>
                             </Title>
-                            <Paragraph style={{ fontSize: '20px', color: 'var(--text-body)', maxWidth: '500px' }}>
+                            <Paragraph className="text-xl text-text-body max-w-[500px]">
                                 A premium SaaS starter kit built with React 19, Express 5, and Stripe.
                                 Scale your business faster with pre-built authentication, billing, and layouts.
                             </Paragraph>
-                            <Space size="middle">
+                            <Space size="middle" className="pt-4">
                                 <Link to="/signup">
-                                    <Button type="primary" size="large" className="premium-button-primary" style={{ height: '56px', padding: '0 32px' }}>
+                                    <Button type="primary" size="large" className="premium-button-primary h-14 px-8">
                                         Get Started For Free <ArrowRightOutlined />
                                     </Button>
                                 </Link>
-                                <Button size="large" style={{ height: '56px', padding: '0 32px', borderRadius: '8px' }}>
+                                <Button size="large" className="h-14 px-8 rounded-lg">
                                     View Demo
                                 </Button>
                             </Space>
                         </Space>
                     </Col>
                     <Col xs={24} lg={12}>
-                        <div style={{
-                            position: 'relative',
-                            boxShadow: 'var(--shadow-hero)',
-                            borderRadius: '24px',
-                            overflow: 'hidden',
-                            transform: 'perspective(1000px) rotateY(-10deg) rotateX(2deg)'
-                        }}>
-                            <img src={heroImage} alt="Dashboard Mockup" style={{ width: '100%', display: 'block' }} />
+                        <div className="relative shadow-hero rounded-[24px] overflow-hidden perspective-[1000px] rotate-y-[-10deg] rotate-x-[2deg]">
+                            <img src={heroImage} alt="Dashboard Mockup" className="w-full block" />
                         </div>
                     </Col>
                 </Row>
-            </section>
+            </AppSection>
 
             {/* FEATURES SECTION */}
-            <section style={{ padding: '100px 0' }} className="reveal">
-                <div style={{ textAlign: 'center', marginBottom: '60px' }}>
+            <AppSection>
+                <div className="text-center mb-16">
                     <Title level={2}>Everything you need to ship.</Title>
-                    <Paragraph style={{ fontSize: '18px', color: 'var(--text-body)' }}>
+                    <Paragraph className="text-lg text-text-body">
                         Focus on your product, not the boilerplate logic.
                     </Paragraph>
                 </div>
@@ -136,13 +102,13 @@ function Home() {
                         />
                     </Col>
                 </Row>
-            </section>
+            </AppSection>
 
             {/* PRICING SECTION */}
-            <section id="pricing" style={{ padding: '100px 0' }} className="reveal">
-                <div style={{ textAlign: 'center', marginBottom: '60px' }}>
+            <AppSection id="pricing">
+                <div className="text-center mb-16">
                     <Title level={2}>Simple, transparent pricing.</Title>
-                    <Paragraph style={{ fontSize: '18px', color: 'var(--text-body)' }}>
+                    <Paragraph className="text-lg text-text-body">
                         Start for free and scale as you grow.
                     </Paragraph>
                 </div>
@@ -177,7 +143,7 @@ function Home() {
                         />
                     </Col>
                 </Row>
-            </section>
+            </AppSection>
         </div>
     );
 }
