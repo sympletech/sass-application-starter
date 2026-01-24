@@ -1,13 +1,14 @@
 # Project State
 
 ## Last Session Summary
-Executed Phase 1 of Milestone v2.0. Installed Tailwind CSS v3, initialized configuration mapped to existing theme variables, and correctly injected Tailwind directives into `@client/src/index.css`. Standards documented in `REFACTORING_STANDARDS.md`.
+Completed Phase 1 (Tailwind setup & standards). Detailed Phase 2 plan for component extraction and inline style removal.
 
 ## Current Roadmap Position
 - **Milestone**: v2.0 - Client Refactor & Modernization
-- **Phase**: Phase 1: Foundation & Tailwind Integration
-- **Status**: ✅ Completed
+- **Phase**: Phase 2: Component Extraction & Cleanup
+- **Status**: ⏳ Ready for Execution
 
 ## Next Steps
-- [ ] Begin Phase 2: Component Extraction & Cleanup.
-- [ ] Run `/plan 2` to detail the extraction strategy.
+- [ ] Run `/execute 2` to begin component extraction.
+- [ ] Create `useReveal` hook.
+- [ ] Refactor `Home.jsx` using Tailwind and new components.
