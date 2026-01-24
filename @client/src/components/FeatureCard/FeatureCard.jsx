@@ -10,7 +10,7 @@ const { Title, Paragraph } = Typography;
  */
 const FeatureCard = ({ icon, title, description, className }) => (
     <Card
-        bordered={false}
+        variant="outlined"
         className={classNames("glass-card text-center h-full rounded-2xl", className)}
     >
         <div className="text-[40px] mb-5 premium-gradient-text inline-block">
