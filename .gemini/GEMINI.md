@@ -21,9 +21,9 @@
 **BEFORE writing any implementation code, you MUST verify:**
 
 ```
-✓ .project-plan/PROJECT-DESCRIPTION.md exists AND contains "Status: FINALIZED"
-✓ .project-plan/ROADMAP.md exists AND contains at least one incomplete task
-✓ .project-plan/CURRENT-TASK.md exists AND contains "Status: FINALIZED"
+.project-plan/PROJECT-DESCRIPTION.md exists AND contains "Status: FINALIZED"
+.project-plan/ROADMAP.md exists AND contains at least one incomplete task
+.project-plan/CURRENT-TASK.md exists AND contains "READY TO START: true"
 ```
 
 **If any of these conditions are not met:**
@@ -88,7 +88,6 @@
 
 ## Rule 7: Align with the existing codebase
 
-- Adhere to all rules described in the .project-plan/CODING-STANDARDS.md
 - Refer to the .project-plan/STATE.md to understand the existing project structure and align new code with it
 
 
@@ -115,11 +114,74 @@ Workflow argument-hint: "<project-name>"
 Workflow Path: .agent/skills/high-level-project-manager/SKILL.md
 ---
 
+# Basic Application Framework and Coding Rules
+
+The application is broken into a front end client application and a back end server application
+The Client is built in React and runs on port http://localhost:3001 in development
+The Server is built in NodeJS and run on port http://localhost:3000 in development
+All code is written in modern ES6 Javascript (NOT TYPESCRIPT)
+All imports use the "import" syntax not the require syntax
+All functions should be declared as arrow functions ex. 
+```
+    const myFunction = async ()=> {};
+```
+DO NOT Use classes, use functional programming
+All folders and files should use kebab-case or hyphen-case naming convention
+
+## @server core functionality
+@server/server.js is the main entry point - it runs an express server that serves the back end API and the built client application in production
+
+@server/lib/mongo-client.js is the mongo client that should be used for all database calls
+All collections should be added to the db.collections object
+```
+    db.collections = {
+        accounts: db.collection("accounts"),
+        sessions: db.collection("sessions"),
+        ... (new collections here)
+    };
+```
+
+All database operations should utilize the db.collections object
+```
+import { db } from '@server/lib/mongo-client.js';
+
+const myFunc = async ()=>{
+    const results = await db.collections.targetCollection.find({}).toArray();
+}
+
+```
+
+Routes are registered by @server/lib/register-routes.js
+Routes should be grouped into logical groupings in sub-folders under the @server/routes folder
+To add a new route to the backend API add a file that ends with '-routes.js' to a sub folder under @server/routes
+Route paths should match the folder structure
+Route handlers should be in separate files that match the route name
+
+Example route definition
+@server/routes/example/_example-routes.js
+```
+    import hello from './hello.js';
+
+    export default ({ get, post }) => {
+        get('/home/hello', hello);
+    };
+```
+@server/routes/example/hello.js
+```
+    export default async ({ name = 'world' }) => {
+        const response = `Hello ${name}`;
+        return response;
+    }
+```
+
+## @client core functionality
+
+
+
 # .project-plan framework
 
 You will utilize the .project-plan folder for all of your tasks.  The ..project-plan folder should include the following files:
 
-- .project-plan/CODING-STANDARDS.md
 - .project-plan/PROJECT-DESCRIPTION.md
 - .project-plan/ROADMAP.md
 - .project-plan/STATE.md
@@ -127,6 +189,7 @@ You will utilize the .project-plan folder for all of your tasks.  The ..project-
 - .project-plan/DEFECT-LIST.md
 - .project-plan/DONE-LIST.md
 
-# Reasoning Level
 
-You should seek to respond and act like Claude Opus 4.5 
+
+
+
