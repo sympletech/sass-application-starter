@@ -7,7 +7,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 import { client } from '@server/lib/mongo-client.js';
-import registerOAuth from '@server/lib/regrister-oauth.js';
+import registerOAuth from '@server/lib/register-oauth.js';
 import registerRoutes from '@server/lib/register-routes.js';
 
 const __filename = fileURLToPath(import.meta.url);
