@@ -5,10 +5,10 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import { useSearchParams, Link } from 'react-router-dom';
 
-import AuthCard from '@client/components/auth/AuthCard.jsx';
-import AuthHeader from '@client/components/auth/AuthHeader.jsx';
-import SocialAuthButtons from '@client/components/auth/SocialAuthButtons.jsx';
-import PaymentForm from '@client/components/auth/PaymentForm.jsx';
+import AuthCard from '@client/components/auth/auth-card.jsx';
+import AuthHeader from '@client/components/auth/auth-header.jsx';
+import SocialAuthButtons from '@client/components/auth/social-auth-buttons.jsx';
+import PaymentForm from '@client/components/auth/payment-form.jsx';
 import { postData, getData } from '@client/lib/use-api.js';
 import { handleApiError } from '@client/lib/error-utils.js';
 

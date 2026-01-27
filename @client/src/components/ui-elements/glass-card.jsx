@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { Card } from 'antd';
 
-import './GlassCard.css';
+import './glass-card.css';
 
 const GlassCard = ({
     children = <></>,

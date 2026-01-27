@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { Alert, Button, Form, Input, Typography, message } from 'antd';
 
-import AuthCard from '@client/components/auth/AuthCard.jsx';
-import AuthHeader from '@client/components/auth/AuthHeader.jsx';
+import AuthCard from '@client/components/auth/auth-card.jsx';
+import AuthHeader from '@client/components/auth/auth-header.jsx';
 import { postData } from '@client/lib/use-api.js';
 import { handleApiError } from '@client/lib/error-utils.js';
 

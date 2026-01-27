@@ -13,13 +13,13 @@ import {
 } from '@ant-design/icons';
 
 // Hooks
-import { useResponsive } from '@client/hooks/useResponsive.js';
-import { useTheme } from '@client/hooks/useTheme.js';
-import { useDrawer } from '@client/hooks/useDrawer.js';
+import { useResponsive } from '@client/hooks/use-responsive.js';
+import { useTheme } from '@client/hooks/use-theme.js';
+import { useDrawer } from '@client/hooks/use-drawer.js';
 
 // Components
-import Logo from '@client/components/Logo/Logo.jsx';
-import Footer from '@client/components/Footer.jsx';
+import Logo from '@client/components/Logo/logo.jsx';
+import Footer from '@client/components/footer.jsx';
 
 const { Header, Content } = AntLayout;
 

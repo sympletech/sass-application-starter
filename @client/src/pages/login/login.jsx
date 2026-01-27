@@ -3,9 +3,9 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import AuthCard from '@client/components/auth/AuthCard.jsx';
-import AuthHeader from '@client/components/auth/AuthHeader.jsx';
-import SocialAuthButtons from '@client/components/auth/SocialAuthButtons.jsx';
+import AuthCard from '@client/components/auth/auth-card.jsx';
+import AuthHeader from '@client/components/auth/auth-header.jsx';
+import SocialAuthButtons from '@client/components/auth/social-auth-buttons.jsx';
 import { postData } from '@client/lib/use-api.js';
 import { handleApiError } from '@client/lib/error-utils.js';
 

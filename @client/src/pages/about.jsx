@@ -2,10 +2,10 @@ import { Typography, Space, Card, Row, Col, Divider } from 'antd';
 import { RocketOutlined, HeartOutlined, TeamOutlined } from '@ant-design/icons';
 
 // Hooks
-import { useReveal } from '@client/hooks/useReveal.js';
+import { useReveal } from '@client/hooks/use-reveal.js';
 
 // Components
-import AppSection from '@client/components/AppSection/AppSection.jsx';
+import AppSection from '@client/components/AppSection/app-section.jsx';
 
 const { Title, Paragraph, Text } = Typography;
 

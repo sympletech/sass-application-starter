@@ -8,15 +8,15 @@ import {
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import heroImage from '@client/assets/hero.png';
-import './Home.css';
+import './home.css';
 
 // Hooks
-import { useReveal } from '@client/hooks/useReveal.js';
+import { useReveal } from '@client/hooks/use-reveal.js';
 
 // Components
-import AppSection from '@client/components/AppSection/AppSection.jsx';
-import FeatureCard from '@client/components/FeatureCard/FeatureCard.jsx';
-import PricingCard from '@client/components/PricingCard/PricingCard.jsx';
+import AppSection from '@client/components/AppSection/app-section.jsx';
+import FeatureCard from '@client/components/FeatureCard/feature-card.jsx';
+import PricingCard from '@client/components/PricingCard/pricing-card.jsx';
 
 const { Title, Paragraph, Text } = Typography;
 

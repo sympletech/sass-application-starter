@@ -1,4 +1,4 @@
-import deriveSubscriptionStatus from '../auth-helpers/derive-subscription-status.js';
+import deriveSubscriptionStatus from '@server/lib/derive-subscription-status.js';
 
 export default async (_params, { user }) => {
     const { plan, subscriptionStatus, cancelAtPeriodEnd } = await deriveSubscriptionStatus(user.subscriptionId);
