@@ -174,6 +174,25 @@ Example route definition
     }
 ```
 
+Routes that require the user to be logged in to access should use the securedGet and securedPost methods that are supplied to the _*-routes.js files.  A user object is provided to the route handler on the second parameter.
+
+Example secured route definition
+@server/routes/example/_example-routes.js
+```
+    import hello from './hello.js';
+
+    export default ({ securedGet, securedPost }) => {
+        securedGet('/home/hello', hello);
+    };
+```
+@server/routes/example/hello.js
+```
+    export default async (_params, {user}_) => {
+        const response = `Hello ${user.firstName} ${user.lastName} (${user.email})`;
+        return response;
+    }
+```
+
 ## @client core functionality
 
 
