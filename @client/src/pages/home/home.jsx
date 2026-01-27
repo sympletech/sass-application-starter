@@ -14,9 +14,9 @@ import './home.css';
 import { useReveal } from '@client/hooks/use-reveal.js';
 
 // Components
-import AppSection from '@client/components/AppSection/app-section.jsx';
-import FeatureCard from '@client/components/FeatureCard/feature-card.jsx';
-import PricingCard from '@client/components/PricingCard/pricing-card.jsx';
+import AppSection from '@client/components/app-section/app-section.jsx';
+import FeatureCard from '@client/components/feature-card/feature-card.jsx';
+import PricingCard from '@client/components/pricing-card/pricing-card.jsx';
 
 const { Title, Paragraph, Text } = Typography;
 

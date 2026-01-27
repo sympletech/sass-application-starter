@@ -18,7 +18,7 @@ import { useTheme } from '@client/hooks/use-theme.js';
 import { useDrawer } from '@client/hooks/use-drawer.js';
 
 // Components
-import Logo from '@client/components/Logo/logo.jsx';
+import Logo from '@client/components/logo/logo.jsx';
 import Footer from '@client/components/footer.jsx';
 
 const { Header, Content } = AntLayout;

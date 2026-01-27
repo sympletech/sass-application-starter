@@ -5,7 +5,7 @@ import { RocketOutlined, HeartOutlined, TeamOutlined } from '@ant-design/icons';
 import { useReveal } from '@client/hooks/use-reveal.js';
 
 // Components
-import AppSection from '@client/components/AppSection/app-section.jsx';
+import AppSection from '@client/components/app-section/app-section.jsx';
 
 const { Title, Paragraph, Text } = Typography;
 
