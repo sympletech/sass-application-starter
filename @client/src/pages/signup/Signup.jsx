@@ -26,7 +26,7 @@ function Signup() {
 
     useEffect(() => {
         // Fetch Stripe configuration
-        getData('/auth/stripe-config').then(config => {
+        getData('/account/stripe-config').then(config => {
             if (config.publishableKey) {
                 setStripePromise(loadStripe(config.publishableKey));
             }
@@ -35,7 +35,7 @@ function Signup() {
         });
 
         // Create SetupIntent
-        postData('/auth/stripe-create-setup-intent').then(res => {
+        postData('/account/stripe-create-setup-intent').then(res => {
             setClientSecret(res.clientSecret);
         }).catch(err => {
             console.error('Failed to create setup intent:', err);
@@ -70,7 +70,7 @@ function Signup() {
                 signupData.password = values.password;
             }
 
-            const result = await postData('/auth/signup', signupData);
+            const result = await postData('/account/signup', signupData);
 
             if (result.success) {
                 message.success(result.message);

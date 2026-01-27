@@ -103,7 +103,7 @@ function Profile() {
     const handleConvertToPaid = async () => {
         setActionLoading('convert');
         try {
-            await postData('/billing/convert-to-paid');
+            await postData('/account/convert-to-paid');
             message.success('Trial converted to paid');
             await loadProfile();
         } catch (err) {
@@ -116,7 +116,7 @@ function Profile() {
     const handleUpdateBilling = async () => {
         setActionLoading('billing');
         try {
-            const { url } = await postData('/billing/create-portal-session');
+            const { url } = await postData('/account/create-stripe-portal-session-url');
             window.open(url);
         } catch (err) {
             if (err?.response?.data?.error) {

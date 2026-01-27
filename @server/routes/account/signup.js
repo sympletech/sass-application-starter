@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import { db } from '@server/lib/mongo-client.js';
 import stripeClient from '@server/lib/stripe-client.js';
-import { clientBase, reactivateRedirect, loggedInRedirect } from './auth-helpers/path-helpers.js';
+import { clientBase, reactivateRedirect, loggedInRedirect } from '@server/lib/client-path-helpers.js';
 
 export default async ({
     email,
@@ -11,7 +11,7 @@ export default async ({
     oauthProvider,
     firstName,
     lastName
-}, req) => {
+}, { req }) => {
     if (!email || (!isSocial && !password) || !paymentMethodId) {
         throw new Error('Email, password, and payment method are required');
     }
