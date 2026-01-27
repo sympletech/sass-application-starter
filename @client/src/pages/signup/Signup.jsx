@@ -35,7 +35,7 @@ function Signup() {
         });
 
         // Create SetupIntent
-        postData('/auth/create-setup-intent').then(res => {
+        postData('/auth/stripe-create-setup-intent').then(res => {
             setClientSecret(res.clientSecret);
         }).catch(err => {
             console.error('Failed to create setup intent:', err);

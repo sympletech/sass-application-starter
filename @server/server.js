@@ -15,7 +15,8 @@ const __dirname = path.dirname(__filename);
 
 (async () => {
     const app = express();
-
+    app.use(express.json());
+    
     // Enable CORS for localhost:3001 for local development only
     app.use(cors({
         origin: 'http://localhost:3001',

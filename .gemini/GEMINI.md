@@ -153,7 +153,7 @@ const myFunc = async ()=>{
 
 Routes are registered by @server/lib/register-routes.js
 Routes should be grouped into logical groupings in sub-folders under the @server/routes folder
-To add a new route to the backend API add a file that ends with '-routes.js' to a sub folder under @server/routes
+To add a new route to the backend API add a file that begins with an underscore(_) and ends with '-routes.js' to a sub folder under @server/routes
 Route paths should match the folder structure
 Route handlers should be in separate files that match the route name
 
