@@ -195,6 +195,8 @@ Example secured route definition
 ## @client core functionality
 The Client is a React application that is styled using tailwind.css and uses the antd component library for all of the main UI components.
 
+IMPORTANT: One File = One Component -- multiple components should never be created in the same file
+
 @client/src/main.jsx is the main entry point and has all of the possible routes defined in it.
 @client/theme.css contains all of the colors and css variables that are used throughout the application.  Colors should never be hard coded in any css file or in a style tag, they should be defined in the theme.css and referenced by variable name.
 
@@ -247,7 +249,81 @@ export default Demo;
 
 ## Fetching Data From the Client ##
 
+-- SWR Style using useApiGet or useApiPost
+```
+import { useState } from 'react';
+import { useApiGet } from '@client/lib/use-api.js';
 
+const MyComponent = ()=>{
+    const [name, setName] = useState('Tester');
+    const [demo, loadingError, isLoading] = useApiGet('/api/demo', {
+        params: { name },
+        defaultValue: 'Loading...',
+    });
+
+    if(loadingError){
+        return <div>{loadingError}<div>
+    }
+
+    if(isLoading){
+        return <div>Loading...</div>
+    }
+
+    return (
+        <div>
+            {demo}
+            <input onChange={(evt)=>setName(evt.target.value)}>
+        </div>
+    )
+}
+
+```
+
+-- Async/Await style using getData or postData
+```
+import { useState, useEffect } from 'react';
+import { getData } from '@client/lib/use-api.js';
+
+const MyComponent = ()=>{
+    const [name, setName] = useState('Tester123');
+    const [demo, setDemo] = useState();
+    const [loadingError, setLoadingError] = useState();
+    const [isLoading, setIsLoading] = useState();
+
+    useEffect(() => {
+        setIsLoading(true);
+        setLoadingError(null);
+        (async () => {
+            try {
+                const demoUpdate = await getData('/api/demo', { name });
+                setDemo(demoUpdate);
+            } catch (err) {
+                setLoadingError(err);
+            } finally {
+                setIsLoading(false);
+            }
+        })();
+    }, [name]);    
+
+    if(loadingError){
+        return <div>{loadingError}<div>
+    }
+
+    if(isLoading){
+        return <div>Loading...</div>
+    }
+
+    return (
+        <div>
+            {demo}
+            <input onChange={(evt)=>setName(evt.target.value)}>
+        </div>
+    )
+}
+
+```
+
+PREFER SWR STYLE DATA LOADING AND ASYNC/AWAIT STYLE FOR POSTING UPDATES THAT ARE TRIGGERED BY USER ACTIONS.
 
 # .project-plan framework
 
