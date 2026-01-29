@@ -90,7 +90,6 @@
 
 - Refer to the .project-plan/STATE.md to understand the existing project structure and align new code with it
 
-
 # Skills
 
 You have the following skills that are available to you that help you perform specific tasks
@@ -194,6 +193,59 @@ Example secured route definition
 ```
 
 ## @client core functionality
+The Client is a React application that is styled using tailwind.css and uses the antd component library for all of the main UI components.
+
+@client/src/main.jsx is the main entry point and has all of the possible routes defined in it.
+@client/theme.css contains all of the colors and css variables that are used throughout the application.  Colors should never be hard coded in any css file or in a style tag, they should be defined in the theme.css and referenced by variable name.
+
+All reusable components that can be used in multiple places should be placed in @client/src/components
+All Pages should be placed in their own folder under @client/src/pages
+NO INLINE STYLES - all css styling needs to be done in separate css files
+
+EACH COMPONENT SHOULD BE STYLED BY IT's OWN SCOPED CSS FILE
+Example:
+@client/src/components/ui-elements/demo.jsx
+```
+import PropTypes from 'prop-types';
+import cx from 'classnames';
+
+import './demo.css';
+
+const Demo = ({
+    children = <></>,
+    className = ''
+}) => (
+    <div
+        className={cx('demo', className)}
+    >
+        <div className="content">
+            {children}
+        </div>
+    </div>
+);
+
+Demo.propTypes = {
+    children: PropTypes.node,
+    className: PropTypes.string
+};
+
+export default Demo;
+```
+
+@client/src/components/ui-elements/demo.css
+```
+.demo{
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    padding: 10px
+
+    .content{
+        background: var(--surface-base);
+    }
+}
+```
+
+## Fetching Data From the Client ##
 
 
 
