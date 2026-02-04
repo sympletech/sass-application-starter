@@ -193,34 +193,56 @@ Example secured route definition
 ```
 
 ## @client core functionality
-The Client is a React application that is styled using tailwind.css and uses the antd component library for all of the main UI components.
+The Client is a React 19 application that is styled using tailwind.css and uses the antd component library for all of the main UI components.
 
-IMPORTANT: One File = One Component -- multiple components should never be created in the same file
+### Core Principles
+- **One File = One Component** - Multiple components should never be created in the same file
+- **No Inline Styles** - All CSS styling should use Tailwind utility classes or separate CSS files
+- **No defaultProps** - Use default parameter values in function signatures instead (React 19 compatibility)
+- **Arrow Functions Only** - All components should be arrow functions, not function declarations
 
-@client/src/main.jsx is the main entry point and has all of the possible routes defined in it.
-@client/theme.css contains all of the colors and css variables that are used throughout the application.  Colors should never be hard coded in any css file or in a style tag, they should be defined in the theme.css and referenced by variable name.
-
-All reusable components that can be used in multiple places should be placed in @client/src/components
-All Pages should be placed in their own folder under @client/src/pages
-NO INLINE STYLES - all css styling needs to be done in separate css files
-
-EACH COMPONENT SHOULD BE STYLED BY IT's OWN SCOPED CSS FILE
-Example:
-@client/src/components/ui-elements/demo.jsx
+### Directory Structure
 ```
+@client/
+├── index.html          # HTML entry point
+├── theme.css           # Global CSS variables (colors, spacing, transitions, etc.)
+├── src/
+│   ├── main.jsx        # React entry point with route definitions
+│   ├── index.css       # Global styles, Tailwind imports, shared animations
+│   ├── assets/         # Static assets (images, fonts, etc.)
+│   ├── components/     # Reusable UI components (each in its own folder)
+│   ├── hooks/          # Custom React hooks
+│   ├── layouts/        # Layout components (public, logged-in)
+│   ├── lib/            # Utility functions and API helpers
+│   └── pages/          # Page components (each page in its own folder)
+```
+
+### Component Organization
+- All reusable components go in `@client/src/components/<component-name>/<component-name>.jsx`
+- Each component folder contains the component file and optional CSS file
+- Pages go in `@client/src/pages/<page-name>/<page-name>.jsx`
+- Pages can have sub-components in the same folder (e.g., section components)
+
+### Component Pattern
+Components should follow this pattern:
+
+@client/src/components/demo/demo.jsx
+```jsx
 import PropTypes from 'prop-types';
-import cx from 'classnames';
+import classNames from 'classnames';
 
 import './demo.css';
 
+/**
+ * Brief description of the component.
+ */
 const Demo = ({
     children = <></>,
-    className = ''
+    className = '',
+    variant = 'default'
 }) => (
-    <div
-        className={cx('demo', className)}
-    >
-        <div className="content">
+    <div className={classNames('demo', className, { 'demo--alt': variant === 'alt' })}>
+        <div className="demo__content">
             {children}
         </div>
     </div>
@@ -228,24 +250,40 @@ const Demo = ({
 
 Demo.propTypes = {
     children: PropTypes.node,
-    className: PropTypes.string
+    className: PropTypes.string,
+    variant: PropTypes.oneOf(['default', 'alt'])
 };
 
 export default Demo;
 ```
 
-@client/src/components/ui-elements/demo.css
-```
-.demo{
+@client/src/components/demo/demo.css
+```css
+.demo {
     background: var(--glass-bg);
     backdrop-filter: var(--glass-blur);
-    padding: 10px
+    padding: 10px;
 
-    .content{
+    .demo__content {
         background: var(--surface-base);
     }
 }
 ```
+
+### Theme Variables
+@client/theme.css contains all CSS custom properties. Never hardcode colors - always use variables:
+- **Colors:** `--color-brand-500`, `--text-body`, `--surface-base`, etc.
+- **Glass Effects:** `--glass-bg`, `--glass-blur`, `--glass-border`
+- **States:** `--state-success`, `--state-danger`, `--state-warning`
+- **Shadows:** `--shadow-soft`, `--shadow-hero`, `--shadow-glass-hover`
+- **Transitions:** `--transition-fast`, `--transition-normal`, `--transition-spring`
+- **Radii:** `--radius-sm`, `--radius-md`, `--radius-lg`, `--radius-xl`
+
+### Styling Approach
+1. **Prefer Tailwind classes** for layout, spacing, and common utilities
+2. **Use CSS files** for complex component-specific styles
+3. **Use CSS variables** from theme.css for all colors and design tokens
+4. **Combine with classNames** utility for conditional classes
 
 ## Fetching Data From the Client ##
 
