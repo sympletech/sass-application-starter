@@ -9,7 +9,13 @@ const { Title, Text } = Typography;
 /**
  * A reusable Pricing Card component.
  */
-const PricingCard = ({ title, price, features, mostPopular, className }) => {
+const PricingCard = ({
+    title = '',
+    price = '',
+    features = [],
+    mostPopular = false,
+    className = ''
+}) => {
     return (
         <Card
             className={classNames(
@@ -58,11 +64,6 @@ PricingCard.propTypes = {
     features: PropTypes.arrayOf(PropTypes.string).isRequired,
     mostPopular: PropTypes.bool,
     className: PropTypes.string,
-};
-
-PricingCard.defaultProps = {
-    mostPopular: false,
-    className: '',
 };
 
 export default PricingCard;

@@ -5,7 +5,13 @@ import { Button, Card, Form, Input } from 'antd';
  * Profile details card component.
  * Displays and allows editing of user profile information.
  */
-const ProfileDetailsCard = ({ form, profile, saving, onSaveProfile }) => {
+const ProfileDetailsCard = ({
+    form = null,
+    profile = null,
+    saving = false,
+
+    onSaveProfile = () => { }
+}) => {
     return (
         <Card
             title={<span className="font-semibold text-lg py-1 inline-block">Profile Details</span>}
@@ -69,11 +75,6 @@ ProfileDetailsCard.propTypes = {
     }),
     saving: PropTypes.bool,
     onSaveProfile: PropTypes.func.isRequired,
-};
-
-ProfileDetailsCard.defaultProps = {
-    profile: null,
-    saving: false,
 };
 
 export default ProfileDetailsCard;

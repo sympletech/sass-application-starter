@@ -8,7 +8,12 @@ const { Title, Paragraph } = Typography;
 /**
  * A reusable Feature Card component with a premium gradient icon.
  */
-const FeatureCard = ({ icon, title, description, className }) => (
+const FeatureCard = ({
+    icon = <></>,
+    title = '',
+    description = '',
+    className = ''
+}) => (
     <Card
         variant="outlined"
         className={classNames("glass-card text-center h-full rounded-2xl", className)}
@@ -26,10 +31,6 @@ FeatureCard.propTypes = {
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     className: PropTypes.string,
-};
-
-FeatureCard.defaultProps = {
-    className: '',
 };
 
 export default FeatureCard;

@@ -7,7 +7,13 @@ const { Title, Paragraph } = Typography;
  * A reusable section header component with consistent title and subtitle styling.
  * Used for section headings throughout the application.
  */
-const SectionHeader = ({ title, subtitle, level, centered, className }) => {
+const SectionHeader = ({
+    title = '',
+    subtitle = '',
+    level = 2,
+    centered = true,
+    className = ''
+}) => {
     return (
         <div className={`${centered ? 'text-center' : ''} mb-16 ${className}`}>
             <Title level={level}>{title}</Title>
@@ -26,13 +32,6 @@ SectionHeader.propTypes = {
     level: PropTypes.number,
     centered: PropTypes.bool,
     className: PropTypes.string,
-};
-
-SectionHeader.defaultProps = {
-    subtitle: '',
-    level: 2,
-    centered: true,
-    className: '',
 };
 
 export default SectionHeader;

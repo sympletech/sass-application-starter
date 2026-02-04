@@ -79,7 +79,7 @@ function PublicLayout() {
                     className={`glass-header sticky top-0 z-[1000] w-full h-16 flex items-center justify-between px-6 ${isDarkMode ? 'dark' : ''}`}
                 >
                     {/* Logo Section */}
-                    <Logo to="/" showText={!isMobile} isDarkMode={isDarkMode} />
+                    <Logo href="/" showText={!isMobile} isDarkMode={isDarkMode} />
 
                     {/* Desktop Navigation */}
                     {!isMobile && (

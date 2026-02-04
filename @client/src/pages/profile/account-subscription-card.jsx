@@ -9,12 +9,13 @@ const { Text } = Typography;
  * Displays account status, plan info, and subscription management actions.
  */
 const AccountSubscriptionCard = ({
-    profile,
-    actionLoading,
-    onConvertToPaid,
-    onUpdateBilling,
-    onCancelAccount,
-    onGoToReactivation,
+    profile = null,
+    actionLoading = null,
+
+    onConvertToPaid = () => { },
+    onUpdateBilling = () => { },
+    onCancelAccount = () => { },
+    onGoToReactivation = () => { },
 }) => {
     const planTag = useMemo(() => {
         if (!profile?.plan) return <Tag>Unknown</Tag>;
@@ -123,11 +124,6 @@ AccountSubscriptionCard.propTypes = {
     onUpdateBilling: PropTypes.func.isRequired,
     onCancelAccount: PropTypes.func.isRequired,
     onGoToReactivation: PropTypes.func.isRequired,
-};
-
-AccountSubscriptionCard.defaultProps = {
-    profile: null,
-    actionLoading: null,
 };
 
 export default AccountSubscriptionCard;

@@ -3,7 +3,10 @@ import { Button, Divider } from 'antd';
 import { GoogleIcon, FacebookIcon } from '@client/lib/social-icons.js';
 import { apiBaseUrl } from '@client/lib/use-api.js';
 
-function SocialAuthButtons({ mode, showDivider }) {
+const SocialAuthButtons = ({ 
+    mode = 'login', 
+    showDivider = true 
+}) => {
     const handleGoogleAuth = () => {
         window.location.href = `${apiBaseUrl}/auth/google`;
     };
@@ -48,11 +51,6 @@ function SocialAuthButtons({ mode, showDivider }) {
 SocialAuthButtons.propTypes = {
     mode: PropTypes.oneOf(['login', 'signup']),
     showDivider: PropTypes.bool,
-};
-
-SocialAuthButtons.defaultProps = {
-    mode: 'login',
-    showDivider: true,
 };
 
 export default SocialAuthButtons;

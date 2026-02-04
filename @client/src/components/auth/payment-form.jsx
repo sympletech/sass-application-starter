@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 import { PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { Button, message } from 'antd';
 
-function PaymentForm({ onPaymentMethodCreated, loading }) {
+const PaymentForm = ({
+    loading = false,
+
+    // eslint-disable-next-line no-unused-vars
+    onPaymentMethodCreated = (paymentMethod) => { },
+}) => {
     const stripe = useStripe();
     const elements = useElements();
     const [isStripeLoaded, setIsStripeLoaded] = useState(false);
@@ -47,10 +52,6 @@ function PaymentForm({ onPaymentMethodCreated, loading }) {
 PaymentForm.propTypes = {
     onPaymentMethodCreated: PropTypes.func.isRequired,
     loading: PropTypes.bool,
-};
-
-PaymentForm.defaultProps = {
-    loading: false,
 };
 
 export default PaymentForm;

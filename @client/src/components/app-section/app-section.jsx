@@ -6,10 +6,10 @@ import classNames from 'classnames';
  * A standard layout component for sections with consistent padding and optional scroll-reveal functionality.
  */
 const AppSection = ({
-    children,
-    className,
-    id,
-    reveal
+    children = <></>,
+    className = '',
+    id = '',
+    reveal = true
 }) => {
     return (
         <section
@@ -30,12 +30,6 @@ AppSection.propTypes = {
     className: PropTypes.string,
     id: PropTypes.string,
     reveal: PropTypes.bool,
-};
-
-AppSection.defaultProps = {
-    className: '',
-    id: '',
-    reveal: true,
 };
 
 export default AppSection;
