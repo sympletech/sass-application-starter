@@ -128,69 +128,136 @@ DO NOT Use classes, use functional programming
 All folders and files should use kebab-case or hyphen-case naming convention
 
 ## @server core functionality
-@server/server.js is the main entry point - it runs an express server that serves the back end API and the built client application in production
 
-@server/lib/mongo-client.js is the mongo client that should be used for all database calls
-All collections should be added to the db.collections object
+The Server is a Node.js Express application that serves the backend API and the built client application in production.
+
+### Directory Structure
 ```
-    db.collections = {
-        accounts: db.collection("accounts"),
-        sessions: db.collection("sessions"),
-        ... (new collections here)
-    };
+@server/
+├── server.js                    # Main entry point - Express server setup
+├── lib/
+│   ├── mongo-client.js          # MongoDB client and collection definitions
+│   ├── register-routes.js       # Auto-discovers and registers route files
+│   ├── register-oauth.js        # OAuth provider configuration (Google, Facebook)
+│   ├── stripe-client.js         # Stripe API client
+│   ├── client-path-helpers.js   # URL helpers for redirects
+│   └── derive-subscription-status.js  # Stripe subscription status helper
+└── routes/
+    ├── account/                 # Account management routes
+    │   ├── _account-routes.js   # Route definitions
+    │   ├── signup.js            # Route handlers...
+    │   └── ...
+    └── auth/                    # Authentication routes
+        ├── _auth-routes.js
+        ├── login.js
+        └── me.js
+
 ```
 
-All database operations should utilize the db.collections object
+### MongoDB Client
+@server/lib/mongo-client.js exports the MongoDB client and database. All collections must be registered in the `db.collections` object:
+
+```javascript
+import { MongoClient } from 'mongodb';
+
+export const client = await MongoClient.connect(process.env.MONGO_URI);
+export const db = client.db(process.env.MONGO_DB_NAME);
+
+db.collections = {
+    accounts: db.collection("accounts"),
+    sessions: db.collection("sessions"),
+    // Add new collections here
+};
 ```
+
+Usage in route handlers:
+```javascript
 import { db } from '@server/lib/mongo-client.js';
 
-const myFunc = async ()=>{
-    const results = await db.collections.targetCollection.find({}).toArray();
-}
-
+export default async () => {
+    const results = await db.collections.accounts.find({}).toArray();
+    return results;
+};
 ```
 
-Routes are registered by @server/lib/register-routes.js
-Routes should be grouped into logical groupings in sub-folders under the @server/routes folder
-To add a new route to the backend API add a file that begins with an underscore(_) and ends with '-routes.js' to a sub folder under @server/routes
-Route paths should match the folder structure
-Route handlers should be in separate files that match the route name
+### Route Registration
+Routes are auto-discovered by @server/lib/register-routes.js. Any file matching `@server/routes/**/_*-routes.js` will be loaded.
 
-Example route definition
+**Route Definition File Pattern:**
 @server/routes/example/_example-routes.js
-```
-    import hello from './hello.js';
+```javascript
+import hello from './hello.js';
+import createItem from './create-item.js';
 
-    export default ({ get, post }) => {
-        get('/home/hello', hello);
+export default ({ get, post, securedGet, securedPost }) => {
+    // Public routes
+    get('/example/hello', hello);
+    post('/example/create-item', createItem);
+    
+    // Authenticated routes (user must be logged in)
+    securedGet('/example/protected', protectedHandler);
+    securedPost('/example/update', updateHandler);
+};
+```
+
+### Route Handler Pattern
+Route handlers receive params as the first argument and context as the second.
+
+**Public Route Handler:**
+```javascript
+export default async ({ name = 'world' }) => {
+    return { message: `Hello ${name}` };
+};
+```
+
+**Secured Route Handler:**
+Secured routes receive a `user` object in the context:
+```javascript
+export default async (_params, { user }) => {
+    return {
+        message: `Hello ${user.firstName} ${user.lastName}`,
+        email: user.email
     };
+};
 ```
-@server/routes/example/hello.js
+
+**Full Context Object:**
+```javascript
+export default async (params, { req, res, user }) => {
+    // params: GET query params or POST body
+    // req: Express request object
+    // res: Express response object  
+    // user: User document from accounts collection (secured routes only)
+};
 ```
-    export default async ({ name = 'world' }) => {
-        const response = `Hello ${name}`;
-        return response;
+
+### Error Handling
+Throw errors with optional `status` and `redirect` properties:
+```javascript
+export default async ({ email }) => {
+    if (!email) {
+        const err = new Error('Email is required');
+        err.status = 400;
+        throw err;
     }
+    
+    // Redirect on error
+    const err = new Error('Account inactive');
+    err.status = 403;
+    err.redirect = '/reactivate';
+    throw err;
+};
 ```
 
-Routes that require the user to be logged in to access should use the securedGet and securedPost methods that are supplied to the _*-routes.js files.  A user object is provided to the route handler on the second parameter.
-
-Example secured route definition
-@server/routes/example/_example-routes.js
-```
-    import hello from './hello.js';
-
-    export default ({ securedGet, securedPost }) => {
-        securedGet('/home/hello', hello);
-    };
-```
-@server/routes/example/hello.js
-```
-    export default async (_params, {user}_) => {
-        const response = `Hello ${user.firstName} ${user.lastName} (${user.email})`;
-        return response;
-    }
-```
+### Environment Variables
+Required environment variables (in `.env`):
+- `MONGO_URI` - MongoDB connection string
+- `MONGO_DB_NAME` - Database name
+- `VITE_SERVER_PORT` - Server port (default: 3000)
+- `SESSION_SECRET` - Express session secret
+- `PASSWORD_SALT` - Salt for password hashing
+- `VITE_STRIPE_PUBLISHABLE_KEY` - Stripe publishable key
+- `STRIPE_SECRET_KEY` - Stripe secret key
 
 ## @client core functionality
 The Client is a React 19 application that is styled using tailwind.css and uses the antd component library for all of the main UI components.
@@ -373,8 +440,3 @@ You will utilize the .project-plan folder for all of your tasks.  The ..project-
 - .project-plan/CURRENT-TASK.md
 - .project-plan/DEFECT-LIST.md
 - .project-plan/DONE-LIST.md
-
-
-
-
-
