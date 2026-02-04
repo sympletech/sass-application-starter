@@ -19,7 +19,7 @@ import { useDrawer } from '@client/hooks/use-drawer.js';
 
 // Components
 import Logo from '@client/components/logo/logo.jsx';
-import Footer from '@client/components/footer.jsx';
+import Footer from '@client/components/footer/footer.jsx';
 
 const { Header, Content } = AntLayout;
 

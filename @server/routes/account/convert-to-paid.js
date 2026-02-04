@@ -1,3 +1,6 @@
+import stripeClient from '@server/lib/stripe-client.js';
+import deriveSubscriptionStatus from '@server/lib/derive-subscription-status.js';
+
 export default async (_params, { user }) => {
     if (user.inactive) {
         throw new Error('Inactive accounts cannot convert to paid');

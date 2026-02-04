@@ -91,12 +91,41 @@ body {
 .reveal {
   opacity: 0;
   transform: translateY(40px);
-  transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  transition: opacity 0.8s ease-out, transform var(--transition-smooth);
 }
 
 .reveal-visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Shared Animations */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: var(--animation-slide-up);
+}
+
+/* Decorative Backgrounds */
+.glow-bg {
+  position: absolute;
+  top: -100px;
+  right: -100px;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, var(--glow-1) 0%, var(--glow-2) 100%);
+  filter: blur(80px);
+  z-index: -1;
+  pointer-events: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

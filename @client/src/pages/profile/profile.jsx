@@ -1,17 +1,13 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
     Alert,
     Button,
-    Card,
     Col,
-    Descriptions,
     Form,
-    Input,
     Row,
     Space,
     Spin,
-    Tag,
     Typography,
     message,
 } from 'antd';
@@ -20,9 +16,16 @@ import axios from 'axios';
 import { apiBaseUrl, getData, postData } from '@client/lib/use-api.js';
 import { handleApiError } from '@client/lib/error-utils.js';
 
-const { Title, Paragraph, Text } = Typography;
+import ProfileDetailsCard from './profile-details-card.jsx';
+import AccountSubscriptionCard from './account-subscription-card.jsx';
 
-function Profile() {
+const { Title, Paragraph } = Typography;
+
+/**
+ * Profile page component.
+ * Allows users to view and manage their profile and subscription.
+ */
+const Profile = () => {
     const [form] = Form.useForm();
     const navigate = useNavigate();
     const [profile, setProfile] = useState(null);
@@ -52,28 +55,6 @@ function Profile() {
     useEffect(() => {
         loadProfile();
     }, []);
-
-    const planTag = useMemo(() => {
-        if (!profile?.plan) return <Tag>Unknown</Tag>;
-        return profile.plan === 'paid'
-            ? <Tag color="green" className="rounded-full px-3">Paid</Tag>
-            : <Tag color="blue" className="rounded-full px-3">Trial</Tag>;
-    }, [profile]);
-
-    const accountTag = useMemo(() => {
-        if (profile?.inactive) return <Tag color="red" className="rounded-full px-3">Inactive</Tag>;
-        return <Tag color="green" className="rounded-full px-3">Active</Tag>;
-    }, [profile]);
-
-    const providerTag = useMemo(() => {
-        if (!profile?.oauthProvider) return <Tag className="rounded-full px-3">Local</Tag>;
-        const label = profile.oauthProvider === 'google'
-            ? 'Google'
-            : profile.oauthProvider === 'facebook'
-                ? 'Facebook'
-                : profile.oauthProvider;
-        return <Tag color="purple" className="rounded-full px-3 capitalize">{label}</Tag>;
-    }, [profile]);
 
     const onSaveProfile = async () => {
         setSaving(true);
@@ -195,116 +176,27 @@ function Profile() {
 
             <Row gutter={[24, 24]}>
                 <Col xs={24} lg={14}>
-                    <Card title={<span className="font-semibold text-lg py-1 inline-block">Profile Details</span>} className="shadow-sm rounded-2xl border-surface-border">
-                        <Form
-                            layout="vertical"
-                            form={form}
-                            requiredMark={false}
-                            initialValues={{
-                                firstName: profile?.firstName,
-                                lastName: profile?.lastName,
-                                email: profile?.email,
-                            }}
-                        >
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
-                                <Form.Item
-                                    name="firstName"
-                                    label={<span className="text-text-strong font-medium">First Name</span>}
-                                    rules={[{ required: true, message: 'Please enter your first name' }]}
-                                >
-                                    <Input placeholder="First name" className="rounded-lg h-10" />
-                                </Form.Item>
-                                <Form.Item
-                                    name="lastName"
-                                    label={<span className="text-text-strong font-medium">Last Name</span>}
-                                    rules={[{ required: true, message: 'Please enter your last name' }]}
-                                >
-                                    <Input placeholder="Last name" className="rounded-lg h-10" />
-                                </Form.Item>
-                            </div>
-                            <Form.Item
-                                name="email"
-                                label={<span className="text-text-strong font-medium">Email</span>}
-                                rules={[{ required: true }]}
-                            >
-                                <Input disabled className="rounded-lg h-10 bg-surface-muted" />
-                            </Form.Item>
-
-                            <Form.Item className="mt-4 mb-0">
-                                <Button type="primary" onClick={onSaveProfile} loading={saving} className="premium-button-primary h-11 px-8 rounded-lg border-none shadow-soft">
-                                    Save changes
-                                </Button>
-                            </Form.Item>
-                        </Form>
-                    </Card>
+                    <ProfileDetailsCard
+                        form={form}
+                        profile={profile}
+                        saving={saving}
+                        onSaveProfile={onSaveProfile}
+                    />
                 </Col>
 
                 <Col xs={24} lg={10}>
-                    <Card title={<span className="font-semibold text-lg py-1 inline-block">Account & Subscription</span>} className="shadow-sm rounded-2xl border-surface-border h-full">
-                        <Descriptions column={1} size="middle" className="mb-6">
-                            <Descriptions.Item label={<span className="font-medium text-text-muted">OAuth provider</span>}>
-                                {providerTag}
-                            </Descriptions.Item>
-                            <Descriptions.Item label={<span className="font-medium text-text-muted">Plan</span>}>
-                                {planTag}
-                            </Descriptions.Item>
-                            <Descriptions.Item label={<span className="font-medium text-text-muted">Account status</span>}>
-                                {accountTag}
-                            </Descriptions.Item>
-                            {profile?.subscriptionStatus && (
-                                <Descriptions.Item label={<span className="font-medium text-text-muted">Subscription status</span>}>
-                                    <Text className="capitalize font-medium">{profile.subscriptionStatus}</Text>
-                                </Descriptions.Item>
-                            )}
-                        </Descriptions>
-
-                        <div className="space-y-3 mt-8">
-                            {profile?.plan === 'trial' && !profile?.inactive && (
-                                <Button
-                                    type="primary"
-                                    block
-                                    onClick={handleConvertToPaid}
-                                    loading={actionLoading === 'convert'}
-                                    className="premium-button-primary h-11 rounded-lg border-none"
-                                >
-                                    Convert to paid
-                                </Button>
-                            )}
-
-                            {!profile?.inactive && (
-                                <Button
-                                    block
-                                    onClick={handleUpdateBilling}
-                                    loading={actionLoading === 'billing'}
-                                    className="h-11 rounded-lg border-surface-border hover:border-brand-500 hover:text-brand-500 transition-all font-medium"
-                                >
-                                    Update billing information
-                                </Button>
-                            )}
-
-                            {profile?.plan === 'paid' && !profile?.inactive && (
-                                <Button
-                                    danger
-                                    block
-                                    onClick={handleCancelAccount}
-                                    loading={actionLoading === 'cancel'}
-                                    className="h-11 rounded-lg hover:border-red-500 font-medium"
-                                >
-                                    Cancel account
-                                </Button>
-                            )}
-
-                            {profile?.inactive && (
-                                <Button block type="primary" onClick={goToReactivation} className="premium-button-primary h-11 rounded-lg border-none">
-                                    Go to reactivation
-                                </Button>
-                            )}
-                        </div>
-                    </Card>
+                    <AccountSubscriptionCard
+                        profile={profile}
+                        actionLoading={actionLoading}
+                        onConvertToPaid={handleConvertToPaid}
+                        onUpdateBilling={handleUpdateBilling}
+                        onCancelAccount={handleCancelAccount}
+                        onGoToReactivation={goToReactivation}
+                    />
                 </Col>
             </Row>
         </Space>
     );
-}
+};
 
 export default Profile;

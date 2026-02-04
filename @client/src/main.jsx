@@ -10,13 +10,13 @@ import Home from './pages/home/home.jsx'
 import Login from './pages/login/login.jsx'
 import Signup from './pages/signup/signup.jsx'
 import Reactivate from './pages/reactivate/reactivate.jsx'
-import About from './pages/about.jsx'
-import Legal from './pages/legal.jsx'
+import About from './pages/about/about.jsx'
+import Legal from './pages/legal/legal.jsx'
 
 import LoggedInLayout from './layouts/logged-in/logged-in-layout.jsx'
 import Dashboard from './pages/dashboard/dashboard.jsx'
 import Profile from './pages/profile/profile.jsx'
-import ScrollToTop from './components/scroll-to-top.jsx'
+import ScrollToTop from './components/scroll-to-top/scroll-to-top.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
