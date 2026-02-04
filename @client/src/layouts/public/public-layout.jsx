@@ -1,4 +1,5 @@
-import { Outlet, Link, useLocation } from 'react-router-dom';
+import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import { Layout as AntLayout, Menu, Button, Drawer, Switch, ConfigProvider, theme } from 'antd';
 import {
     MenuOutlined,
@@ -25,16 +26,48 @@ const { Header, Content } = AntLayout;
 
 function PublicLayout() {
     const location = useLocation();
+    const navigate = useNavigate();
     const { isMobile } = useResponsive();
     const { isDarkMode, toggleTheme } = useTheme();
     const { drawerVisible, toggleDrawer } = useDrawer();
+
+    // Handle hash scrolling on location change
+    useEffect(() => {
+        if (location.hash) {
+            const elementId = location.hash.substring(1);
+            setTimeout(() => {
+                const element = document.getElementById(elementId);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }
+            }, 100);
+        }
+    }, [location]);
+
+    // Handler to scroll to top when clicking home
+    const handleHomeClick = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    // Handler to scroll to pricing section
+    const handlePricingClick = (e) => {
+        e.preventDefault();
+        
+        // Close drawer on mobile
+        if (drawerVisible) {
+            toggleDrawer();
+        }
+        
+        // Navigate to home with hash (useEffect will handle scrolling)
+        navigate('/#pricing');
+    };
 
     // Menu items configuration
     const menuItems = [
         {
             key: '/',
             icon: <HomeOutlined />,
-            label: <Link to="/">Home</Link>,
+            label: <Link to="/" onClick={handleHomeClick}>Home</Link>,
         },
         {
             key: '/about',
@@ -44,7 +77,7 @@ function PublicLayout() {
         {
             key: '/#pricing',
             icon: <DollarOutlined />,
-            label: <a href="/#pricing">Pricing</a>,
+            label: <a href="/#pricing" onClick={handlePricingClick}>Pricing</a>,
         },
         {
             key: '/legal',
