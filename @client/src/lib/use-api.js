@@ -1,7 +1,7 @@
 import axios from 'axios';
 import useSWR from 'swr';
 
-export const apiBaseUrl = (window.location.hostname === 'localhost')
+export const apiBaseUrl = (import.meta.env.VITE_MODE === 'development')
     ? `http://localhost:${import.meta.env.VITE_SERVER_PORT}`
     : window.location.origin;
 

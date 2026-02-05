@@ -6,7 +6,7 @@ import cancel from './cancel.js';
 import reactivate from '../account/reactivate.js';
 
 export default ({ get, post, securedPost }) => {
-    get('/account/stripe-config', () => ({ publishableKey: process.env.VITE_STRIPE_PUBLISHABLE_KEY }));
+    get('/account/stripe-config', () => ({ publishableKey: process.env.STRIPE_PUBLISHABLE_KEY }));
     post('/auth/stripe-create-setup-intent', stripeCreateSetupIntent);
     post('/account/signup', signup);
     securedPost('/account/convert-to-paid', convertToPaid);
