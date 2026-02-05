@@ -1,92 +1,162 @@
-# You are working on a SASS project that has:
-- Public facing marketing pages
-- Secured pages for logged in users
-- A native authentication system and an OAuth integration with Google and Facebook
-- Stripe integrations to manage user payments
+# Agent Instructions
+
+> **CRITICAL**: This file is your primary guide. Read it completely at session start.
+
+---
+
+## Quick Start Checklist
+
+At the beginning of EVERY session, do these things in order:
+
+1. [ ] Read `.agent/knowledge/CODEBASE-MAP.md` - Understand the structure
+2. [ ] Read `.agent/knowledge/GOTCHAS.md` - Know what to avoid
+3. [ ] Read `.agent/knowledge/USER-PREFERENCES.md` - Know how user likes things
+6. [ ] Scan recent `.agent/JOURNAL.md` entries - Get session context
+
+**Do NOT start work until you have this context.**
+
+---
+
+## Project Overview
+
+This is a **SaaS application** with:
+- Public marketing pages (home, about, pricing)
+- User authentication (native + Google/Facebook OAuth)
+- Stripe payment integration (subscriptions)
+- Protected user dashboard and profile
+
+| Component | Technology | Dev Port |
+|-----------|------------|----------|
+| Frontend | React 19 + Ant Design + Tailwind | http://localhost:3001 |
+| Backend | Node.js + Express | http://localhost:3000 |
+| Database | MongoDB | via MONGO_URI |
+| Payments | Stripe | via API keys |
+
+---
 
 # Core Principles
 
-- All code should be clean, well organized, and human readable.  Favor human readability over conciseness.
-- As you discover and learn things document them for later reference
-- When you are given a task ask clarifying questions before writing any implementation code
-- As the code changes keep the documentation up to date
-- Reuse code when ever possible - DRY (Don't Repeat Yourself)
-- All tasks MUST be empirically validated using a tool, test, or other method.  It is not good enough to just say the code looks correct.
-- You prefer to use well maintained third party libraries as opposed to implementing functionality
-- You prefer to spawn sub-agents to complete tasks to keep top level context concise
-- When your context window hits 50% recommend starting a new session
+## Code Quality
+- All code should be clean, well organized, and human readable
+- Favor human readability over conciseness
+- Reuse code whenever possible - DRY (Don't Repeat Yourself)
+- Prefer well-maintained third party libraries over custom implementations
 
+## Learning & Documentation
+- As you discover and learn things, document them in knowledge files
+- As the code changes, keep documentation up to date
+- Update CODEBASE-MAP.md when structure changes
+- Add to GOTCHAS.md when you discover pitfalls
+- Record decisions in DECISIONS.md with rationale
+
+## Task Execution
+- Ask clarifying questions before writing implementation code
+- Spawn sub-agents for focused tasks to keep context concise
+- When context window hits 50%, execute `/handoff` workflow
+
+---
+
+# Verification Requirements
 
 **Every change MUST be verified before marking complete**
 
-| Change Type     | Verification Method                        |
-|-----------------|--------------------------------------------|
-| UI changes      | Browser screenshot confirming visual state |
-| API changes     | Terminal command showing correct response  |
-| Build changes   | Successful build/test command output       |
-| Config changes  | Verification command proving effect        |
+| Change Type | Verification Method |
+|-------------|---------------------|
+| UI changes | Browser screenshot confirming visual state |
+| API changes | Terminal command showing correct response |
+| Build changes | Successful build/test command output |
+| Config changes | Verification command proving effect |
 
-**Never Mark A Task As Complete based on**
-
+**Never Mark A Task As Complete based on:**
 - "The code looks correct"
 - "This should work"
 - "I've made similar changes before"
 
-**Always Refer To Your Journal And Keep It Up To Date**
+---
 
-- Journal Location: .agent/JOURNAL.md
+# Knowledge System
+
+The agent learns and retains knowledge through these files:
+
+| File | Purpose | Update When |
+|------|---------|-------------|
+| `.agent/knowledge/CODEBASE-MAP.md` | Structure & file locations | New files/routes created |
+| `.agent/knowledge/PATTERNS.md` | Code patterns to follow | New patterns discovered |
+| `.agent/knowledge/GOTCHAS.md` | Pitfalls to avoid | Bugs fixed, issues found |
+| `.agent/knowledge/DECISIONS.md` | Architecture decisions | Significant choices made |
+| `.agent/knowledge/USER-PREFERENCES.md` | User working style | Feedback received |
+| `.agent/JOURNAL.md` | Session logs | After completing tasks |
+
+**Update these files after completing tasks or fixing bugs.**
+
+---
 
 # Skills
 
-You have the following skills that are available to you that help you perform specific tasks:
----
-Skill Name: Note Taker
-Skill Description: Records learnings, user preferences, observations, and other information that will be useful for future work on the project.
-Skill Path: .agent/skills/note-taker/SKILL.md
----
-Skill Name: Task Clarifier
-Skill Description: Helps ensure that a task is well understood and planned out.
-Skill Path: .agent/skills/task-clarifier/SKILL.md
----
-Skill Name: Bug Fixer
-Skill Description: Helps troubleshoot bugs and find the root causes of issues.
-Skill Path: .agent/skills/bug-fixer/SKILL.md
----
-Skill Name: Task Validator
-Skill Description: Validates that tasks are completed to specification.
-Skill Path: .agent/skills/task-validator/SKILL.md
----
-Skill Name: Third Party Module Finder
-Skill Description: Helps locate and validate which third party modules are a good choice to use in the project.
-Skill Path: .agent/skills/third-party-module-finder/SKILL.md
+Skills are invoked automatically based on context. Read the skill file for detailed behavior.
+
+## Core Skills
+| Skill | Trigger | Path |
+|-------|---------|------|
+| Session Bootstrapper | Session start | `.agent/skills/session-bootstrapper/SKILL.md` |
+| Context Summarizer | 50% context / session end | `.agent/skills/context-summarizer/SKILL.md` |
+| Codebase Mapper | Structure changes | `.agent/skills/codebase-mapper/SKILL.md` |
+| Pattern Learner | After creating code | `.agent/skills/pattern-learner/SKILL.md` |
+| Documentation Updater | After completing tasks | `.agent/skills/documentation-updater/SKILL.md` |
+
+## Task Skills
+| Skill | Trigger | Path |
+|-------|---------|------|
+| Task Clarifier | Before starting tasks | `.agent/skills/task-clarifier/SKILL.md` |
+| Task Validator | After completing tasks | `.agent/skills/task-validator/SKILL.md` |
+| Bug Fixer | When debugging | `.agent/skills/bug-fixer/SKILL.md` |
+
+## Development Skills
+| Skill | Trigger | Path |
+|-------|---------|------|
+| Component Generator | Creating components | `.agent/skills/component-generator/SKILL.md` |
+| API Designer | Creating routes | `.agent/skills/api-designer/SKILL.md` |
+| Test Writer | After implementing features | `.agent/skills/test-writer/SKILL.md` |
+| Refactoring Assistant | DRY opportunities | `.agent/skills/refactoring-assistant/SKILL.md` |
+
+## Utility Skills
+| Skill | Trigger | Path |
+|-------|---------|------|
+| Note Taker | Learning something new | `.agent/skills/note-taker/SKILL.md` |
+| Third Party Module Finder | Need external library | `.agent/skills/third-party-module-finder/SKILL.md` |
+| High Level Project Manager | Project planning | `.agent/skills/high-level-project-manager/SKILL.md` |
+
 ---
 
 # Workflows
 
-You have access to the following Workflows that the user can use to automate certain development activities.
-If a users natural language prompt aligns with a workflow run the workflow as opposed to simply responding to the prompt.
+Execute these with the command shown:
+
+| Workflow | Command | Purpose |
+|----------|---------|---------|
+| Session Handoff | `/handoff` | Create handoff for next session |
 
 ---
-Workflow Name: Create Project Description Workflow
-Workflow Description: Creates and initial Project Description
-Command to Execute Workflow: /create-project-description
-Workflow argument-hint: "<project-name>"
-Workflow Path: .agent/skills/high-level-project-manager/SKILL.md
----
 
-# Basic Application Framework and Coding Rules
+# Coding Standards
 
-The application is broken into a front end client application and a back end server application
-The Client is built in React and runs on port http://localhost:3001 in development
-The Server is built in NodeJS and run on port http://localhost:3000 in development
-All code is written in modern ES6 Javascript (NOT TYPESCRIPT)
-All imports use the "import" syntax not the require syntax
-All functions should be declared as arrow functions ex. 
+## Language & Syntax
+- **ES6 JavaScript only** (NOT TypeScript)
+- Use `import` syntax (NOT `require`)
+- Arrow functions only: `const myFunction = async () => {}`
+- NO classes - use functional programming
+- Naming: `kebab-case` for files/folders
+
+## File Organization
 ```
-    const myFunction = async ()=> {};
+@client/src/components/{name}/{name}.jsx   # Components
+@client/src/pages/{name}/{name}.jsx        # Pages
+@client/src/hooks/use-{name}.js            # Hooks
+@client/src/lib/{name}.js                  # Utilities
+@server/routes/{feature}/_*-routes.js      # Route definitions
+@server/routes/{feature}/{action}.js       # Route handlers
+@server/lib/{name}.js                      # Server utilities
 ```
-DO NOT Use classes, use functional programming
-All folders and files should use kebab-case or hyphen-case naming convention
 
 ## @server core functionality
 
@@ -391,13 +461,80 @@ const MyComponent = ()=>{
 
 PREFER SWR STYLE DATA LOADING AND ASYNC/AWAIT STYLE FOR POSTING UPDATES THAT ARE TRIGGERED BY USER ACTIONS.
 
-# .project-plan framework
+# Session Management
 
-You will utilize the .project-plan folder for all of your tasks.  The ..project-plan folder should include the following files:
+## Starting a Session
+1. Read knowledge files (see Quick Start Checklist)
+3. Understand current state
+4. Greet user with brief status
 
-- .project-plan/PROJECT-DESCRIPTION.md
-- .project-plan/ROADMAP.md
-- .project-plan/STATE.md
-- .project-plan/CURRENT-TASK.md
-- .project-plan/DEFECT-LIST.md
-- .project-plan/DONE-LIST.md
+## During a Session
+- Update JOURNAL.md after completing significant work
+- Update knowledge files when discoveries are made
+- Monitor context usage
+
+## Ending a Session
+When context reaches 50% or session is ending:
+1. Execute `/handoff` workflow
+2. Update all state files
+3. Write journal entry
+4. Confirm handoff with user
+
+---
+
+# Common Commands
+
+```bash
+# Start development servers
+npm start
+
+# Build Client
+npm run build
+
+# Test API endpoint
+curl http://localhost:3000/api/auth/me
+
+```
+
+---
+
+# Import Aliases
+
+| Alias | Resolves To |
+|-------|-------------|
+| `@client/` | `./client/` |
+| `@server/` | `./server/` |
+
+---
+
+# Quick Reference
+
+## Adding a New API Route
+1. Create handler in `@server/routes/{feature}/{action}.js`
+2. Import and register in `@server/routes/{feature}/_*-routes.js`
+3. Update CODEBASE-MAP.md
+
+## Adding a New Component
+1. Create `@client/src/components/{name}/{name}.jsx`
+2. Optional: Create `{name}.css` in same folder
+3. Follow pattern in PATTERNS.md
+4. Update CODEBASE-MAP.md
+
+## Adding a New Page
+1. Create `@client/src/pages/{name}/{name}.jsx`
+2. Add route in `@client/src/main.jsx`
+3. Update CODEBASE-MAP.md
+
+## Adding a Database Collection
+1. Add to `db.collections` in `@server/lib/mongo-client.js`
+2. Update CODEBASE-MAP.md
+
+---
+
+# Remember
+
+1. **Read before you write** - Check knowledge files first
+2. **Verify before complete** - Every change needs proof
+3. **Document as you go** - Update knowledge files
+4. **Ask when uncertain** - Clarify before implementing
+5. **Handoff before context full** - Preserve continuity
