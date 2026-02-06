@@ -132,7 +132,9 @@ This is a **SaaS application** with:
 - Record decisions in DECISIONS.md with rationale
 
 ## Task Execution
-- Ask clarifying questions before writing implementation code
+- **Invoke Task Clarifier** before writing implementation code (see `.agent/skills/task-clarifier/SKILL.md`)
+- Ask clarifying questions when requirements are ambiguous, complex, or incomplete
+- State your assumptions clearly before proceeding
 - Spawn sub-agents for focused tasks to keep context concise
 - When context window hits 50%, execute `/handoff` workflow
 
@@ -204,9 +206,16 @@ Skills are invoked automatically based on context. Read the skill file for detai
 ## Task Skills
 | Skill | Trigger | Path |
 |-------|---------|------|
-| Task Clarifier | Before starting tasks | `.agent/skills/task-clarifier/SKILL.md` |
+| Task Clarifier | Before starting implementation (see guidance below) | `.agent/skills/task-clarifier/SKILL.md` |
 | Task Validator | After completing tasks | `.agent/skills/task-validator/SKILL.md` |
 | Bug Fixer | When debugging | `.agent/skills/bug-fixer/SKILL.md` |
+
+> 🎯 **Task Clarifier**: ALWAYS invoke before starting implementation work when:
+> - The user's request can be interpreted multiple ways
+> - Requirements are complex or have multiple parts
+> - The task involves unfamiliar domain or technology
+> - You would need to make significant assumptions
+> - Use `/clarify` to manually invoke
 
 ## Development Skills
 | Skill | Trigger | Path |
@@ -229,6 +238,7 @@ Execute these with the command shown:
 
 | Workflow | Command | Purpose |
 |----------|---------|---------|
+| Task Clarification | `/clarify` | Invoke Task Clarifier to gather requirements before implementing |
 | Session Handoff | `/handoff` | Invoke Context Summarizer to prepare session handoff |
 | Codebase Map Refresh | `/map` | Full scan and update of CODEBASE-MAP.md |
 | Pattern Learning | `/learn-patterns` | Analyze recent code and document new patterns |

@@ -25,7 +25,7 @@
 | Skill | Status | Location |
 |-------|--------|----------|
 | Note Taker | Referenced | `.agent/skills/note-taker/SKILL.md` |
-| Task Clarifier | Referenced | `.agent/skills/task-clarifier/SKILL.md` |
+| Task Clarifier | ✅ Implemented | `.agent/skills/task-clarifier/SKILL.md` |
 | Bug Fixer | Referenced | `.agent/skills/bug-fixer/SKILL.md` |
 | Task Validator | Referenced | `.agent/skills/task-validator/SKILL.md` |
 | Third Party Module Finder | Referenced | `.agent/skills/third-party-module-finder/SKILL.md` |
