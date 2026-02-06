@@ -1,794 +1,271 @@
 # Agent Instructions
 
-> **CRITICAL**: This file is your primary guide. Read it completely at session start.
+> Your primary guide. Execute **Session Bootstrapper** before any work.
 
 ---
 
-## Session Start
+## 1. SESSION START — MANDATORY
 
-**At the beginning of EVERY session, execute the Session Bootstrapper skill.**
+**Execute Session Bootstrapper skill FIRST:** `.agent/skills/session-bootstrapper/SKILL.md`
 
-→ See: `.agent/skills/session-bootstrapper/SKILL.md`
-
-The Session Bootstrapper will:
-1. Load all knowledge files (codebase map, patterns, gotchas, decisions, preferences)
-2. Load project state (description, state, current task, roadmap, defects)
-3. Scan recent journal entries
-4. Determine session type and appropriate workflow
-5. Provide you with a status greeting template
-
-**Do NOT start any work until the bootstrap process is complete.**
+Do NOT start any work until bootstrap is complete.
 
 ---
 
-## Quick Reference: Session Types
+## 2. WORK MODES
 
-After bootstrapping, you'll be in one of these modes:
+### Framework Work
+**When:** Editing `.agent/`, skills, documentation, core framework files  
+**Action:** Skip project plan. Focus on the framework task. Update knowledge files.
 
-| Type | Situation | Action |
-|------|-----------|--------|
-| **Planning** | Project not defined | Invoke High Level Project Manager |
-| **Continuation** | Task in progress | Resume from CURRENT-TASK.md |
-| **New Task** | Ready for next task | Start from ROADMAP.md |
-| **Bug Fix** | Critical bugs exist | Address DEFECT-LIST.md first |
-| **Framework** | Working on agent/skills | Skip project plan, focus on framework |
+### Product Work  
+**When:** Building features, fixing product bugs, implementing user stories  
+**Action:** Follow project plan workflow. Use CURRENT-TASK.md. Update project files when done.
 
 ---
 
-## Framework vs Product Work
+## 3. PROJECT OVERVIEW
 
-This starter project has two modes of work:
-
-### Framework Work (Starter Maintenance)
-Work on the agent infrastructure, skills, documentation, or base application framework.
-
-**Indicators:**
-- User mentions: skills, agent, instructions, documentation, knowledge files
-- Files being edited are in `.agent/` or are core framework files
-- Work doesn't relate to specific product features
-
-**Behavior:**
-- Skip project plan checks
-- Focus on the framework task at hand
-- Update knowledge files as appropriate
-
-### Product Work (Building the Application)
-Building features defined in the project plan.
-
-**Indicators:**
-- User wants to build features, fix product bugs, implement user stories
-- Work relates to items in ROADMAP.md or DEFECT-LIST.md
-
-**Behavior:**
-- Follow project plan workflow
-- Check CURRENT-TASK.md before starting
-- Update project plan files after completing work
+| Component | Technology | Port |
+|-----------|------------|------|
+| Frontend | React 19 + Ant Design + Tailwind | :3001 |
+| Backend | Node.js + Express | :3000 |
+| Database | MongoDB | MONGO_URI |
+| Payments | Stripe | API keys |
 
 ---
 
-## Project Plan Workflow
+## 4. CORE RULES
 
-### Starting Work on a Task
-1. Select task from ROADMAP.md (respect priority/dependencies)
-2. Move task details to CURRENT-TASK.md
-3. Remove from ROADMAP.md
-4. Begin implementation
+### Code Quality
+- Clean, readable code over concise code
+- DRY — reuse code, don't repeat
+- Prefer third-party libraries over custom implementations
 
-### Completing a Task
-1. Verify completion (see Verification Requirements)
-2. Move task to DONE-LIST.md with completion notes
-3. Update STATE.md with current status
-4. Update CODEBASE-MAP.md if new files were created (invoke Codebase Mapper)
-5. Run Pattern Learner if new code was created (invoke Pattern Learner)
-6. Run Documentation Updater if behavior/APIs/config changed (invoke Documentation Updater)
-7. Check if ROADMAP.md needs adjustment
-8. Update knowledge files if discoveries were made
+### Task Execution
+- **Clarify before coding** — invoke Task Clarifier for ambiguous requirements
+- **Verify before complete** — every change needs proof (screenshot, curl, build output)
+- **Document as you go** — update knowledge files with discoveries
 
-### Pausing a Task
-If you need to switch tasks before completing:
-1. Document current progress in CURRENT-TASK.md
-2. Move back to ROADMAP.md with "Paused" status and notes
-3. Clear CURRENT-TASK.md
-4. Proceed with new task
+### Verification Required
 
-### Discovering a Bug
-1. Add to DEFECT-LIST.md BEFORE attempting to fix
-2. Inform user: "I found an issue: [description]. Want me to fix it now, or continue with current work?"
-3. If fixing, treat like any other task
-4. When fixed, move to DONE-LIST.md
+| Change Type | Proof Required |
+|-------------|----------------|
+| UI changes | Browser screenshot |
+| API changes | Terminal curl output |
+| Build changes | Successful build output |
+| Config changes | Command proving effect |
+
+**Never mark complete based on "looks correct" or "should work".**
 
 ---
 
-## Project Overview
+## 5. KNOWLEDGE FILES
 
-This is a **SaaS application** with:
-- Public marketing pages (home, about, pricing)
-- User authentication (native + Google/Facebook OAuth)
-- Stripe payment integration (subscriptions)
-- Protected user dashboard and profile
+| File | Purpose |
+|------|---------|
+| `knowledge/CODEBASE-MAP.md` | Structure & file locations |
+| `knowledge/PATTERNS.md` | Code patterns to follow |
+| `knowledge/GOTCHAS.md` | Pitfalls to avoid |
+| `knowledge/DECISIONS.md` | Architecture decisions |
+| `knowledge/USER-PREFERENCES.md` | User working style |
+| `JOURNAL.md` | Session logs |
 
-| Component | Technology | Dev Port |
-|-----------|------------|----------|
-| Frontend | React 19 + Ant Design + Tailwind | http://localhost:3001 |
-| Backend | Node.js + Express | http://localhost:3000 |
-| Database | MongoDB | via MONGO_URI |
-| Payments | Stripe | via API keys |
+Update after completing tasks or fixing bugs.
 
 ---
 
-# Core Principles
+## 6. SKILLS — Quick Reference
 
-## Code Quality
-- All code should be clean, well organized, and human readable
-- Favor human readability over conciseness
-- Reuse code whenever possible - DRY (Don't Repeat Yourself)
-- Prefer well-maintained third party libraries over custom implementations
+Each skill has detailed instructions. Read the skill file for full behavior.
 
-## Learning & Documentation
-- As you discover and learn things, document them in knowledge files
-- As the code changes, keep documentation up to date
-- Update CODEBASE-MAP.md when structure changes
-- Add to GOTCHAS.md when you discover pitfalls
-- Record decisions in DECISIONS.md with rationale
-
-## Task Execution
-- **Invoke Task Clarifier** before writing implementation code (see `.agent/skills/task-clarifier/SKILL.md`)
-- Ask clarifying questions when requirements are ambiguous, complex, or incomplete
-- State your assumptions clearly before proceeding
-- Spawn sub-agents for focused tasks to keep context concise
-- When context window hits 50%, execute `/handoff` workflow
-
----
-
-# Verification Requirements
-
-**Every change MUST be verified before marking complete**
-
-| Change Type | Verification Method |
-|-------------|---------------------|
-| UI changes | Browser screenshot confirming visual state |
-| API changes | Terminal command showing correct response |
-| Build changes | Successful build/test command output |
-| Config changes | Verification command proving effect |
-
-**Never Mark A Task As Complete based on:**
-- "The code looks correct"
-- "This should work"
-- "I've made similar changes before"
-
----
-
-# Knowledge System
-
-The agent learns and retains knowledge through these files:
-
-| File | Purpose | Update When |
-|------|---------|-------------|
-| `.agent/knowledge/CODEBASE-MAP.md` | Structure & file locations | New files/routes created |
-| `.agent/knowledge/PATTERNS.md` | Code patterns to follow | New patterns discovered |
-| `.agent/knowledge/GOTCHAS.md` | Pitfalls to avoid | Bugs fixed, issues found |
-| `.agent/knowledge/DECISIONS.md` | Architecture decisions | Significant choices made |
-| `.agent/knowledge/USER-PREFERENCES.md` | User working style | Feedback received |
-| `.agent/JOURNAL.md` | Session logs | After completing tasks |
-
-**Update these files after completing tasks or fixing bugs.**
-
----
-
-# Skills
-
-Skills are invoked automatically based on context. Read the skill file for detailed behavior.
-
-## Entry Point Skill
-| Skill | Trigger | Path |
+### Entry Point
+| Skill | Command | When |
 |-------|---------|------|
-| **Session Bootstrapper** | **FIRST thing every session** | `.agent/skills/session-bootstrapper/SKILL.md` |
+| Session Bootstrapper | *auto* | Session start |
 
-> ⚠️ The Session Bootstrapper is MANDATORY at session start. It loads context and determines workflow.
-
-## Core Skills
-| Skill | Trigger | Path |
+### Core Skills
+| Skill | Command | When |
 |-------|---------|------|
-| High Level Project Manager | Incomplete project plan / planning requests | `.agent/skills/high-level-project-manager/SKILL.md` |
-| Context Summarizer | 50% context / session end / `/handoff` | `.agent/skills/context-summarizer/SKILL.md` |
-| Codebase Mapper | After creating files / structure changes / `/map` | `.agent/skills/codebase-mapper/SKILL.md` |
-| Pattern Learner | After creating code | `.agent/skills/pattern-learner/SKILL.md` |
-| Documentation Updater | After completing tasks | `.agent/skills/documentation-updater/SKILL.md` |
+| Context Summarizer | `/handoff` | 50% context, session end |
+| Codebase Mapper | `/map` | After creating files |
+| Pattern Learner | `/learn-patterns` | After creating code |
+| Documentation Updater | `/update-docs` | After completing tasks |
+| High Level Project Manager | *auto* | Incomplete project plan |
 
-> ⚠️ The Context Summarizer is CRITICAL for session continuity. When context reaches 50%, proactively suggest a handoff.
-
-> 📍 The **Codebase Mapper** should be invoked after creating new components, pages, routes, or hooks. Use `/map` for a full refresh.
-
-> 📚 The **Pattern Learner** should be invoked after creating new code to identify and document reusable patterns. Use `/learn-patterns` for manual invocation.
-
-> 📝 The **Documentation Updater** should be invoked after completing tasks that affect APIs, configuration, or user-facing features. Use `/update-docs` for manual invocation.
-
-## Task Skills
-| Skill | Trigger | Path |
+### Task Skills
+| Skill | Command | When |
 |-------|---------|------|
-| Task Clarifier | Before starting implementation (see guidance below) | `.agent/skills/task-clarifier/SKILL.md` |
-| Task Validator | After completing tasks | `.agent/skills/task-validator/SKILL.md` |
-| Bug Fixer | When debugging | `.agent/skills/bug-fixer/SKILL.md` |
+| Task Clarifier | `/clarify` | Before implementing ambiguous tasks |
+| Bug Fixer | `/fix` | When debugging |
 
-> 🎯 **Task Clarifier**: ALWAYS invoke before starting implementation work when:
-> - The user's request can be interpreted multiple ways
-> - Requirements are complex or have multiple parts
-> - The task involves unfamiliar domain or technology
-> - You would need to make significant assumptions
-> - Use `/clarify` to manually invoke
-
-> 🐛 **Bug Fixer**: Invoke when debugging or fixing defects. ALWAYS document bugs in DEFECT-LIST.md before attempting to fix. Use `/fix` to start the systematic debugging workflow.
-
-## Development Skills
-| Skill | Trigger | Path |
+### Development Skills
+| Skill | Command | When |
 |-------|---------|------|
-| Component Generator | Creating components | `.agent/skills/component-generator/SKILL.md` |
-| API Designer | Creating routes | `.agent/skills/api-designer/SKILL.md` |
-| Refactoring Assistant | DRY opportunities | `.agent/skills/refactoring-assistant/SKILL.md` |
+| Component Generator | `/component` | Creating React components |
+| API Designer | `/api` | Creating API routes |
+| Refactoring Assistant | `/refactor` | DRY violations, code duplication |
 
-> 🧱 **Component Generator**: Invoke when creating new React components to ensure they follow project patterns exactly. Includes templates for simple, stateful, data-fetching, page, and section components. Use `/component` to start the generation workflow.
-
-> 🔌 **API Designer**: Invoke when creating new API routes to ensure they follow project patterns exactly. Includes templates for public/secured GET/POST handlers, error handling, validation, and response patterns. Use `/api` to start the API design workflow.
-
-> ♻️ **Refactoring Assistant**: Invoke when you notice code duplication, copy-pasted code, or DRY violations. Provides systematic approach to extracting components, hooks, and utilities. Use `/refactor` to scan for opportunities or `/refactor {file}` for specific files.
-
-## Utility Skills
-| Skill | Trigger | Path |
+### Utility Skills
+| Skill | Command | When |
 |-------|---------|------|
-| Note Taker | Learning something new | `.agent/skills/note-taker/SKILL.md` |
-| Third Party Module Finder | Need external library | `.agent/skills/third-party-module-finder/SKILL.md` |
+| Note Taker | `/note` | Capturing learnings |
+| Third Party Module Finder | `/find-library` | Need external library |
 
-> 📝 **Note Taker**: Invoke when discovering pitfalls, receiving user feedback, or learning something that should be captured. Routes learnings to the appropriate knowledge file (GOTCHAS, USER-PREFERENCES, PATTERNS, or DECISIONS). Use `/note` to manually capture a learning.
-
-> 📦 **Third Party Module Finder**: Invoke before implementing complex functionality to check if a well-maintained library exists. Evaluates packages on maintenance, downloads, bundle size, and security. Use `/find-library` to start the search workflow.
+**Full skill documentation:** `.agent/skills/{skill-name}/SKILL.md`
 
 ---
 
-# Workflows
+## 7. COMMANDS — Quick Reference
 
-Execute these with the command shown:
-
-| Workflow | Command | Purpose |
-|----------|---------|---------|
-| Task Clarification | `/clarify` | Invoke Task Clarifier to gather requirements before implementing |
-| Session Handoff | `/handoff` | Invoke Context Summarizer to prepare session handoff |
-| Codebase Map Refresh | `/map` | Full scan and update of CODEBASE-MAP.md |
-| Pattern Learning | `/learn-patterns` | Analyze recent code and document new patterns |
-| Document Pattern | `/document-pattern [name]` | Document a specific pattern mentioned by user |
-| Update Documentation | `/update-docs` | Review and update documentation for recent changes |
-| Check Documentation | `/check-docs` | Verify documentation accuracy without changes |
-| Bug Fix | `/fix` | Start systematic bug fixing workflow |
-| Diagnose Only | `/diagnose` | Run diagnostic phase without implementing fix |
-| Generate Component | `/component` | Scaffold new component following project patterns |
-| Generate Page | `/page [name]` | Scaffold new page with section structure |
-| Generate Section | `/section [name]` | Scaffold new section component |
-| Design API Route | `/api` | Start API Designer workflow for new route |
-| Scaffold API Route | `/api {feature}/{action}` | Scaffold specific route with given path |
-| Review API Routes | `/api-review` | Review existing routes for pattern violations |
-| Refactor Code | `/refactor` | Scan recent changes for refactoring opportunities |
-| Refactor File | `/refactor {file}` | Analyze specific file for DRY violations |
-| Check Duplication | `/refactor-check` | Report on code duplication without changes |
-| Extract Component | `/extract-component {name}` | Start component extraction workflow |
-| Extract Hook | `/extract-hook {name}` | Start hook extraction workflow |
-| Capture Learning | `/note` | Route a learning to appropriate knowledge file |
-| Note Gotcha | `/note gotcha` | Quick capture to GOTCHAS.md |
-| Note Decision | `/note decision` | Quick capture to DECISIONS.md |
-| Note Preference | `/note preference` | Quick capture to USER-PREFERENCES.md |
-| Find Library | `/find-library` | Start library search workflow |
-| Find Library (specific) | `/find-library {need}` | Search for library solving specific need |
-| Check Dependencies | `/check-deps` | Review current dependencies for issues |
-| Audit Dependencies | `/audit-deps` | Run npm audit and report vulnerabilities |
-
-The `/handoff` command triggers the **Context Summarizer** skill which:
-- Updates all state and knowledge files
-- Writes a comprehensive journal entry
-- Ensures the next session can resume immediately
-
-→ See: `.agent/skills/context-summarizer/SKILL.md` for full process
-
-The `/map` command triggers the **Codebase Mapper** skill which:
-- Scans all client and server directories
-- Updates CODEBASE-MAP.md with current structure
-- Detects new components, pages, routes, and hooks
-
-→ See: `.agent/skills/codebase-mapper/SKILL.md` for full process
-
-The `/learn-patterns` command triggers the **Pattern Learner** skill which:
-- Analyzes code created during the session
-- Identifies reusable patterns not yet documented
-- Compares against existing patterns in PATTERNS.md
-- Documents new patterns with examples and guidance
-
-→ See: `.agent/skills/pattern-learner/SKILL.md` for full process
-
-The `/update-docs` command triggers the **Documentation Updater** skill which:
-- Identifies what changed in the completed task
-- Maps changes to affected documentation files
-- Updates CODEBASE-MAP, README, GOTCHAS, and other relevant docs
-- Verifies documentation accuracy and consistency
-
-→ See: `.agent/skills/documentation-updater/SKILL.md` for full process
-
-The `/fix` command triggers the **Bug Fixer** skill which:
-- Documents bug in DEFECT-LIST.md before fixing
-- Provides systematic diagnosis approach
-- Verifies fix with evidence before marking complete
-- Updates GOTCHAS.md with learnings to prevent recurrence
-
-→ See: `.agent/skills/bug-fixer/SKILL.md` for full process
-
-The `/component` command triggers the **Component Generator** skill which:
-- Gathers requirements (name, type, props, location)
-- Generates component files following project patterns exactly
-- Includes appropriate templates (simple, stateful, data-fetching, page, section)
-- Ensures consistency with PATTERNS.md conventions
-
-→ See: `.agent/skills/component-generator/SKILL.md` for full process
-
-The `/api` command triggers the **API Designer** skill which:
-- Gathers requirements (feature, action, route type, parameters)
-- Generates route handler files following project patterns exactly
-- Includes templates for public/secured GET/POST handlers
-- Ensures proper error handling, validation, and response patterns
-- Registers route in the appropriate `_{feature}-routes.js` file
-
-→ See: `.agent/skills/api-designer/SKILL.md` for full process
-
-The `/refactor` command triggers the **Refactoring Assistant** skill which:
-- Scans code for duplication and DRY violations
-- Identifies candidates for extraction (components, hooks, utilities)
-- Proposes refactoring with impact analysis
-- Executes safe, incremental refactoring with verification
-- Updates documentation after refactoring
-
-→ See: `.agent/skills/refactoring-assistant/SKILL.md` for full process
-
-The `/note` command triggers the **Note Taker** skill which:
-- Classifies the learning type (gotcha, preference, pattern, decision)
-- Formats the note using the appropriate template
-- Routes to the correct knowledge file
-- Maintains document organization and prevents duplicates
-
-→ See: `.agent/skills/note-taker/SKILL.md` for full process
-
-The `/find-library` command triggers the **Third Party Module Finder** skill which:
-- Checks if existing dependencies already solve the problem
-- Evaluates candidates on maintenance, downloads, size, and security
-- Presents recommendation with installation and usage examples
-- Documents significant additions in DECISIONS.md
-
-→ See: `.agent/skills/third-party-module-finder/SKILL.md` for full process
+| Command | Purpose |
+|---------|---------|
+| `/handoff` | Prepare session handoff |
+| `/map` | Refresh CODEBASE-MAP.md |
+| `/learn-patterns` | Document new patterns |
+| `/update-docs` | Update documentation |
+| `/clarify` | Gather requirements before implementing |
+| `/fix` | Start bug fix workflow |
+| `/component` | Generate component |
+| `/page [name]` | Generate page |
+| `/api` | Design API route |
+| `/refactor` | Scan for DRY violations |
+| `/note` | Capture learning |
+| `/find-library` | Search for third-party library |
 
 ---
 
-# Coding Standards
+## 8. CODING STANDARDS
 
-## Language & Syntax
+### Language
 - **ES6 JavaScript only** (NOT TypeScript)
-- Use `import` syntax (NOT `require`)
-- Arrow functions only: `const myFunction = async () => {}`
-- NO classes - use functional programming
-- Naming: `kebab-case` for files/folders
+- `import` syntax (NOT `require`)
+- Arrow functions only
+- NO classes — functional programming
+- `kebab-case` for files/folders
 
-## File Organization
+### File Locations
 ```
-@client/src/components/{name}/{name}.jsx   # Components
-@client/src/pages/{name}/{name}.jsx        # Pages
-@client/src/hooks/use-{name}.js            # Hooks
-@client/src/lib/{name}.js                  # Utilities
-@server/routes/{feature}/_*-routes.js      # Route definitions
-@server/routes/{feature}/{action}.js       # Route handlers
-@server/lib/{name}.js                      # Server utilities
-```
-
-## @server core functionality
-
-The Server is a Node.js Express application that serves the backend API and the built client application in production.
-
-### Directory Structure
-```
-@server/
-├── server.js                    # Main entry point - Express server setup
-├── lib/
-│   ├── mongo-client.js          # MongoDB client and collection definitions
-│   ├── register-routes.js       # Auto-discovers and registers route files
-│   ├── register-oauth.js        # OAuth provider configuration (Google, Facebook)
-│   ├── stripe-client.js         # Stripe API client
-│   ├── client-path-helpers.js   # URL helpers for redirects
-│   └── derive-subscription-status.js  # Stripe subscription status helper
-└── routes/
-    ├── account/                 # Account management routes
-    │   ├── _account-routes.js   # Route definitions
-    │   ├── signup.js            # Route handlers...
-    │   └── ...
-    └── auth/                    # Authentication routes
-        ├── _auth-routes.js
-        ├── login.js
-        └── me.js
-
+@client/src/components/{name}/{name}.jsx
+@client/src/pages/{name}/{name}.jsx
+@client/src/hooks/use-{name}.js
+@client/src/lib/{name}.js
+@server/routes/{feature}/_*-routes.js
+@server/routes/{feature}/{action}.js
+@server/lib/{name}.js
 ```
 
-### MongoDB Client
-@server/lib/mongo-client.js exports the MongoDB client and database. All collections must be registered in the `db.collections` object:
-
-```javascript
-import { MongoClient } from 'mongodb';
-
-export const client = await MongoClient.connect(process.env.MONGO_URI);
-export const db = client.db(process.env.MONGO_DB_NAME);
-
-db.collections = {
-    accounts: db.collection("accounts"),
-    sessions: db.collection("sessions"),
-    // Add new collections here
-};
-```
-
-Usage in route handlers:
-```javascript
-import { db } from '@server/lib/mongo-client.js';
-
-export default async () => {
-    const results = await db.collections.accounts.find({}).toArray();
-    return results;
-};
-```
-
-### Route Registration
-Routes are auto-discovered by @server/lib/register-routes.js. Any file matching `@server/routes/**/_*-routes.js` will be loaded.
-
-**Route Definition File Pattern:**
-@server/routes/example/_example-routes.js
-```javascript
-import hello from './hello.js';
-import createItem from './create-item.js';
-
-export default ({ get, post, securedGet, securedPost }) => {
-    // Public routes
-    get('/example/hello', hello);
-    post('/example/create-item', createItem);
-    
-    // Authenticated routes (user must be logged in)
-    securedGet('/example/protected', protectedHandler);
-    securedPost('/example/update', updateHandler);
-};
-```
-
-### Route Handler Pattern
-Route handlers receive params as the first argument and context as the second.
-
-**Public Route Handler:**
-```javascript
-export default async ({ name = 'world' }) => {
-    return { message: `Hello ${name}` };
-};
-```
-
-**Secured Route Handler:**
-Secured routes receive a `user` object in the context:
-```javascript
-export default async (_params, { user }) => {
-    return {
-        message: `Hello ${user.firstName} ${user.lastName}`,
-        email: user.email
-    };
-};
-```
-
-**Full Context Object:**
-```javascript
-export default async (params, { req, res, user }) => {
-    // params: GET query params or POST body
-    // req: Express request object
-    // res: Express response object  
-    // user: User document from accounts collection (secured routes only)
-};
-```
-
-### Error Handling
-Throw errors with optional `status` and `redirect` properties:
-```javascript
-export default async ({ email }) => {
-    if (!email) {
-        const err = new Error('Email is required');
-        err.status = 400;
-        throw err;
-    }
-    
-    // Redirect on error
-    const err = new Error('Account inactive');
-    err.status = 403;
-    err.redirect = '/reactivate';
-    throw err;
-};
-```
-
-### Environment Variables
-Required environment variables (in `.env`):
-- `MONGO_URI` - MongoDB connection string
-- `MONGO_DB_NAME` - Database name
-- `VITE_SERVER_PORT` - Server port (default: 3000)
-- `SESSION_SECRET` - Express session secret
-- `PASSWORD_SALT` - Salt for password hashing
-- `VITE_STRIPE_PUBLISHABLE_KEY` - Stripe publishable key
-- `STRIPE_SECRET_KEY` - Stripe secret key
-
-## @client core functionality
-The Client is a React 19 application that is styled using tailwind.css and uses the antd component library for all of the main UI components.
-
-### Core Principles
-- **One File = One Component** - Multiple components should never be created in the same file
-- **No Inline Styles** - All CSS styling should use Tailwind utility classes or separate CSS files
-- **No defaultProps** - Use default parameter values in function signatures instead (React 19 compatibility)
-- **Arrow Functions Only** - All components should be arrow functions, not function declarations
-
-### Directory Structure
-```
-@client/
-├── index.html          # HTML entry point
-├── theme.css           # Global CSS variables (colors, spacing, transitions, etc.)
-├── src/
-│   ├── main.jsx        # React entry point with route definitions
-│   ├── index.css       # Global styles, Tailwind imports, shared animations
-│   ├── assets/         # Static assets (images, fonts, etc.)
-│   ├── components/     # Reusable UI components (each in its own folder)
-│   ├── hooks/          # Custom React hooks
-│   ├── layouts/        # Layout components (public, logged-in)
-│   ├── lib/            # Utility functions and API helpers
-│   └── pages/          # Page components (each page in its own folder)
-```
-
-### Component Organization
-- All reusable components go in `@client/src/components/<component-name>/<component-name>.jsx`
-- Each component folder contains the component file and optional CSS file
-- Pages go in `@client/src/pages/<page-name>/<page-name>.jsx`
-- Pages can have sub-components in the same folder (e.g., section components)
-
-### Component Pattern
-Components should follow this pattern:
-
-@client/src/components/demo/demo.jsx
-```jsx
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-
-import './demo.css';
-
-/**
- * Brief description of the component.
- */
-const Demo = ({
-    children = <></>,
-    className = '',
-    variant = 'default'
-}) => (
-    <div className={classNames('demo', className, { 'demo--alt': variant === 'alt' })}>
-        <div className="demo__content">
-            {children}
-        </div>
-    </div>
-);
-
-Demo.propTypes = {
-    children: PropTypes.node,
-    className: PropTypes.string,
-    variant: PropTypes.oneOf(['default', 'alt'])
-};
-
-export default Demo;
-```
-
-@client/src/components/demo/demo.css
-```css
-.demo {
-    background: var(--glass-bg);
-    backdrop-filter: var(--glass-blur);
-    padding: 10px;
-
-    .demo__content {
-        background: var(--surface-base);
-    }
-}
-```
-
-### Theme Variables
-@client/theme.css contains all CSS custom properties. Never hardcode colors - always use variables:
-- **Colors:** `--color-brand-500`, `--text-body`, `--surface-base`, etc.
-- **Glass Effects:** `--glass-bg`, `--glass-blur`, `--glass-border`
-- **States:** `--state-success`, `--state-danger`, `--state-warning`
-- **Shadows:** `--shadow-soft`, `--shadow-hero`, `--shadow-glass-hover`
-- **Transitions:** `--transition-fast`, `--transition-normal`, `--transition-spring`
-- **Radii:** `--radius-sm`, `--radius-md`, `--radius-lg`, `--radius-xl`
-
-### Styling Approach
-1. **Prefer Tailwind classes** for layout, spacing, and common utilities
-2. **Use CSS files** for complex component-specific styles
-3. **Use CSS variables** from theme.css for all colors and design tokens
-4. **Combine with classNames** utility for conditional classes
-
-## Fetching Data From the Client ##
-
--- SWR Style using useApiGet or useApiPost
-```
-import { useState } from 'react';
-import { useApiGet } from '@client/lib/use-api.js';
-
-const MyComponent = ()=>{
-    const [name, setName] = useState('Tester');
-    const [demo, loadingError, isLoading] = useApiGet('/api/demo', {
-        params: { name },
-        defaultValue: 'Loading...',
-    });
-
-    if(loadingError){
-        return <div>{loadingError}<div>
-    }
-
-    if(isLoading){
-        return <div>Loading...</div>
-    }
-
-    return (
-        <div>
-            {demo}
-            <input onChange={(evt)=>setName(evt.target.value)}>
-        </div>
-    )
-}
-
-```
-
--- Async/Await style using getData or postData
-```
-import { useState, useEffect } from 'react';
-import { getData } from '@client/lib/use-api.js';
-
-const MyComponent = ()=>{
-    const [name, setName] = useState('Tester123');
-    const [demo, setDemo] = useState();
-    const [loadingError, setLoadingError] = useState();
-    const [isLoading, setIsLoading] = useState();
-
-    useEffect(() => {
-        setIsLoading(true);
-        setLoadingError(null);
-        (async () => {
-            try {
-                const demoUpdate = await getData('/api/demo', { name });
-                setDemo(demoUpdate);
-            } catch (err) {
-                setLoadingError(err);
-            } finally {
-                setIsLoading(false);
-            }
-        })();
-    }, [name]);    
-
-    if(loadingError){
-        return <div>{loadingError}<div>
-    }
-
-    if(isLoading){
-        return <div>Loading...</div>
-    }
-
-    return (
-        <div>
-            {demo}
-            <input onChange={(evt)=>setName(evt.target.value)}>
-        </div>
-    )
-}
-
-```
-
-PREFER SWR STYLE DATA LOADING AND ASYNC/AWAIT STYLE FOR POSTING UPDATES THAT ARE TRIGGERED BY USER ACTIONS.
-
----
-
-# Session Management
-
-## Starting a Session
-Execute the **Session Bootstrapper** skill (see top of this document).
-
-→ See: `.agent/skills/session-bootstrapper/SKILL.md`
-
-## During a Session
-
-### For Product Work
-- Follow the Project Plan Workflow (see above)
-- Keep CURRENT-TASK.md updated with progress
-- Document bugs in DEFECT-LIST.md before fixing
-
-### For Framework Work
-- Focus on the specific task
-- Update relevant knowledge files
-- No project plan updates needed
-
-### Always
-- Update JOURNAL.md after completing significant work
-- Update knowledge files when discoveries are made
-- **Monitor context usage** - suggest handoff at 50%
-
-## Ending a Session (Context Summarizer)
-
-Execute the **Context Summarizer** skill when:
-- Context window reaches ~50% capacity
-- User wants to wrap up or take a break
-- Switching to a significantly different task
-- User executes `/handoff` command
-
-→ See: `.agent/skills/context-summarizer/SKILL.md`
-
-The Context Summarizer will:
-1. Assess what was accomplished this session
-2. Update all knowledge files with discoveries
-3. Update STATE.md and CURRENT-TASK.md
-4. Write a detailed JOURNAL.md entry
-5. Provide handoff confirmation
-
-**Proactive Handoff**: When you notice context is getting full, suggest:
-```
-💡 My context window is getting full (~50% used). 
-To preserve our progress, I recommend doing a handoff now.
-Shall I prepare the handoff?
-```
-
----
-
-# Common Commands
-
-```bash
-# Start development servers
-npm start
-
-# Build Client
-npm run build
-
-# Test API endpoint
-curl http://localhost:3000/api/auth/me
-
-```
-
----
-
-# Import Aliases
-
-| Alias | Resolves To |
-|-------|-------------|
+### Import Aliases
+| Alias | Path |
+|-------|------|
 | `@client/` | `./client/` |
 | `@server/` | `./server/` |
 
 ---
 
-# Quick Reference
+## 9. SERVER PATTERNS
 
-## Adding a New API Route
-1. Create handler in `@server/routes/{feature}/{action}.js`
-2. Import and register in `@server/routes/{feature}/_*-routes.js`
-3. Update CODEBASE-MAP.md
+### MongoDB Usage
+```javascript
+import { db } from '@server/lib/mongo-client.js';
 
-## Adding a New Component
-1. Create `@client/src/components/{name}/{name}.jsx`
-2. Optional: Create `{name}.css` in same folder
-3. Follow pattern in PATTERNS.md
-4. Update CODEBASE-MAP.md
+// Use collections via db.collections
+const accounts = await db.collections.accounts.find({}).toArray();
+```
 
-## Adding a New Page
-1. Create `@client/src/pages/{name}/{name}.jsx`
-2. Add route in `@client/src/main.jsx`
-3. Update CODEBASE-MAP.md
+### Route Handler Pattern
+```javascript
+// Public route
+export default async ({ param1 }) => {
+    return { result: param1 };
+};
 
-## Adding a Database Collection
-1. Add to `db.collections` in `@server/lib/mongo-client.js`
-2. Update CODEBASE-MAP.md
+// Secured route (has user context)
+export default async (_params, { user }) => {
+    return { userId: user._id };
+};
+```
+
+### Error Handling
+```javascript
+const err = new Error('Message');
+err.status = 400;  // HTTP status
+err.redirect = '/path';  // Optional redirect
+throw err;
+```
+
+**Full server patterns:** `.agent/skills/api-designer/SKILL.md`
 
 ---
 
-# Remember
+## 10. CLIENT PATTERNS
 
-1. **Read before you write** - Check knowledge files first
-2. **Verify before complete** - Every change needs proof
-3. **Document as you go** - Update knowledge files
-4. **Ask when uncertain** - Clarify before implementing
-5. **Handoff before context full** - Preserve continuity
+### Component Rules
+- One file = one component
+- No inline styles — use Tailwind or CSS files
+- No `defaultProps` — use default parameter values
+- Arrow functions only
+
+### Data Fetching (SWR Style — Preferred)
+```javascript
+import { useApiGet } from '@client/lib/use-api.js';
+
+const [data, error, isLoading] = useApiGet('/api/endpoint', {
+    params: { key: value },
+    defaultValue: null,
+});
+```
+
+### Data Fetching (Async Style — For Actions)
+```javascript
+import { postData } from '@client/lib/use-api.js';
+
+const handleSubmit = async () => {
+    const result = await postData('/api/endpoint', { data });
+};
+```
+
+**Full component patterns:** `.agent/skills/component-generator/SKILL.md`
+
+---
+
+## 11. COMMON COMMANDS
+
+```bash
+npm start          # Start dev servers
+npm run build      # Build client
+curl http://localhost:3000/api/auth/me  # Test API
+```
+
+---
+
+## 12. QUICK REFERENCE
+
+### Add API Route
+1. Create `@server/routes/{feature}/{action}.js`
+2. Register in `@server/routes/{feature}/_*-routes.js`
+3. Run `/map`
+
+### Add Component
+1. Create `@client/src/components/{name}/{name}.jsx`
+2. Optional: Add `{name}.css`
+3. Run `/map`
+
+### Add Page
+1. Create `@client/src/pages/{name}/{name}.jsx`
+2. Add route in `@client/src/main.jsx`
+3. Run `/map`
+
+### Add Collection
+1. Add to `db.collections` in `@server/lib/mongo-client.js`
+2. Run `/map`
+
+---
+
+## 13. REMEMBER
+
+1. **Bootstrap first** — Session Bootstrapper before any work
+2. **Clarify before code** — Use Task Clarifier for ambiguous tasks
+3. **Verify before complete** — Every change needs proof
+4. **Document discoveries** — Update knowledge files
+5. **Handoff at 50%** — Use `/handoff` before context is full
