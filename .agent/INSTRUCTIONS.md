@@ -80,8 +80,9 @@ Building features defined in the project plan.
 3. Update STATE.md with current status
 4. Update CODEBASE-MAP.md if new files were created (invoke Codebase Mapper)
 5. Run Pattern Learner if new code was created (invoke Pattern Learner)
-6. Check if ROADMAP.md needs adjustment
-7. Update knowledge files if discoveries were made
+6. Run Documentation Updater if behavior/APIs/config changed (invoke Documentation Updater)
+7. Check if ROADMAP.md needs adjustment
+8. Update knowledge files if discoveries were made
 
 ### Pausing a Task
 If you need to switch tasks before completing:
@@ -198,6 +199,8 @@ Skills are invoked automatically based on context. Read the skill file for detai
 
 > 📚 The **Pattern Learner** should be invoked after creating new code to identify and document reusable patterns. Use `/learn-patterns` for manual invocation.
 
+> 📝 The **Documentation Updater** should be invoked after completing tasks that affect APIs, configuration, or user-facing features. Use `/update-docs` for manual invocation.
+
 ## Task Skills
 | Skill | Trigger | Path |
 |-------|---------|------|
@@ -230,6 +233,8 @@ Execute these with the command shown:
 | Codebase Map Refresh | `/map` | Full scan and update of CODEBASE-MAP.md |
 | Pattern Learning | `/learn-patterns` | Analyze recent code and document new patterns |
 | Document Pattern | `/document-pattern [name]` | Document a specific pattern mentioned by user |
+| Update Documentation | `/update-docs` | Review and update documentation for recent changes |
+| Check Documentation | `/check-docs` | Verify documentation accuracy without changes |
 
 The `/handoff` command triggers the **Context Summarizer** skill which:
 - Updates all state and knowledge files
@@ -252,6 +257,14 @@ The `/learn-patterns` command triggers the **Pattern Learner** skill which:
 - Documents new patterns with examples and guidance
 
 → See: `.agent/skills/pattern-learner/SKILL.md` for full process
+
+The `/update-docs` command triggers the **Documentation Updater** skill which:
+- Identifies what changed in the completed task
+- Maps changes to affected documentation files
+- Updates CODEBASE-MAP, README, GOTCHAS, and other relevant docs
+- Verifies documentation accuracy and consistency
+
+→ See: `.agent/skills/documentation-updater/SKILL.md` for full process
 
 ---
 
