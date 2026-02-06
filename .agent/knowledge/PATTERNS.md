@@ -1,14 +1,15 @@
 # Code Patterns
 
 > **Purpose**: Documents recurring patterns discovered in the codebase. Agents should follow these patterns when creating new code.
-> **Last Updated**: [Not yet populated]
+> **Last Updated**: 2026-02-05
+> **Updated By**: Agent (Pattern Learner implementation)
 
 ---
 
 ## How to Use This Document
 
 1. **Before creating new code**: Check if a relevant pattern exists here
-2. **After completing a task**: If you discovered/used a pattern not documented here, add it
+2. **After completing a task**: Run Pattern Learner to identify/document new patterns
 3. **Patterns should include**: Name, when to use, example code, and any gotchas
 
 ---
@@ -238,16 +239,32 @@ export default FeatureSection;
 
 ## Discovered Patterns
 
-> Add new patterns here as you discover them during development
+> New patterns are added here by the Pattern Learner skill. 
+> Mature patterns should be moved to their appropriate section above.
 
 <!-- 
-Template for new patterns:
+HOW TO ADD A NEW PATTERN:
 
 ### Pattern Name
-```code
-Example code here
+
+**Category**: [Structural | Behavioral | Styling | Integration]
+
+```language
+// Generalized, reusable example code
 ```
-**When to use**: Description
-**Key rules**: List of rules
-**Gotchas**: Any pitfalls to avoid
+
+**When to use**: Description of the situation that calls for this pattern
+
+**Key rules**:
+- Rule 1
+- Rule 2
+
+**Gotchas**:
+- Pitfall to avoid
+
+**Example usage**: Brief real-world example or file reference
+
+**Discovered**: YYYY-MM-DD - Context of when/why it was needed
 -->
+
+<!-- Add new patterns below this line -->
