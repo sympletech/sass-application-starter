@@ -226,6 +226,8 @@ Skills are invoked automatically based on context. Read the skill file for detai
 | API Designer | Creating routes | `.agent/skills/api-designer/SKILL.md` |
 | Refactoring Assistant | DRY opportunities | `.agent/skills/refactoring-assistant/SKILL.md` |
 
+> 🧱 **Component Generator**: Invoke when creating new React components to ensure they follow project patterns exactly. Includes templates for simple, stateful, data-fetching, page, and section components. Use `/component` to start the generation workflow.
+
 ## Utility Skills
 | Skill | Trigger | Path |
 |-------|---------|------|
@@ -249,6 +251,9 @@ Execute these with the command shown:
 | Check Documentation | `/check-docs` | Verify documentation accuracy without changes |
 | Bug Fix | `/fix` | Start systematic bug fixing workflow |
 | Diagnose Only | `/diagnose` | Run diagnostic phase without implementing fix |
+| Generate Component | `/component` | Scaffold new component following project patterns |
+| Generate Page | `/page [name]` | Scaffold new page with section structure |
+| Generate Section | `/section [name]` | Scaffold new section component |
 
 The `/handoff` command triggers the **Context Summarizer** skill which:
 - Updates all state and knowledge files
@@ -287,6 +292,14 @@ The `/fix` command triggers the **Bug Fixer** skill which:
 - Updates GOTCHAS.md with learnings to prevent recurrence
 
 → See: `.agent/skills/bug-fixer/SKILL.md` for full process
+
+The `/component` command triggers the **Component Generator** skill which:
+- Gathers requirements (name, type, props, location)
+- Generates component files following project patterns exactly
+- Includes appropriate templates (simple, stateful, data-fetching, page, section)
+- Ensures consistency with PATTERNS.md conventions
+
+→ See: `.agent/skills/component-generator/SKILL.md` for full process
 
 ---
 
