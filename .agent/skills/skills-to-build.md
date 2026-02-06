@@ -7,12 +7,12 @@
 | Session Bootstrapper | HIGH | ✅ Implemented | Loads context at session start, determines workflow |
 | High Level Project Manager | HIGH | ✅ Implemented | Collaborates with user to define and plan the project |
 | Context Summarizer | HIGH | ✅ Implemented | Creates session handoffs, ensures continuity |
+| Codebase Mapper | HIGH | ✅ Implemented | Maintains CODEBASE-MAP.md with project structure |
 
 ## Stubbed Skills (Ready for Implementation)
 
 | Skill | Priority | Status | Description |
 |-------|----------|--------|-------------|
-| Codebase Mapper | HIGH | Stubbed | Maintains CODEBASE-MAP.md |
 | Pattern Learner | MEDIUM | Stubbed | Documents patterns as discovered |
 | Documentation Updater | MEDIUM | Stubbed | Keeps docs in sync |
 | Component Generator | MEDIUM | Stubbed | Scaffolds new components |

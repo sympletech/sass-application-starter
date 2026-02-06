@@ -78,8 +78,9 @@ Building features defined in the project plan.
 1. Verify completion (see Verification Requirements)
 2. Move task to DONE-LIST.md with completion notes
 3. Update STATE.md with current status
-4. Check if ROADMAP.md needs adjustment
-5. Update knowledge files if discoveries were made
+4. **Update CODEBASE-MAP.md** if new files were created (invoke Codebase Mapper)
+5. Check if ROADMAP.md needs adjustment
+6. Update knowledge files if discoveries were made
 
 ### Pausing a Task
 If you need to switch tasks before completing:
@@ -186,11 +187,13 @@ Skills are invoked automatically based on context. Read the skill file for detai
 |-------|---------|------|
 | High Level Project Manager | Incomplete project plan / planning requests | `.agent/skills/high-level-project-manager/SKILL.md` |
 | Context Summarizer | 50% context / session end / `/handoff` | `.agent/skills/context-summarizer/SKILL.md` |
-| Codebase Mapper | Structure changes | `.agent/skills/codebase-mapper/SKILL.md` |
+| **Codebase Mapper** | **After creating files** / structure changes / `/map` | `.agent/skills/codebase-mapper/SKILL.md` |
 | Pattern Learner | After creating code | `.agent/skills/pattern-learner/SKILL.md` |
 | Documentation Updater | After completing tasks | `.agent/skills/documentation-updater/SKILL.md` |
 
 > ⚠️ The Context Summarizer is CRITICAL for session continuity. When context reaches 50%, proactively suggest a handoff.
+
+> 📍 The **Codebase Mapper** should be invoked after creating new components, pages, routes, or hooks. Use `/map` for a full refresh.
 
 ## Task Skills
 | Skill | Trigger | Path |
@@ -221,6 +224,7 @@ Execute these with the command shown:
 | Workflow | Command | Purpose |
 |----------|---------|---------|
 | Session Handoff | `/handoff` | Invoke Context Summarizer to prepare session handoff |
+| Codebase Map Refresh | `/map` | Full scan and update of CODEBASE-MAP.md |
 
 The `/handoff` command triggers the **Context Summarizer** skill which:
 - Updates all state and knowledge files
@@ -228,6 +232,13 @@ The `/handoff` command triggers the **Context Summarizer** skill which:
 - Ensures the next session can resume immediately
 
 → See: `.agent/skills/context-summarizer/SKILL.md` for full process
+
+The `/map` command triggers the **Codebase Mapper** skill which:
+- Scans all client and server directories
+- Updates CODEBASE-MAP.md with current structure
+- Detects new components, pages, routes, and hooks
+
+→ See: `.agent/skills/codebase-mapper/SKILL.md` for full process
 
 ---
 
