@@ -8,12 +8,99 @@
 
 At the beginning of EVERY session, do these things in order:
 
+### Step 1: Load Context
 1. [ ] Read `.agent/knowledge/CODEBASE-MAP.md` - Understand the structure
 2. [ ] Read `.agent/knowledge/GOTCHAS.md` - Know what to avoid
 3. [ ] Read `.agent/knowledge/USER-PREFERENCES.md` - Know how user likes things
-6. [ ] Scan recent `.agent/JOURNAL.md` entries - Get session context
+4. [ ] Scan recent `.agent/JOURNAL.md` entries - Get session context
+
+### Step 2: Determine Session Type
+
+Check `.project-plan/PROJECT-DESCRIPTION.md` for completion status.
+
+**If PROJECT-DESCRIPTION has `[To be defined]` or `[Not yet initialized]` markers:**
+
+Ask the user: *"I notice the project plan isn't fully defined yet. Would you like to:"*
+1. *"Work together to define what we're building"* → Invoke High Level Project Manager skill
+2. *"Work on the framework/starter itself (skills, docs, agent infrastructure)"* → Proceed with user's task
+3. *"Jump into a specific task you have in mind"* → Proceed with user's task
+
+**If PROJECT-DESCRIPTION is complete:**
+
+1. [ ] Read `.project-plan/STATE.md` - Current project state
+2. [ ] Check `.project-plan/CURRENT-TASK.md` - Any work in progress?
+3. [ ] Scan `.project-plan/ROADMAP.md` - What's next?
+4. [ ] Check `.project-plan/DEFECT-LIST.md` - Any critical bugs?
+
+### Step 3: Greet User with Status
+
+Provide a brief status:
+- What's currently in progress (if anything)
+- Next priority task (from roadmap or defects)
+- Any blockers or decisions needed
 
 **Do NOT start work until you have this context.**
+
+---
+
+## Framework vs Product Work
+
+This starter project has two modes of work:
+
+### Framework Work (Starter Maintenance)
+Work on the agent infrastructure, skills, documentation, or base application framework.
+
+**Indicators:**
+- User mentions: skills, agent, instructions, documentation, knowledge files
+- Files being edited are in `.agent/` or are core framework files
+- Work doesn't relate to specific product features
+
+**Behavior:**
+- Skip project plan checks
+- Focus on the framework task at hand
+- Update knowledge files as appropriate
+
+### Product Work (Building the Application)
+Building features defined in the project plan.
+
+**Indicators:**
+- User wants to build features, fix product bugs, implement user stories
+- Work relates to items in ROADMAP.md or DEFECT-LIST.md
+
+**Behavior:**
+- Follow project plan workflow
+- Check CURRENT-TASK.md before starting
+- Update project plan files after completing work
+
+---
+
+## Project Plan Workflow
+
+### Starting Work on a Task
+1. Select task from ROADMAP.md (respect priority/dependencies)
+2. Move task details to CURRENT-TASK.md
+3. Remove from ROADMAP.md
+4. Begin implementation
+
+### Completing a Task
+1. Verify completion (see Verification Requirements)
+2. Move task to DONE-LIST.md with completion notes
+3. Update STATE.md with current status
+4. Check if ROADMAP.md needs adjustment
+5. Update knowledge files if discoveries were made
+
+### Pausing a Task
+If you need to switch tasks before completing:
+1. Document current progress in CURRENT-TASK.md
+2. Move back to ROADMAP.md with "Paused" status and notes
+3. Clear CURRENT-TASK.md
+4. Proceed with new task
+
+### Discovering a Bug
+1. Add to DEFECT-LIST.md BEFORE attempting to fix
+2. Inform user: "I found an issue: [description]. Want me to fix it now, or continue with current work?"
+3. If fixing, treat like any other task
+4. When fixed, move to DONE-LIST.md
 
 ---
 
@@ -98,6 +185,7 @@ Skills are invoked automatically based on context. Read the skill file for detai
 ## Core Skills
 | Skill | Trigger | Path |
 |-------|---------|------|
+| High Level Project Manager | Incomplete project plan / planning requests | `.agent/skills/high-level-project-manager/SKILL.md` |
 | Session Bootstrapper | Session start | `.agent/skills/session-bootstrapper/SKILL.md` |
 | Context Summarizer | 50% context / session end | `.agent/skills/context-summarizer/SKILL.md` |
 | Codebase Mapper | Structure changes | `.agent/skills/codebase-mapper/SKILL.md` |
@@ -124,7 +212,6 @@ Skills are invoked automatically based on context. Read the skill file for detai
 |-------|---------|------|
 | Note Taker | Learning something new | `.agent/skills/note-taker/SKILL.md` |
 | Third Party Module Finder | Need external library | `.agent/skills/third-party-module-finder/SKILL.md` |
-| High Level Project Manager | Project planning | `.agent/skills/high-level-project-manager/SKILL.md` |
 
 ---
 
@@ -461,24 +548,41 @@ const MyComponent = ()=>{
 
 PREFER SWR STYLE DATA LOADING AND ASYNC/AWAIT STYLE FOR POSTING UPDATES THAT ARE TRIGGERED BY USER ACTIONS.
 
+---
+
 # Session Management
 
 ## Starting a Session
-1. Read knowledge files (see Quick Start Checklist)
-3. Understand current state
+Follow the Quick Start Checklist at the top of this document:
+1. Load context from knowledge files
+2. Determine session type (framework vs product work)
+3. Check project plan status
 4. Greet user with brief status
 
 ## During a Session
+
+### For Product Work
+- Follow the Project Plan Workflow (see above)
+- Keep CURRENT-TASK.md updated with progress
+- Document bugs in DEFECT-LIST.md before fixing
+
+### For Framework Work
+- Focus on the specific task
+- Update relevant knowledge files
+- No project plan updates needed
+
+### Always
 - Update JOURNAL.md after completing significant work
 - Update knowledge files when discoveries are made
-- Monitor context usage
+- Monitor context usage (handoff at 50%)
 
 ## Ending a Session
 When context reaches 50% or session is ending:
 1. Execute `/handoff` workflow
-2. Update all state files
-3. Write journal entry
-4. Confirm handoff with user
+2. Update STATE.md with current status
+3. Ensure CURRENT-TASK.md reflects work state
+4. Write journal entry
+5. Confirm handoff with user
 
 ---
 
