@@ -228,6 +228,8 @@ Skills are invoked automatically based on context. Read the skill file for detai
 
 > 🧱 **Component Generator**: Invoke when creating new React components to ensure they follow project patterns exactly. Includes templates for simple, stateful, data-fetching, page, and section components. Use `/component` to start the generation workflow.
 
+> 🔌 **API Designer**: Invoke when creating new API routes to ensure they follow project patterns exactly. Includes templates for public/secured GET/POST handlers, error handling, validation, and response patterns. Use `/api` to start the API design workflow.
+
 ## Utility Skills
 | Skill | Trigger | Path |
 |-------|---------|------|
@@ -254,6 +256,9 @@ Execute these with the command shown:
 | Generate Component | `/component` | Scaffold new component following project patterns |
 | Generate Page | `/page [name]` | Scaffold new page with section structure |
 | Generate Section | `/section [name]` | Scaffold new section component |
+| Design API Route | `/api` | Start API Designer workflow for new route |
+| Scaffold API Route | `/api {feature}/{action}` | Scaffold specific route with given path |
+| Review API Routes | `/api-review` | Review existing routes for pattern violations |
 
 The `/handoff` command triggers the **Context Summarizer** skill which:
 - Updates all state and knowledge files
@@ -300,6 +305,15 @@ The `/component` command triggers the **Component Generator** skill which:
 - Ensures consistency with PATTERNS.md conventions
 
 → See: `.agent/skills/component-generator/SKILL.md` for full process
+
+The `/api` command triggers the **API Designer** skill which:
+- Gathers requirements (feature, action, route type, parameters)
+- Generates route handler files following project patterns exactly
+- Includes templates for public/secured GET/POST handlers
+- Ensures proper error handling, validation, and response patterns
+- Registers route in the appropriate `_{feature}-routes.js` file
+
+→ See: `.agent/skills/api-designer/SKILL.md` for full process
 
 ---
 
