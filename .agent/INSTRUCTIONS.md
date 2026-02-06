@@ -240,6 +240,8 @@ Skills are invoked automatically based on context. Read the skill file for detai
 
 > 📝 **Note Taker**: Invoke when discovering pitfalls, receiving user feedback, or learning something that should be captured. Routes learnings to the appropriate knowledge file (GOTCHAS, USER-PREFERENCES, PATTERNS, or DECISIONS). Use `/note` to manually capture a learning.
 
+> 📦 **Third Party Module Finder**: Invoke before implementing complex functionality to check if a well-maintained library exists. Evaluates packages on maintenance, downloads, bundle size, and security. Use `/find-library` to start the search workflow.
+
 ---
 
 # Workflows
@@ -272,6 +274,10 @@ Execute these with the command shown:
 | Note Gotcha | `/note gotcha` | Quick capture to GOTCHAS.md |
 | Note Decision | `/note decision` | Quick capture to DECISIONS.md |
 | Note Preference | `/note preference` | Quick capture to USER-PREFERENCES.md |
+| Find Library | `/find-library` | Start library search workflow |
+| Find Library (specific) | `/find-library {need}` | Search for library solving specific need |
+| Check Dependencies | `/check-deps` | Review current dependencies for issues |
+| Audit Dependencies | `/audit-deps` | Run npm audit and report vulnerabilities |
 
 The `/handoff` command triggers the **Context Summarizer** skill which:
 - Updates all state and knowledge files
@@ -344,6 +350,14 @@ The `/note` command triggers the **Note Taker** skill which:
 - Maintains document organization and prevents duplicates
 
 → See: `.agent/skills/note-taker/SKILL.md` for full process
+
+The `/find-library` command triggers the **Third Party Module Finder** skill which:
+- Checks if existing dependencies already solve the problem
+- Evaluates candidates on maintenance, downloads, size, and security
+- Presents recommendation with installation and usage examples
+- Documents significant additions in DECISIONS.md
+
+→ See: `.agent/skills/third-party-module-finder/SKILL.md` for full process
 
 ---
 
