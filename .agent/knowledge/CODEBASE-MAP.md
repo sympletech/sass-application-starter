@@ -1,8 +1,8 @@
 # Codebase Map
 
 > **Purpose**: Provides agents with immediate understanding of the codebase structure without needing to search.
-> **Last Updated**: [Not yet generated]
-> **Updated By**: [Agent session ID or user]
+> **Last Updated**: 2026-02-05
+> **Updated By**: Agent (Codebase Mapper skill implemented)
 
 ---
 
