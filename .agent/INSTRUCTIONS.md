@@ -185,10 +185,12 @@ Skills are invoked automatically based on context. Read the skill file for detai
 | Skill | Trigger | Path |
 |-------|---------|------|
 | High Level Project Manager | Incomplete project plan / planning requests | `.agent/skills/high-level-project-manager/SKILL.md` |
-| Context Summarizer | 50% context / session end | `.agent/skills/context-summarizer/SKILL.md` |
+| Context Summarizer | 50% context / session end / `/handoff` | `.agent/skills/context-summarizer/SKILL.md` |
 | Codebase Mapper | Structure changes | `.agent/skills/codebase-mapper/SKILL.md` |
 | Pattern Learner | After creating code | `.agent/skills/pattern-learner/SKILL.md` |
 | Documentation Updater | After completing tasks | `.agent/skills/documentation-updater/SKILL.md` |
+
+> ⚠️ The Context Summarizer is CRITICAL for session continuity. When context reaches 50%, proactively suggest a handoff.
 
 ## Task Skills
 | Skill | Trigger | Path |
@@ -218,7 +220,14 @@ Execute these with the command shown:
 
 | Workflow | Command | Purpose |
 |----------|---------|---------|
-| Session Handoff | `/handoff` | Create handoff for next session |
+| Session Handoff | `/handoff` | Invoke Context Summarizer to prepare session handoff |
+
+The `/handoff` command triggers the **Context Summarizer** skill which:
+- Updates all state and knowledge files
+- Writes a comprehensive journal entry
+- Ensures the next session can resume immediately
+
+→ See: `.agent/skills/context-summarizer/SKILL.md` for full process
 
 ---
 
@@ -552,11 +561,7 @@ PREFER SWR STYLE DATA LOADING AND ASYNC/AWAIT STYLE FOR POSTING UPDATES THAT ARE
 ## Starting a Session
 Execute the **Session Bootstrapper** skill (see top of this document).
 
-The bootstrapper handles:
-- Loading all knowledge and project files
-- Determining session type
-- Providing appropriate status greeting
-- Setting up the correct workflow
+→ See: `.agent/skills/session-bootstrapper/SKILL.md`
 
 ## During a Session
 
@@ -573,15 +578,31 @@ The bootstrapper handles:
 ### Always
 - Update JOURNAL.md after completing significant work
 - Update knowledge files when discoveries are made
-- Monitor context usage (handoff at 50%)
+- **Monitor context usage** - suggest handoff at 50%
 
-## Ending a Session
-When context reaches 50% or session is ending:
-1. Execute `/handoff` workflow
-2. Update STATE.md with current status
-3. Ensure CURRENT-TASK.md reflects work state
-4. Write journal entry
-5. Confirm handoff with user
+## Ending a Session (Context Summarizer)
+
+Execute the **Context Summarizer** skill when:
+- Context window reaches ~50% capacity
+- User wants to wrap up or take a break
+- Switching to a significantly different task
+- User executes `/handoff` command
+
+→ See: `.agent/skills/context-summarizer/SKILL.md`
+
+The Context Summarizer will:
+1. Assess what was accomplished this session
+2. Update all knowledge files with discoveries
+3. Update STATE.md and CURRENT-TASK.md
+4. Write a detailed JOURNAL.md entry
+5. Provide handoff confirmation
+
+**Proactive Handoff**: When you notice context is getting full, suggest:
+```
+💡 My context window is getting full (~50% used). 
+To preserve our progress, I recommend doing a handoff now.
+Shall I prepare the handoff?
+```
 
 ---
 
