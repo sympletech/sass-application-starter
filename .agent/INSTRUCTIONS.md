@@ -4,42 +4,34 @@
 
 ---
 
-## Quick Start Checklist
+## Session Start
 
-At the beginning of EVERY session, do these things in order:
+**At the beginning of EVERY session, execute the Session Bootstrapper skill.**
 
-### Step 1: Load Context
-1. [ ] Read `.agent/knowledge/CODEBASE-MAP.md` - Understand the structure
-2. [ ] Read `.agent/knowledge/GOTCHAS.md` - Know what to avoid
-3. [ ] Read `.agent/knowledge/USER-PREFERENCES.md` - Know how user likes things
-4. [ ] Scan recent `.agent/JOURNAL.md` entries - Get session context
+→ See: `.agent/skills/session-bootstrapper/SKILL.md`
 
-### Step 2: Determine Session Type
+The Session Bootstrapper will:
+1. Load all knowledge files (codebase map, patterns, gotchas, decisions, preferences)
+2. Load project state (description, state, current task, roadmap, defects)
+3. Scan recent journal entries
+4. Determine session type and appropriate workflow
+5. Provide you with a status greeting template
 
-Check `.project-plan/PROJECT-DESCRIPTION.md` for completion status.
+**Do NOT start any work until the bootstrap process is complete.**
 
-**If PROJECT-DESCRIPTION has `[To be defined]` or `[Not yet initialized]` markers:**
+---
 
-Ask the user: *"I notice the project plan isn't fully defined yet. Would you like to:"*
-1. *"Work together to define what we're building"* → Invoke High Level Project Manager skill
-2. *"Work on the framework/starter itself (skills, docs, agent infrastructure)"* → Proceed with user's task
-3. *"Jump into a specific task you have in mind"* → Proceed with user's task
+## Quick Reference: Session Types
 
-**If PROJECT-DESCRIPTION is complete:**
+After bootstrapping, you'll be in one of these modes:
 
-1. [ ] Read `.project-plan/STATE.md` - Current project state
-2. [ ] Check `.project-plan/CURRENT-TASK.md` - Any work in progress?
-3. [ ] Scan `.project-plan/ROADMAP.md` - What's next?
-4. [ ] Check `.project-plan/DEFECT-LIST.md` - Any critical bugs?
-
-### Step 3: Greet User with Status
-
-Provide a brief status:
-- What's currently in progress (if anything)
-- Next priority task (from roadmap or defects)
-- Any blockers or decisions needed
-
-**Do NOT start work until you have this context.**
+| Type | Situation | Action |
+|------|-----------|--------|
+| **Planning** | Project not defined | Invoke High Level Project Manager |
+| **Continuation** | Task in progress | Resume from CURRENT-TASK.md |
+| **New Task** | Ready for next task | Start from ROADMAP.md |
+| **Bug Fix** | Critical bugs exist | Address DEFECT-LIST.md first |
+| **Framework** | Working on agent/skills | Skip project plan, focus on framework |
 
 ---
 
@@ -182,11 +174,17 @@ The agent learns and retains knowledge through these files:
 
 Skills are invoked automatically based on context. Read the skill file for detailed behavior.
 
+## Entry Point Skill
+| Skill | Trigger | Path |
+|-------|---------|------|
+| **Session Bootstrapper** | **FIRST thing every session** | `.agent/skills/session-bootstrapper/SKILL.md` |
+
+> ⚠️ The Session Bootstrapper is MANDATORY at session start. It loads context and determines workflow.
+
 ## Core Skills
 | Skill | Trigger | Path |
 |-------|---------|------|
 | High Level Project Manager | Incomplete project plan / planning requests | `.agent/skills/high-level-project-manager/SKILL.md` |
-| Session Bootstrapper | Session start | `.agent/skills/session-bootstrapper/SKILL.md` |
 | Context Summarizer | 50% context / session end | `.agent/skills/context-summarizer/SKILL.md` |
 | Codebase Mapper | Structure changes | `.agent/skills/codebase-mapper/SKILL.md` |
 | Pattern Learner | After creating code | `.agent/skills/pattern-learner/SKILL.md` |
@@ -204,7 +202,6 @@ Skills are invoked automatically based on context. Read the skill file for detai
 |-------|---------|------|
 | Component Generator | Creating components | `.agent/skills/component-generator/SKILL.md` |
 | API Designer | Creating routes | `.agent/skills/api-designer/SKILL.md` |
-| Test Writer | After implementing features | `.agent/skills/test-writer/SKILL.md` |
 | Refactoring Assistant | DRY opportunities | `.agent/skills/refactoring-assistant/SKILL.md` |
 
 ## Utility Skills
@@ -553,11 +550,13 @@ PREFER SWR STYLE DATA LOADING AND ASYNC/AWAIT STYLE FOR POSTING UPDATES THAT ARE
 # Session Management
 
 ## Starting a Session
-Follow the Quick Start Checklist at the top of this document:
-1. Load context from knowledge files
-2. Determine session type (framework vs product work)
-3. Check project plan status
-4. Greet user with brief status
+Execute the **Session Bootstrapper** skill (see top of this document).
+
+The bootstrapper handles:
+- Loading all knowledge and project files
+- Determining session type
+- Providing appropriate status greeting
+- Setting up the correct workflow
 
 ## During a Session
 

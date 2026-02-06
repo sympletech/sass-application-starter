@@ -1,12 +1,18 @@
 # Skills To Build
 
-## Core Skills (Stubbed - Ready for Implementation)
+## Implemented Skills
 
 | Skill | Priority | Status | Description |
 |-------|----------|--------|-------------|
-| Session Bootstrapper | HIGH | Stubbed | Loads context at session start |
-| Codebase Mapper | HIGH | Stubbed | Maintains CODEBASE-MAP.md |
+| Session Bootstrapper | HIGH | ✅ Implemented | Loads context at session start, determines workflow |
+| High Level Project Manager | HIGH | ✅ Implemented | Collaborates with user to define and plan the project |
+
+## Stubbed Skills (Ready for Implementation)
+
+| Skill | Priority | Status | Description |
+|-------|----------|--------|-------------|
 | Context Summarizer | HIGH | Stubbed | Creates session handoffs |
+| Codebase Mapper | HIGH | Stubbed | Maintains CODEBASE-MAP.md |
 | Pattern Learner | MEDIUM | Stubbed | Documents patterns as discovered |
 | Documentation Updater | MEDIUM | Stubbed | Keeps docs in sync |
 | Component Generator | MEDIUM | Stubbed | Scaffolds new components |
@@ -14,7 +20,7 @@
 | Refactoring Assistant | LOW | Stubbed | Identifies DRY opportunities |
 | API Designer | LOW | Stubbed | Ensures API consistency |
 
-## Existing Skills (Referenced in INSTRUCTIONS.md)
+## Referenced Skills (Need Creation)
 
 | Skill | Status | Location |
 |-------|--------|----------|
@@ -23,7 +29,6 @@
 | Bug Fixer | Referenced | `.agent/skills/bug-fixer/SKILL.md` |
 | Task Validator | Referenced | `.agent/skills/task-validator/SKILL.md` |
 | Third Party Module Finder | Referenced | `.agent/skills/third-party-module-finder/SKILL.md` |
-| High Level Project Manager | Exists | `.agent/skills/high-level-project-manager/SKILL.md` |
 
 ## Workflows
 
