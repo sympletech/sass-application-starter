@@ -217,6 +217,8 @@ Skills are invoked automatically based on context. Read the skill file for detai
 > - You would need to make significant assumptions
 > - Use `/clarify` to manually invoke
 
+> 🐛 **Bug Fixer**: Invoke when debugging or fixing defects. ALWAYS document bugs in DEFECT-LIST.md before attempting to fix. Use `/fix` to start the systematic debugging workflow.
+
 ## Development Skills
 | Skill | Trigger | Path |
 |-------|---------|------|
@@ -245,6 +247,8 @@ Execute these with the command shown:
 | Document Pattern | `/document-pattern [name]` | Document a specific pattern mentioned by user |
 | Update Documentation | `/update-docs` | Review and update documentation for recent changes |
 | Check Documentation | `/check-docs` | Verify documentation accuracy without changes |
+| Bug Fix | `/fix` | Start systematic bug fixing workflow |
+| Diagnose Only | `/diagnose` | Run diagnostic phase without implementing fix |
 
 The `/handoff` command triggers the **Context Summarizer** skill which:
 - Updates all state and knowledge files
@@ -275,6 +279,14 @@ The `/update-docs` command triggers the **Documentation Updater** skill which:
 - Verifies documentation accuracy and consistency
 
 → See: `.agent/skills/documentation-updater/SKILL.md` for full process
+
+The `/fix` command triggers the **Bug Fixer** skill which:
+- Documents bug in DEFECT-LIST.md before fixing
+- Provides systematic diagnosis approach
+- Verifies fix with evidence before marking complete
+- Updates GOTCHAS.md with learnings to prevent recurrence
+
+→ See: `.agent/skills/bug-fixer/SKILL.md` for full process
 
 ---
 
