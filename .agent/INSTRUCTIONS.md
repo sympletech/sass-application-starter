@@ -230,6 +230,8 @@ Skills are invoked automatically based on context. Read the skill file for detai
 
 > 🔌 **API Designer**: Invoke when creating new API routes to ensure they follow project patterns exactly. Includes templates for public/secured GET/POST handlers, error handling, validation, and response patterns. Use `/api` to start the API design workflow.
 
+> ♻️ **Refactoring Assistant**: Invoke when you notice code duplication, copy-pasted code, or DRY violations. Provides systematic approach to extracting components, hooks, and utilities. Use `/refactor` to scan for opportunities or `/refactor {file}` for specific files.
+
 ## Utility Skills
 | Skill | Trigger | Path |
 |-------|---------|------|
@@ -259,6 +261,11 @@ Execute these with the command shown:
 | Design API Route | `/api` | Start API Designer workflow for new route |
 | Scaffold API Route | `/api {feature}/{action}` | Scaffold specific route with given path |
 | Review API Routes | `/api-review` | Review existing routes for pattern violations |
+| Refactor Code | `/refactor` | Scan recent changes for refactoring opportunities |
+| Refactor File | `/refactor {file}` | Analyze specific file for DRY violations |
+| Check Duplication | `/refactor-check` | Report on code duplication without changes |
+| Extract Component | `/extract-component {name}` | Start component extraction workflow |
+| Extract Hook | `/extract-hook {name}` | Start hook extraction workflow |
 
 The `/handoff` command triggers the **Context Summarizer** skill which:
 - Updates all state and knowledge files
@@ -314,6 +321,15 @@ The `/api` command triggers the **API Designer** skill which:
 - Registers route in the appropriate `_{feature}-routes.js` file
 
 → See: `.agent/skills/api-designer/SKILL.md` for full process
+
+The `/refactor` command triggers the **Refactoring Assistant** skill which:
+- Scans code for duplication and DRY violations
+- Identifies candidates for extraction (components, hooks, utilities)
+- Proposes refactoring with impact analysis
+- Executes safe, incremental refactoring with verification
+- Updates documentation after refactoring
+
+→ See: `.agent/skills/refactoring-assistant/SKILL.md` for full process
 
 ---
 
