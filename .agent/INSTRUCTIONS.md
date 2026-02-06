@@ -238,6 +238,8 @@ Skills are invoked automatically based on context. Read the skill file for detai
 | Note Taker | Learning something new | `.agent/skills/note-taker/SKILL.md` |
 | Third Party Module Finder | Need external library | `.agent/skills/third-party-module-finder/SKILL.md` |
 
+> 📝 **Note Taker**: Invoke when discovering pitfalls, receiving user feedback, or learning something that should be captured. Routes learnings to the appropriate knowledge file (GOTCHAS, USER-PREFERENCES, PATTERNS, or DECISIONS). Use `/note` to manually capture a learning.
+
 ---
 
 # Workflows
@@ -266,6 +268,10 @@ Execute these with the command shown:
 | Check Duplication | `/refactor-check` | Report on code duplication without changes |
 | Extract Component | `/extract-component {name}` | Start component extraction workflow |
 | Extract Hook | `/extract-hook {name}` | Start hook extraction workflow |
+| Capture Learning | `/note` | Route a learning to appropriate knowledge file |
+| Note Gotcha | `/note gotcha` | Quick capture to GOTCHAS.md |
+| Note Decision | `/note decision` | Quick capture to DECISIONS.md |
+| Note Preference | `/note preference` | Quick capture to USER-PREFERENCES.md |
 
 The `/handoff` command triggers the **Context Summarizer** skill which:
 - Updates all state and knowledge files
@@ -330,6 +336,14 @@ The `/refactor` command triggers the **Refactoring Assistant** skill which:
 - Updates documentation after refactoring
 
 → See: `.agent/skills/refactoring-assistant/SKILL.md` for full process
+
+The `/note` command triggers the **Note Taker** skill which:
+- Classifies the learning type (gotcha, preference, pattern, decision)
+- Formats the note using the appropriate template
+- Routes to the correct knowledge file
+- Maintains document organization and prevents duplicates
+
+→ See: `.agent/skills/note-taker/SKILL.md` for full process
 
 ---
 
