@@ -1,8 +1,8 @@
 # Codebase Map
 
 > **Purpose**: Provides agents with immediate understanding of the codebase structure without needing to search.
-> **Last Updated**: 2026-02-05
-> **Updated By**: Agent (Codebase Mapper skill implemented)
+> **Last Updated**: 2026-02-06
+> **Updated By**: Agent (Added admin user management system)
 
 ---
 
@@ -88,6 +88,18 @@
 | Profile Details | `@client/src/pages/profile/profile-details-card.jsx` | - |
 | Subscription Card | `@client/src/pages/profile/account-subscription-card.jsx` | - |
 
+### Admin User Management
+| Feature | Client | Server |
+|---------|--------|--------|
+| User Management Page | `@client/src/pages/admin/admin-users.jsx` | - |
+| List All Users | - | `@server/routes/admin/list-users.js` |
+| Update User Status | - | `@server/routes/admin/update-user-status.js` |
+| Update Subscription | - | `@server/routes/admin/update-user-subscription.js` |
+| Route Definitions | - | `@server/routes/admin/_admin-routes.js` |
+| Admin Docs | - | `.agent/knowledge/ADMIN_MANAGEMENT.md` |
+
+**Note**: Requires `isAdmin: true` flag in user account. See ADMIN_MANAGEMENT.md for setup.
+
 ### Public Marketing Pages
 | Page | Location | Sections |
 |------|----------|----------|
@@ -109,8 +121,8 @@
 
 | Collection | Purpose | Key Fields |
 |------------|---------|------------|
-| `accounts` | User accounts | [To be documented] |
-| `sessions` | User sessions | [To be documented] |
+| `accounts` | User accounts | `email`, `password`, `inactive`, `isAdmin`, `subscriptionId`, `stripeCustomerId`, `firstName`, `lastName`, `isSocial`, `oauthProvider` |
+| `sessions` | User sessions | Managed by express-session |
 
 ---
 
@@ -176,4 +188,5 @@
 
 > Add observations about the codebase structure as you discover them
 
-- [No notes yet]
+- 2026-02-06: Added admin user management system with full CRUD operations for user accounts and subscription management
+- 2026-02-06: Updated LoggedInLayout to remove max-width constraint; individual pages now set their own max-width as needed
