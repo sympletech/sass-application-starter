@@ -268,3 +268,29 @@ HOW TO ADD A NEW PATTERN:
 -->
 
 <!-- Add new patterns below this line -->
+### High-End Visualization Dashboard
+
+**Category**: Styling | UI Components
+
+```css
+.visual-container {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    /* Use CSS variables for theme support */
+}
+
+/* Use SVG for complex data visualizations */
+<svg viewBox="0 0 100 100">
+    <circle class="pulsing-node" ... />
+</svg>
+```
+
+**When to use**: Creating dashboards or data-intensive displays that require a "premium" or "high-tech" feel.
+
+**Key rules**:
+- Always use theme variables from `theme.css`.
+- Synchronize animations with the application's timing (e.g., `var(--transition-normal)`).
+- Provide explicit light theme overrides for clarity.
+
+**Discovered**: 2026-02-06 - Created for the new dashboard placeholder implementation.

@@ -170,3 +170,22 @@ Good example
 **Why**: Explanation of why this matters
 **Discovered**: Date and context
 -->
+### CSS background-clip Compatibility
+❌ **Wrong**:
+```css
+.text-gradient {
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+```
+
+✅ **Correct**:
+```css
+.text-gradient {
+    -webkit-background-clip: text;
+    background-clip: text; /* Standard property */
+    -webkit-text-fill-color: transparent;
+}
+```
+**Why**: Standardizing `background-clip` prevents lint errors and ensures better browser compatibility for text gradients.
+**Discovered**: 2026-02-06 during dashboard styling.
