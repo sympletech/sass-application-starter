@@ -28,12 +28,15 @@ Determine what type of knowledge was discovered:
 
 | Learning Type | Description | Target File |
 |---------------|-------------|-------------|
-| **Pitfall/Bug** | Something that went wrong and how to avoid it | GOTCHAS.md |
-| **User Preference** | How the user likes things done | USER-PREFERENCES.md |
-| **Code Pattern** | Reusable code structure or convention | PATTERNS.md |
-| **Technical Decision** | Significant choice about architecture or approach | DECISIONS.md |
-| **Project Structure** | New files, routes, or organization | CODEBASE-MAP.md |
-| **Session Progress** | Work completed, status updates | JOURNAL.md |
+| **Pitfall/Bug** | Something that went wrong and how to avoid it | `.agent/knowledge/GOTCHAS.md` |
+| **User Preference** | How the user likes things done | `.agent/knowledge/USER-PREFERENCES.md` |
+| **Code Pattern** | Reusable code structure or convention | `.agent/knowledge/PATTERNS.md` |
+| **Technical Decision** | Significant choice about architecture or approach | `.agent/knowledge/DECISIONS.md` |
+| **Project Structure** | New files, routes, or organization | `.agent/knowledge/CODEBASE-MAP.md` |
+| **Feature Documentation** | Significant feature or subsystem guide | `.agent/knowledge/{FEATURE_NAME}.md` |
+| **Session Progress** | Work completed, status updates | `.agent/JOURNAL.md` |
+
+**CRITICAL**: All knowledge files live in `.agent/knowledge/` directory (except JOURNAL.md which is in `.agent/`)
 
 ### Phase 2: Format the Note
 
@@ -51,8 +54,11 @@ Briefly acknowledge the note was captured (don't interrupt workflow).
 
 ## Note Templates by Target File
 
+**Directory**: All knowledge files are in `.agent/knowledge/`
+
 ### GOTCHAS.md - Pitfalls and Issues
 
+**Full path**: `.agent/knowledge/GOTCHAS.md`  
 Use when something went wrong or could go wrong.
 
 ```markdown
@@ -78,6 +84,7 @@ Use when something went wrong or could go wrong.
 
 ### USER-PREFERENCES.md - User Feedback
 
+**Full path**: `.agent/knowledge/USER-PREFERENCES.md`  
 Use when the user expresses a preference or corrects approach.
 
 ```markdown
@@ -98,6 +105,7 @@ Use when the user expresses a preference or corrects approach.
 
 ### PATTERNS.md - Code Patterns
 
+**Full path**: `.agent/knowledge/PATTERNS.md`  
 Use when identifying a reusable code pattern (consider Pattern Learner for detailed analysis).
 
 ```markdown

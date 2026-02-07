@@ -62,14 +62,36 @@ Do NOT start any work until bootstrap is complete.
 
 ## 5. KNOWLEDGE FILES
 
+### Knowledge Directory: `.agent/knowledge/`
+
+**CRITICAL RULE**: ALL knowledge and documentation files MUST be created in `.agent/knowledge/`
+
+**Core Knowledge Files:**
+
 | File | Purpose |
-|------|---------|
+|------|---------||
 | `knowledge/CODEBASE-MAP.md` | Structure & file locations |
 | `knowledge/PATTERNS.md` | Code patterns to follow |
 | `knowledge/GOTCHAS.md` | Pitfalls to avoid |
 | `knowledge/DECISIONS.md` | Architecture decisions |
 | `knowledge/USER-PREFERENCES.md` | User working style |
-| `JOURNAL.md` | Session logs |
+
+**Additional Knowledge:**
+- Feature documentation (e.g., `knowledge/ADMIN_MANAGEMENT.md`)
+- Domain-specific guides (e.g., `knowledge/API-DESIGN.md`)
+- Technical deep-dives
+- Setup/configuration guides
+
+**Session Logs:**
+| File | Purpose |
+|------|---------||
+| `JOURNAL.md` | Session logs (root `.agent/` directory) |
+
+**When to create new knowledge files:**
+- Documenting a significant new feature or subsystem
+- Creating a guide that will be referenced across sessions
+- Capturing complex technical information
+- Recording domain knowledge or business logic
 
 Update after completing tasks or fixing bugs.
 

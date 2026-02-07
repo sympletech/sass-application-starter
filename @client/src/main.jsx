@@ -16,6 +16,7 @@ import Legal from './pages/legal/legal.jsx'
 import LoggedInLayout from './layouts/logged-in/logged-in-layout.jsx'
 import Dashboard from './pages/dashboard/dashboard.jsx'
 import Profile from './pages/profile/profile.jsx'
+import AdminUsers from './pages/admin/admin-users.jsx'
 import ScrollToTop from './components/scroll-to-top/scroll-to-top.jsx'
 
 createRoot(document.getElementById('root')).render(
@@ -34,6 +35,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="/@" element={<LoggedInLayout />}>
           <Route index element={<Dashboard />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="admin/users" element={<AdminUsers />} />
         </Route>
       </Routes>
     </BrowserRouter>

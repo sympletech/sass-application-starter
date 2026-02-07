@@ -8,7 +8,8 @@ import {
     BulbOutlined,
     BulbFilled,
     UserOutlined,
-    SettingOutlined
+    SettingOutlined,
+    TeamOutlined
 } from '@ant-design/icons';
 
 // Hooks
@@ -24,6 +25,7 @@ const { Header, Content, Footer } = AntLayout;
 
 function LoggedInLayout() {
     const [authLoading, setAuthLoading] = useState(true);
+    const [user, setUser] = useState(null);
     const location = useLocation();
     const navigate = useNavigate();
     const { isMobile } = useResponsive();
@@ -34,15 +36,16 @@ function LoggedInLayout() {
     useEffect(() => {
         const checkAuth = async () => {
             try {
-                const user = await getData('/auth/me');
-                if (!user || !user.email) {
+                const userData = await getData('/auth/me');
+                if (!userData || !userData.email) {
                     navigate('/login');
                     return;
                 }
-                if (user.inactive) {
-                    navigate(`/reactivate?email=${encodeURIComponent(user.email)}`);
+                if (userData.inactive) {
+                    navigate(`/reactivate?email=${encodeURIComponent(userData.email)}`);
                     return;
                 }
+                setUser(userData);
                 setAuthLoading(false);
             } catch (error) {
                 console.error('Auth check failed', error);
@@ -63,6 +66,11 @@ function LoggedInLayout() {
             icon: <DashboardOutlined />,
             label: <Link to="/@">Dashboard</Link>,
         },
+        ...(user?.isAdmin ? [{
+            key: '/@/admin/users',
+            icon: <TeamOutlined />,
+            label: <Link to="/@/admin/users">User Management</Link>,
+        }] : []),
         {
             key: '/logout',
             icon: <LogoutOutlined />,

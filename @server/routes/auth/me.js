@@ -8,6 +8,7 @@ export default async (_params, { user }) => {
         firstName: user.firstName || '',
         lastName: user.lastName || '',
         inactive: !!user.inactive,
+        isAdmin: !!user.isAdmin,
         isSocial: !!user.isSocial,
         oauthProvider: user.oauthProvider || null,
         plan,

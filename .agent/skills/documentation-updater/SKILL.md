@@ -78,7 +78,26 @@ Not all documentation updates are equal. Prioritize:
 
 #### Knowledge Files
 
+**CRITICAL**: All knowledge files are located in `.agent/knowledge/` directory.
+
+**Creating New Knowledge Files:**
+
+When creating NEW knowledge documentation (not updating existing files), always create them in `.agent/knowledge/`:
+
+```
+✅ Correct:   .agent/knowledge/ADMIN_MANAGEMENT.md
+✅ Correct:   .agent/knowledge/STRIPE_INTEGRATION.md
+❌ Wrong:     ADMIN_MANAGEMENT.md (root directory)
+❌ Wrong:     docs/ADMIN_MANAGEMENT.md
+```
+
+**File naming conventions:**
+- Use `SCREAMING_SNAKE_CASE.md` for knowledge files
+- Be descriptive but concise
+- Match the domain or feature name
+
 ##### CODEBASE-MAP.md
+**Location:** `.agent/knowledge/CODEBASE-MAP.md`  
 **Update when:** Files created, routes added, structure changed
 
 **How to update:**
@@ -87,6 +106,7 @@ Not all documentation updates are equal. Prioritize:
 3. Add notes for significant changes
 
 ##### PATTERNS.md
+**Location:** `.agent/knowledge/PATTERNS.md`  
 **Update when:** Pattern evolved, new pattern created, pattern deprecated
 
 **How to update:**
@@ -95,6 +115,7 @@ Not all documentation updates are equal. Prioritize:
 3. Add "Updated: [date]" note to changed patterns
 
 ##### GOTCHAS.md
+**Location:** `.agent/knowledge/GOTCHAS.md`  
 **Update when:** Bug fixed, edge case discovered, pitfall identified
 
 **How to update:**
@@ -120,6 +141,7 @@ Not all documentation updates are equal. Prioritize:
 ```
 
 ##### DECISIONS.md
+**Location:** `.agent/knowledge/DECISIONS.md`  
 **Update when:** Architectural choice made, technology selected, approach decided
 
 **How to update:**
@@ -135,6 +157,7 @@ Not all documentation updates are equal. Prioritize:
 ```
 
 ##### USER-PREFERENCES.md
+**Location:** `.agent/knowledge/USER-PREFERENCES.md`  
 **Update when:** User feedback received, working style observed
 
 **How to update:**
@@ -143,6 +166,23 @@ Not all documentation updates are equal. Prioritize:
 **Observed**: [Date]
 [What the user prefers and why]
 ```
+
+##### Feature-Specific Documentation
+**Location:** `.agent/knowledge/{FEATURE_NAME}.md`  
+**Create when:** Building a significant feature that needs standalone documentation
+
+**Examples:**
+- `.agent/knowledge/ADMIN_MANAGEMENT.md` - Admin user management system
+- `.agent/knowledge/STRIPE_INTEGRATION.md` - Payment processing details
+- `.agent/knowledge/AUTH_SYSTEM.md` - Authentication flow and OAuth
+
+**What to include:**
+- Feature overview and purpose
+- API endpoints and their usage
+- Configuration and setup instructions
+- Common workflows and examples
+- Troubleshooting guide
+- Security considerations
 
 #### Project Documentation
 

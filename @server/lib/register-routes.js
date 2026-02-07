@@ -72,6 +72,64 @@ const registerSecuredRouteHandler = (handler) => async (req, res) => {
 };
 
 //  ************************************************************
+//  Register Admin Route Handler
+//  ************************************************************
+const registerAdminRouteHandler = (handler) => async (req, res) => {
+    const userId = req.session?.userId;
+    if (!userId) {
+        return res.status(401).jsonp({
+            error: 'Not Authorized',
+            redirect: '/login'
+        });
+    }
+
+    let objectId;
+    try {
+        objectId = new ObjectId(userId);
+    } catch {
+        return res.status(401).jsonp({
+            error: 'Invalid Session ID',
+            redirect: '/login'
+        });
+    }
+
+    const user = await db.collections.accounts.findOne({ _id: objectId });
+    if (!user) {
+        return res.status(401).jsonp({
+            error: 'User Not Found',
+            redirect: '/login'
+        });
+    }
+
+    if (user.inactive) {
+        return res.status(401).jsonp({
+            error: 'Account Is Inactive',
+            redirect: '/login'
+        });
+    }
+
+    if (!user.isAdmin) {
+        return res.status(403).jsonp({
+            error: 'Admin Access Required',
+            redirect: '/@'
+        });
+    }
+
+    try {
+        const params = req.method === 'GET' ? req.query : req.body;
+        const result = await handler(params, { req, res, user });
+        return res.jsonp(result);
+    } catch (error) {
+        console.error(error);
+        const status = error?.status || 500;
+        return res.status(status).jsonp({
+            error: error?.message || 'Internal Server Error',
+            redirect: error?.redirect || null
+        });
+    }
+};
+
+//  ************************************************************
 //  Register Routes
 //  ************************************************************
 export default async (app) => {
@@ -95,6 +153,12 @@ export default async (app) => {
             },
             securedPost: (path, handler) => {
                 app.post(path, registerSecuredRouteHandler(handler));
+            },
+            adminGet: (path, handler) => {
+                app.get(path, registerAdminRouteHandler(handler));
+            },
+            adminPost: (path, handler) => {
+                app.post(path, registerAdminRouteHandler(handler));
             }
         };
 

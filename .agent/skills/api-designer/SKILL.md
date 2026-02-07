@@ -83,6 +83,10 @@ Add route to the feature's `_*-routes.js` file.
 - Test the route with actual requests
 - Update CODEBASE-MAP.md if new routes added
 - Document any new patterns in PATTERNS.md
+- **For significant new features**: Create feature documentation in `.agent/knowledge/{FEATURE_NAME}.md`
+  - Include API endpoints, usage examples, and troubleshooting
+  - Document admin routes, special permissions, or security considerations
+  - Provide setup instructions if configuration is required
 
 ---
 

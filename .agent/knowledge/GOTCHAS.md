@@ -1,7 +1,7 @@
 # Gotchas & Pitfalls
 
 > **Purpose**: Documents known issues, edge cases, and things that have caused problems in the past. Check this before making changes to avoid repeating mistakes.
-> **Last Updated**: [Not yet populated]
+> **Last Updated**: 2026-02-06
 
 ---
 
@@ -10,6 +10,32 @@
 1. **Before making changes**: Scan relevant sections for known issues
 2. **After fixing a bug**: Document the root cause and solution here
 3. **After discovering an edge case**: Add it here to prevent future issues
+
+---
+
+## Agent Framework / Documentation
+
+### Do NOT Create Knowledge Files in Root Directory
+❌ **Wrong**:
+```
+/ADMIN_MANAGEMENT.md
+/API_DOCS.md
+docs/FEATURE.md
+```
+
+✅ **Correct**:
+```
+.agent/knowledge/ADMIN_MANAGEMENT.md
+.agent/knowledge/API_DOCS.md
+.agent/knowledge/FEATURE.md
+```
+**Why**: ALL knowledge and documentation must live in `.agent/knowledge/` for consistency and discoverability. The only exception is `JOURNAL.md` which lives in `.agent/`.
+
+**When this applies**: 
+- Creating documentation for new features
+- Adding guides or troubleshooting docs
+- Documenting subsystems or integrations
+- ANY knowledge that should persist across sessions
 
 ---
 
