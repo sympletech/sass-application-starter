@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import AppSection from '@client/components/app-section/app-section.jsx';
+import sympletechLogo from '@client/assets/sympletech-logo.png';
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -18,6 +19,10 @@ const HeroSection = ({ heroImage }) => {
             <Row gutter={[48, 48]} align="middle">
                 <Col xs={24} lg={12}>
                     <Space direction="vertical" size="large" className="w-full">
+                        <img src={sympletechLogo} alt="Sympletech Logo" className="w-125 h-24" />
+                        <Paragraph className="text-[24px] md:text-[48px] leading-tight font-extrabold m-0">
+                            Application Starter Kit
+                        </Paragraph>
                         <Badge
                             color="var(--color-brand-500)"
                             text={<Text strong className="text-brand-500">V1.0 ALPHA — JUST RELEASED</Text>}
