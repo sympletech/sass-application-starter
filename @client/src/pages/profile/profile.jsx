@@ -151,7 +151,7 @@ const Profile = () => {
     }
 
     return (
-        <Space direction="vertical" size="large" className="w-full">
+        <Space direction="vertical" size="large" className="w-full max-w-[1200px] mx-auto">
             <div className="mb-2">
                 <Title level={2} className="m-0 mb-2">Profile</Title>
                 <Paragraph className="text-text-body m-0">

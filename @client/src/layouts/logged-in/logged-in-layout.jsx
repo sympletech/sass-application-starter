@@ -205,7 +205,7 @@ function LoggedInLayout() {
 
                 {/* Main Content */}
                 <Content className="p-6 md:p-8">
-                    <div className="max-w-[1200px] mx-auto min-h-[calc(100vh-64px-140px)]">
+                    <div className="mx-auto min-h-[calc(100vh-64px-140px)]">
                         <Outlet />
                     </div>
                 </Content>

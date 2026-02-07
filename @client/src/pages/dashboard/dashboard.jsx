@@ -1,6 +1,6 @@
 function Dashboard() {
     return (
-        <div>
+        <div className="max-w-[1200px] mx-auto">
             <h1>Dashboard</h1>
             <p>Welcome to the dashboard!</p>
         </div>

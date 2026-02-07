@@ -246,43 +246,41 @@ function AdminUsers() {
     ];
 
     return (
-        <div style={{ padding: '24px' }}>
-            <Card>
-                <Space direction="vertical" size="large" style={{ width: '100%' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <h1 style={{ margin: 0 }}>User Management</h1>
-                        <Space>
-                            <Search
-                                placeholder="Search users by email or name"
-                                allowClear
-                                enterButton={<SearchOutlined />}
-                                size="large"
-                                onSearch={handleSearch}
-                                style={{ width: 400 }}
-                            />
-                            <Button
-                                size="large"
-                                icon={<ReloadOutlined />}
-                                onClick={() => fetchUsers(pagination.current, pagination.pageSize, searchText)}
-                            >
-                                Refresh
-                            </Button>
-                        </Space>
-                    </div>
+        <Card>
+            <Space direction="vertical" size="large" style={{ width: '100%' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <h1 style={{ margin: 0 }}>User Management</h1>
+                    <Space>
+                        <Search
+                            placeholder="Search users by email or name"
+                            allowClear
+                            enterButton={<SearchOutlined />}
+                            size="large"
+                            onSearch={handleSearch}
+                            style={{ width: 400 }}
+                        />
+                        <Button
+                            size="large"
+                            icon={<ReloadOutlined />}
+                            onClick={() => fetchUsers(pagination.current, pagination.pageSize, searchText)}
+                        >
+                            Refresh
+                        </Button>
+                    </Space>
+                </div>
 
-                    <Table
-                        columns={columns}
-                        dataSource={users}
-                        rowKey="id"
-                        loading={loading}
-                        pagination={pagination}
-                        onChange={handleTableChange}
-                        scroll={{ x: 1400 }}
-                        size="small"
-                    />
-                </Space>
-            </Card>
-        </div>
+                <Table
+                    columns={columns}
+                    dataSource={users}
+                    rowKey="id"
+                    loading={loading}
+                    pagination={pagination}
+                    
+                    onChange={handleTableChange}
+                    scroll={{ x: 1400 }}
+                />
+            </Space>
+        </Card>
     );
 }
 
