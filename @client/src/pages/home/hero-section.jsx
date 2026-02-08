@@ -22,12 +22,12 @@ const HeroSection = ({ heroImage }) => {
                         <img src={sympletechLogo} alt="Sympletech Logo" className="w-125 h-24" />
                         <Paragraph className="text-[24px] md:text-[48px] leading-tight font-extrabold m-0">
                             Application Starter Kit
+                            <Badge
+                                color="var(--color-brand-500)"
+                                text={<Text strong className="text-brand-500">V1.0 ALPHA — JUST RELEASED</Text>}
+                                className="bg-brand-500/10 px-3 py-1 rounded-full border border-brand-500/20"
+                            />
                         </Paragraph>
-                        <Badge
-                            color="var(--color-brand-500)"
-                            text={<Text strong className="text-brand-500">V1.0 ALPHA — JUST RELEASED</Text>}
-                            className="bg-brand-500/10 px-3 py-1 rounded-full border border-brand-500/20"
-                        />
                         <Title className="text-[48px] md:text-[64px] leading-tight font-extrabold m-0">
                             The Ultimate Foundation for your <br />
                             <span className="premium-gradient-text">Next Big Idea</span>
