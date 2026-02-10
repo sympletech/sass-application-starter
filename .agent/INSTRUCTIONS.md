@@ -12,19 +12,71 @@ Do NOT start any work until bootstrap is complete.
 
 ---
 
-## 2. WORK MODES
+## 2. DEVELOPMENT LIFECYCLE
 
-### Framework Work
-**When:** Editing `.agent/`, skills, documentation, core framework files  
-**Action:** Skip project plan. Focus on the framework task. Update knowledge files.
+This is a **prompt-driven development** framework. You describe what you want to build, and the agent helps you plan, execute, and verify every step.
 
-### Product Work  
-**When:** Building features, fixing product bugs, implementing user stories  
-**Action:** Follow project plan workflow. Use CURRENT-TASK.md. Update project files when done.
+### The Core Loop
+
+```
+/plan → /next → build → /done → /next → ... → /handoff
+```
+
+| Step | Command | What Happens |
+|------|---------|-------------|
+| 1. Define | `/plan` | Describe your vision. Agent creates project description + roadmap |
+| 2. Start | `/next` | Agent picks the top task, prepares it, and begins implementation |
+| 3. Build | *(agent works)* | Agent implements with clarification, verification at each step |
+| 4. Complete | `/done` | Agent verifies, documents, and moves task to done list |
+| 5. Repeat | `/next` | Pick up the next task and continue |
+| 6. Save | `/handoff` | Save session state for seamless continuation next time |
+
+### During Development
+
+| Need | Command | Description |
+|------|---------|-------------|
+| Add a feature | `/add-feature` | Add new work to the roadmap without interrupting current task |
+| Fix a bug | `/fix` | Systematic bug diagnosis and resolution |
+| Check status | `/progress` | See what's done, in progress, and remaining |
+| Adjust plan | `/replan` | Reassess and reorder the full roadmap |
+| Clarify scope | `/clarify` | Get clear on ambiguous requirements before coding |
+
+### Work Modes
+
+**Product Work** (default)  
+Building features, fixing bugs, implementing user stories.  
+Follow: `/plan` → `/next` → build → `/done` loop. All work tracked in `.project-plan/`.
+
+**Framework Work**  
+Editing `.agent/`, skills, documentation, core framework files.  
+Skip project plan. Focus on the framework task. Update knowledge files.
 
 ---
 
-## 3. PROJECT OVERVIEW
+## 3. PROJECT PLAN FILES
+
+All project tracking lives in `.project-plan/`:
+
+| File | Purpose | Updated By |
+|------|---------|------------|
+| `PROJECT-DESCRIPTION.md` | What we're building — the north star | `/plan` |
+| `ROADMAP.md` | Ordered task queue | `/plan`, `/add-feature`, `/replan` |
+| `CURRENT-TASK.md` | Active task details and progress | `/next`, `/done` |
+| `STATE.md` | Quick status snapshot for session handoffs | `/done`, `/handoff` |
+| `DEFECT-LIST.md` | Known bugs and issues | `/fix` |
+| `DONE-LIST.md` | Completed tasks and resolved bugs | `/done` |
+
+### Task Lifecycle
+
+```
+ROADMAP.md  ──/next──→  CURRENT-TASK.md  ──/done──→  DONE-LIST.md
+   ↑                         │
+   └────── task paused ───────┘
+```
+
+---
+
+## 4. PROJECT OVERVIEW
 
 | Component | Technology | Port |
 |-----------|------------|------|
@@ -35,7 +87,7 @@ Do NOT start any work until bootstrap is complete.
 
 ---
 
-## 4. CORE RULES
+## 5. CORE RULES
 
 ### Code Quality
 - Clean, readable code over concise code
@@ -60,7 +112,7 @@ Do NOT start any work until bootstrap is complete.
 
 ---
 
-## 5. KNOWLEDGE FILES
+## 6. KNOWLEDGE FILES
 
 ### Knowledge Directory: `.agent/knowledge/`
 
@@ -97,7 +149,7 @@ Update after completing tasks or fixing bugs.
 
 ---
 
-## 6. SKILLS — Quick Reference
+## 7. SKILLS — Quick Reference
 
 Each skill has detailed instructions. Read the skill file for full behavior.
 
@@ -106,6 +158,12 @@ Each skill has detailed instructions. Read the skill file for full behavior.
 |-------|---------|------|
 | Session Bootstrapper | *auto* | Session start |
 
+### Project Management
+| Skill | Command | When |
+|-------|---------|------|
+| High Level Project Manager | `/plan`, `/replan` | Define project, create/update roadmap |
+| Task Executor | `/next`, `/done`, `/progress`, `/add-feature` | Task lifecycle management |
+
 ### Core Skills
 | Skill | Command | When |
 |-------|---------|------|
@@ -113,7 +171,6 @@ Each skill has detailed instructions. Read the skill file for full behavior.
 | Codebase Mapper | `/map` | After creating files |
 | Pattern Learner | `/learn-patterns` | After creating code |
 | Documentation Updater | `/update-docs` | After completing tasks |
-| High Level Project Manager | *auto* | Incomplete project plan |
 
 ### Task Skills
 | Skill | Command | When |
@@ -138,26 +195,41 @@ Each skill has detailed instructions. Read the skill file for full behavior.
 
 ---
 
-## 7. COMMANDS — Quick Reference
+## 8. COMMANDS — Quick Reference
 
+### Project Management
 | Command | Purpose |
-|---------|---------|
-| `/handoff` | Prepare session handoff |
-| `/map` | Refresh CODEBASE-MAP.md |
-| `/learn-patterns` | Document new patterns |
-| `/update-docs` | Update documentation |
-| `/clarify` | Gather requirements before implementing |
+|---------|--------|
+| `/plan` | Define project and create roadmap |
+| `/next` | Start the next task from the roadmap |
+| `/done` | Complete current task with verification |
+| `/progress` | Show project status dashboard |
+| `/add-feature` | Add a new feature to the roadmap |
+| `/replan` | Reassess and reorder the full roadmap |
 | `/fix` | Start bug fix workflow |
+| `/clarify` | Gather requirements before implementing |
+
+### Code Generation
+| Command | Purpose |
+|---------|--------|
 | `/component` | Generate component |
 | `/page [name]` | Generate page |
 | `/api` | Design API route |
 | `/refactor` | Scan for DRY violations |
-| `/note` | Capture learning |
 | `/find-library` | Search for third-party library |
+
+### Documentation & Session
+| Command | Purpose |
+|---------|--------|
+| `/handoff` | Prepare session handoff |
+| `/map` | Refresh CODEBASE-MAP.md |
+| `/learn-patterns` | Document new patterns |
+| `/update-docs` | Update documentation |
+| `/note` | Capture learning |
 
 ---
 
-## 8. CODING STANDARDS
+## 9. CODING STANDARDS
 
 ### Language
 - **ES6 JavaScript only** (NOT TypeScript)
@@ -185,7 +257,7 @@ Each skill has detailed instructions. Read the skill file for full behavior.
 
 ---
 
-## 9. SERVER PATTERNS
+## 10. SERVER PATTERNS
 
 ### MongoDB Usage
 ```javascript
@@ -220,7 +292,7 @@ throw err;
 
 ---
 
-## 10. CLIENT PATTERNS
+## 11. CLIENT PATTERNS
 
 ### Component Rules
 - One file = one component
@@ -251,7 +323,7 @@ const handleSubmit = async () => {
 
 ---
 
-## 11. COMMON COMMANDS
+## 12. COMMON COMMANDS
 
 ```bash
 npm start          # Start dev servers
@@ -261,7 +333,7 @@ curl http://localhost:3000/api/auth/me  # Test API
 
 ---
 
-## 12. QUICK REFERENCE
+## 13. QUICK REFERENCE
 
 ### Add API Route
 1. Create `@server/routes/{feature}/{action}.js`
@@ -284,10 +356,12 @@ curl http://localhost:3000/api/auth/me  # Test API
 
 ---
 
-## 13. REMEMBER
+## 14. REMEMBER
 
 1. **Bootstrap first** — Session Bootstrapper before any work
-2. **Clarify before code** — Use Task Clarifier for ambiguous tasks
-3. **Verify before complete** — Every change needs proof
-4. **Document discoveries** — Update knowledge files
-5. **Handoff at 50%** — Use `/handoff` before context is full
+2. **Plan before build** — Use `/plan` to define the project and create the roadmap
+3. **One task at a time** — Use `/next` and `/done` to work through tasks systematically
+4. **Clarify before code** — Use Task Clarifier for ambiguous tasks
+5. **Verify before complete** — Every change needs proof
+6. **Document discoveries** — Update knowledge files
+7. **Handoff at 50%** — Use `/handoff` before context is full

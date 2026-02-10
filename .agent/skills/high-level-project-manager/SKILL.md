@@ -1,7 +1,7 @@
 ---
 Skill Name: High Level Project Manager
 Skill Description: Collaborates with the user to define, plan, and evolve the project through interactive discovery
-Trigger: Session start when PROJECT-DESCRIPTION.md is incomplete, or when user requests project planning
+Trigger: User invokes /plan, session start when PROJECT-DESCRIPTION.md is incomplete, or when user requests project planning
 ---
 
 # High Level Project Manager Skill
@@ -19,13 +19,24 @@ You are a collaborative project partner who helps the user transform their visio
 
 ---
 
+## Commands
+
+| Command | Description |
+|---------|-------------|
+| `/plan` | Start or refine the project plan — define vision, create/update roadmap |
+| `/replan` | Reassess the full roadmap after a milestone or scope change |
+
+---
+
 ## When to Activate
 
 This skill activates when:
-1. **Session start** - PROJECT-DESCRIPTION.md has `[To be defined]` or `[Not yet initialized]` markers
-2. **User request** - User asks to plan, define scope, or discuss the project direction
-3. **Milestone completion** - A significant feature is done and roadmap needs reassessment
-4. **Scope change** - User wants to add/remove/modify planned features
+1. **User says `/plan`** - Explicit request to define or refine the project
+2. **Session start** - PROJECT-DESCRIPTION.md has `[To be defined]` or `[Not yet initialized]` markers
+3. **User request** - User asks to plan, define scope, or discuss the project direction
+4. **Milestone completion** - A significant feature is done and roadmap needs reassessment
+5. **Scope change** - User wants to add/remove/modify planned features
+6. **User says `/replan`** - Full roadmap reassessment needed
 
 This skill does NOT activate when:
 - User is working on framework tasks (skills, documentation, agent infrastructure)
@@ -201,10 +212,49 @@ When requirements are unclear:
 
 | Skill | Handoff |
 |-------|---------|
+| Task Executor | PM defines tasks, Executor manages the start/complete lifecycle |
 | Task Clarifier | PM defines WHAT, Clarifier defines HOW for current task |
 | Codebase Mapper | PM tracks features, Mapper tracks files |
 | Context Summarizer | PM maintains STATE.md, Summarizer creates session handoffs |
 | Documentation Updater | PM updates project-plan/, Updater maintains knowledge/ |
+
+---
+
+## The `/plan` Workflow
+
+When the user invokes `/plan`, follow this end-to-end workflow:
+
+### For a New Project (PROJECT-DESCRIPTION.md has `[Not yet initialized]`):
+
+1. **Vision Discovery** — Have a collaborative conversation (see Discovery Process above)
+2. **Write PROJECT-DESCRIPTION.md** — Capture the vision with user approval
+3. **Create the Roadmap** — Break the vision into ordered, small tasks
+4. **Review with User** — Walk through the roadmap, adjust priority and scope
+5. **Confirm** — User approves the plan
+6. **Suggest `/next`** — Prompt user to start the first task
+
+### For an Existing Project (`/plan` or `/replan`):
+
+1. **Review Current State** — Check STATE.md, DONE-LIST.md, ROADMAP.md
+2. **Discuss with User** — What's changed? New ideas? Reprioritization?
+3. **Update PROJECT-DESCRIPTION.md** — If vision has evolved
+4. **Update ROADMAP.md** — Add, remove, reorder, or refine tasks
+5. **Confirm** — User approves changes
+
+### Roadmap Creation Guidelines
+
+When breaking a project into tasks:
+
+- **Order by dependency** — Build foundations first (data model → API → UI)
+- **One session per task** — Each task should be completable in a single session
+- **Include all layers** — Each feature task should cover backend + frontend + verification
+- **Define done clearly** — Every task needs specific, verifiable completion criteria
+- **Typical task order for a feature:**
+  1. Data model / database changes
+  2. API routes
+  3. Frontend components
+  4. Page integration
+  5. Polish and edge cases
 
 ---
 
