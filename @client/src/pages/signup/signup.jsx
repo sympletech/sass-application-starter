@@ -1,63 +1,44 @@
 import { useState, useEffect } from 'react';
+import { useSearchParams, Link } from 'react-router-dom';
 import { Form, Input, message, Divider } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
-import { useSearchParams, Link } from 'react-router-dom';
+
+import { postData, getData } from '@client/lib/use-api.js';
+import { handleApiError } from '@client/lib/error-utils.js';
 
 import AuthCard from '@client/components/auth/auth-card.jsx';
 import AuthHeader from '@client/components/auth/auth-header.jsx';
 import SocialAuthButtons from '@client/components/auth/social-auth-buttons.jsx';
 import PaymentForm from '@client/components/auth/payment-form.jsx';
-import { postData, getData } from '@client/lib/use-api.js';
-import { handleApiError } from '@client/lib/error-utils.js';
 
 function Signup() {
     const [form] = Form.useForm();
     const [searchParams] = useSearchParams();
-    const [stripePromise, setStripePromise] = useState(null);
-    const [clientSecret, setClientSecret] = useState('');
+    const [stripeConfig, setStripeConfig] = useState(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const emailParam = searchParams.get('email');
-    const firstNameParam = searchParams.get('firstName');
-    const lastNameParam = searchParams.get('lastName');
-    const isSocialSignup = searchParams.get('social') === 'true';
-
     useEffect(() => {
-        // Fetch Stripe configuration
-        getData('/account/stripe-config').then(config => {
-            if (config.publishableKey) {
-                setStripePromise(loadStripe(config.publishableKey));
+        (async () => {
+            try {
+                const stripeConfigUpdate = await getData('/auth/init-stripe-form');
+                const stripePromise = loadStripe(stripeConfigUpdate.publishableKey);
+                setStripeConfig({
+                    ...stripeConfigUpdate,
+                    stripePromise
+                });
+            } catch (err) {
+                handleApiError(err, 'Failed to initialize payment form. Please refresh the page and try again.');
             }
-        }).catch(err => {
-            console.error('Failed to load Stripe config:', err);
-        });
-
-        // Create SetupIntent
-        postData('/account/stripe-create-setup-intent').then(res => {
-            setClientSecret(res.clientSecret);
-        }).catch(err => {
-            console.error('Failed to create setup intent:', err);
-        });
-
-        // Auto-fill form fields from URL parameters
-        const formValues = {};
-        if (emailParam) formValues.email = emailParam;
-        if (firstNameParam) formValues.firstName = firstNameParam;
-        if (lastNameParam) formValues.lastName = lastNameParam;
-
-        if (Object.keys(formValues).length > 0) {
-            form.setFieldsValue(formValues);
-        }
-    }, [emailParam, firstNameParam, lastNameParam, form]);
+        })();
+    }, []);
 
     const handleSignup = async (paymentMethodId) => {
         try {
             const values = await form.validateFields();
             setIsSubmitting(true);
 
-            // If social signup, we might not have a password
             const signupData = {
                 email: values.email,
                 firstName: values.firstName,
@@ -83,6 +64,13 @@ function Signup() {
         }
     };
 
+    const isSocialSignup = searchParams.get('social') === 'true';
+    const initialFormValues = isSocialSignup ? {
+        firstName: searchParams.get('firstName') || '',
+        lastName: searchParams.get('lastName') || '',
+        email: searchParams.get('email') || ''
+    } : {};
+
     return (
         <AuthCard>
             <AuthHeader
@@ -102,7 +90,7 @@ function Signup() {
                 name="signup"
                 layout="vertical"
                 requiredMark={false}
-                initialValues={{ email: emailParam }}
+                initialValues={initialFormValues}
                 autoComplete="off"
             >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
@@ -200,8 +188,12 @@ function Signup() {
                 )}
 
                 <div className="mt-6 border-t border-surface-border pt-8">
-                    {stripePromise && clientSecret ? (
-                        <Elements stripe={stripePromise} options={{ clientSecret }}>
+                    {stripeConfig ? (
+                        <Elements
+                            stripe={stripeConfig.stripePromise}
+                            options={{
+                                clientSecret: stripeConfig.clientSecret
+                            }}>
                             <PaymentForm
                                 onPaymentMethodCreated={handleSignup}
                                 loading={isSubmitting}
